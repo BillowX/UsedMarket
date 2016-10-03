@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <GridView
+        android:id="@+id/gv_classify"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCC"
+        android:horizontalSpacing="1px"
+        android:listSelector="@null"
+        android:numColumns="auto_fit"
+        android:smoothScrollbar="true"
+        android:soundEffectsEnabled="true"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1px">
+    </GridView>
+</LinearLayout>
