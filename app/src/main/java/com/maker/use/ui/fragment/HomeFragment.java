@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment {
      */
     private void getDataFromServer() {
         //获取TOP10图片的地址
-        String url = URL.home_top_json_url;
+        String url = URL.VPImgUrl;
         x.http().get(new RequestParams(url), new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -6,7 +6,7 @@ package com.maker.use.global;
  */
 
 public class URL {
-    public static String url_heart = "http://119.29.213.119:8080/Footprint";
-    public static String splash_url = url_heart + "/SplashActivity/splash.png";
-    public static String home_top_json_url = url_heart + "/HomeActivity/HomeHomeFragment/vp_top_img/top.json";
+    public static String url_heart = "http://119.29.213.119:8080/UsedMarket";
+    public static String splash_url = url_heart + "/Splash/splash.png";
+    public static String VPImgUrl = url_heart + "/VPImg/img.json";
 }
