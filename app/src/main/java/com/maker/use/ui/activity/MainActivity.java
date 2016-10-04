@@ -1,5 +1,6 @@
 package com.maker.use.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -100,6 +101,6 @@ public class MainActivity extends BaseActivity {
 
     //发布按钮触发
     public void issue(View view) {
-        UIUtils.toast("发布");
+        startActivity(new Intent(UIUtils.getContext(), IssueActivity.class));
     }
 }
