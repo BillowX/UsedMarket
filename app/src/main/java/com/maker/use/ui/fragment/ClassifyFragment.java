@@ -53,7 +53,7 @@ public class ClassifyFragment extends BaseFragment {
         gv_classify.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                UIUtils.toast(position + "");
             }
         });
     }
