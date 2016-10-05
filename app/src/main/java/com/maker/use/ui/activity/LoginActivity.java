@@ -8,16 +8,13 @@ import android.widget.EditText;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.utils.InputUtils;
 import com.maker.use.utils.UIUtils;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import org.xutils.x;
 
 /**
  * 登陆界面
@@ -41,7 +38,46 @@ public class LoginActivity extends BaseActivity {
         final String username = et_username.getText().toString();
         final String password = et_password.getText().toString();
 
-        Thread t = new Thread() {
+        //使用XUtils框架请求网络
+        RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/LoginServlet");    // 网址
+        params.addQueryStringParameter("username", username); // 参数1
+        params.addQueryStringParameter("password", password); // 参数2
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(final String result) {
+                UIUtils.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UIUtils.toast(result);
+                    }
+                });
+                if ("登陆成功！".equals(result)) {
+                    Intent intent = new Intent(UIUtils.getContext(), MainActivity.class);
+                    intent.putExtra("info", "login");
+                    intent.putExtra("username", username);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    UIUtils.getContext().startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.toast("网络出错啦~");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+        /*Thread t = new Thread() {
             public void run() {
                 String path = UsedMarketURL.server_heart + "/servlet/LoginServlet?username=" + URLEncoder.encode(username) + "&password=" + password;
 
@@ -76,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         };
-        t.start();
+        t.start();*/
     }
 
     public void register(View view) {

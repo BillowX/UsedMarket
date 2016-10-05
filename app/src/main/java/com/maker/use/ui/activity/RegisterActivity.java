@@ -21,18 +21,15 @@ import android.widget.RadioButton;
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
-import com.maker.use.utils.InputUtils;
 import com.maker.use.utils.UIUtils;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * 注册页面
@@ -68,6 +65,20 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        bt_editHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //判断nickNameEdit是否有值，没有则不能编辑头像
+                String username = et_username.getText().toString().trim();
+                if (TextUtils.isEmpty(username)) {
+                    UIUtils.toast("先输入用户名，才能编辑头像！");
+                    return;
+                }
+
+                showDialog(CHOICE_HEAD_DIALOG);
+            }
+        });
+
         bt_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +103,42 @@ public class RegisterActivity extends BaseActivity {
                     sex = "man";
                 final String finalSex = sex;
 
-                UIUtils.toast("信息：" + username + "+" + password + "+" + sex);
-                new Thread() {
+                RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/RegisterServlet");    // 网址
+                params.addBodyParameter("username", username);    // 参数1（post方式用addBodyParameter）
+                params.addBodyParameter("password", password);    // 参数2（post方式用addBodyParameter）
+                params.addBodyParameter("sex", finalSex);    // 参数3（post方式用addBodyParameter）
+                x.http().post(params, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(final String result) {
+                        UIUtils.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UIUtils.toast(result);
+                            }
+                        });
+                        if ("注册成功".equals(result)) {
+                            UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        UIUtils.toast("网络出错啦~");
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+
+               /* new Thread() {
                     @Override
                     public void run() {
                         String path = UsedMarketURL.server_heart + "/servlet/RegisterServlet";
@@ -132,23 +177,10 @@ public class RegisterActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-                }.start();
+                }.start();*/
             }
         });
 
-        bt_editHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //判断nickNameEdit是否有值，没有则不能编辑头像
-                String username = et_username.getText().toString().trim();
-                if (TextUtils.isEmpty(username)) {
-                    UIUtils.toast("先输入用户名，才能编辑头像！");
-                    return;
-                }
-
-                showDialog(CHOICE_HEAD_DIALOG);
-            }
-        });
     }
 
     @Override
