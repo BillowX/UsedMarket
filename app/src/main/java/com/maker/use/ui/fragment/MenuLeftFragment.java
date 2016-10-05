@@ -15,8 +15,12 @@ import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.utils.UIUtils;
 
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import static android.R.attr.radius;
 
 
 /**
@@ -46,6 +50,15 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onLogin(String username) {
                 tv_username.setText("你好，" + username);
+                ImageOptions imageOptions = new ImageOptions.Builder()
+                        .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                        .setRadius(DensityUtil.dip2px(radius))
+                        .setIgnoreGif(false)
+                        .setCrop(true)//是否对图片进行裁剪
+                        .setFailureDrawableId(R.drawable.register_default_head)
+                        .setLoadingDrawableId(R.drawable.register_default_head)
+                        .build();
+                x.image().bind(iv_icon, "http://119.29.213.119:8080/UsedMarket/head/" + username + "_head.jpg", imageOptions);
             }
         });
     }

@@ -56,6 +56,9 @@ public class RegisterActivity extends BaseActivity {
 
     private Uri fileUri = null;
     private String headPath;
+    private File mHeadFile;
+    private String mUsername;
+    private String mPassword;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,9 +71,8 @@ public class RegisterActivity extends BaseActivity {
         bt_editHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //判断nickNameEdit是否有值，没有则不能编辑头像
-                String username = et_username.getText().toString().trim();
-                if (TextUtils.isEmpty(username)) {
+                mUsername = et_username.getText().toString().trim();
+                if (TextUtils.isEmpty(mUsername)) {
                     UIUtils.toast("先输入用户名，才能编辑头像！");
                     return;
                 }
@@ -83,17 +85,17 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //昵称、密码这两项时必填的，检查这两项
-                final String username = et_username.getText().toString().trim();
-                final String password = et_password.getText().toString().trim();
-                if (TextUtils.isEmpty(username) && TextUtils.isEmpty(password)) {
+                mUsername = et_username.getText().toString().trim();
+                mPassword = et_password.getText().toString().trim();
+                if (TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mPassword)) {
                     UIUtils.toast("昵称和密码不能为空！");
                     return;
                 }
-                if (TextUtils.isEmpty(username)) {
+                if (TextUtils.isEmpty(mUsername)) {
                     UIUtils.toast("昵称不能为空！");
                     return;
                 }
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(mPassword)) {
                     UIUtils.toast("密码不能为空！");
                     return;
                 }
@@ -104,8 +106,8 @@ public class RegisterActivity extends BaseActivity {
                 final String finalSex = sex;
 
                 RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/RegisterServlet");    // 网址
-                params.addBodyParameter("username", username);    // 参数1（post方式用addBodyParameter）
-                params.addBodyParameter("password", password);    // 参数2（post方式用addBodyParameter）
+                params.addBodyParameter("username", mUsername);    // 参数1（post方式用addBodyParameter）
+                params.addBodyParameter("password", mPassword);    // 参数2（post方式用addBodyParameter）
                 params.addBodyParameter("sex", finalSex);    // 参数3（post方式用addBodyParameter）
                 x.http().post(params, new Callback.CommonCallback<String>() {
                     @Override
@@ -117,6 +119,9 @@ public class RegisterActivity extends BaseActivity {
                             }
                         });
                         if ("注册成功".equals(result)) {
+                            //保存用户头像
+                            saveHead();
+
                             UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             finish();
                         }
@@ -183,6 +188,38 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
+    /**
+     * 保存用户头像到服务器上
+     */
+    private void saveHead() {
+        if (mHeadFile != null) {
+            RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadServlet");    // 网址
+            params.addBodyParameter("head", mHeadFile);
+            x.http().post(params, new Callback.CommonCallback<String>() {
+
+                @Override
+                public void onSuccess(String result) {
+                    UIUtils.toast(result);
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    UIUtils.toast("网络出错啦~");
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
+    }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -201,9 +238,9 @@ public class RegisterActivity extends BaseActivity {
                                     startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
                                 } else if (which == 1) { //拍照
                                     Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-                                    File file = FileUtil.createHeadFile("temp");
+                                    mHeadFile = FileUtil.createHeadFile(mUsername + "_head");
 
-                                    fileUri = Uri.fromFile(file);
+                                    fileUri = Uri.fromFile(mHeadFile);
                                     it.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                                     startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
                                 }
@@ -223,10 +260,10 @@ public class RegisterActivity extends BaseActivity {
         //通过“图片浏览器”获得自己的头像图片
         if (requestCode == Activity.DEFAULT_KEYS_SHORTCUT) {
             Uri uri = data.getData();
-            File file = FileUtil.createHeadFile("temp");
-            headPath = file.getAbsolutePath();
-            boolean result = FileUtil.writeFile(getContentResolver(), file, uri);
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            mHeadFile = FileUtil.createHeadFile(mUsername + "_head");
+            headPath = mHeadFile.getAbsolutePath();
+            boolean result = FileUtil.writeFile(getContentResolver(), mHeadFile, uri);
+            Bitmap bitmap = BitmapFactory.decodeFile(mHeadFile.getAbsolutePath());
             if (bitmap != null) {
                 iv_head.setImageBitmap(bitmap);
             }
