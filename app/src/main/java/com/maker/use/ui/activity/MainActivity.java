@@ -3,6 +3,7 @@ package com.maker.use.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.View;
 
 import com.maker.use.R;
@@ -25,12 +26,23 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout dl_root;
     @ViewInject(R.id.mainTabBar)
     private MainNavigateTabBar mNavigateTabBar;
+    private onLoginListener mOnLoginListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
 
         initView();
+        initUserData();
+    }
+
+    private void initUserData() {
+        if ("login".equals(getIntent().getStringExtra("info"))) {
+            dl_root.openDrawer(Gravity.LEFT);
+            if (mOnLoginListener != null) {
+                mOnLoginListener.onLogin(getIntent().getStringExtra("username"));
+            }
+        }
     }
 
     private void initView() {
@@ -96,11 +108,19 @@ public class MainActivity extends BaseActivity {
      */
     public DrawerLayout getDrawerLayout() {
         return dl_root;
-//        dl_root.openDrawer(Gravity.LEFT);
     }
 
     //发布按钮触发
     public void issue(View view) {
         startActivity(new Intent(UIUtils.getContext(), IssueActivity.class));
+    }
+
+    public void setOnLoginListener(onLoginListener listener) {
+        mOnLoginListener = listener;
+    }
+
+    //登陆回调接口
+    public interface onLoginListener {
+        public void onLogin(String username);
     }
 }

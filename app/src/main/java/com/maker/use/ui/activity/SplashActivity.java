@@ -12,7 +12,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import com.maker.use.R;
-import com.maker.use.global.URL;
+import com.maker.use.global.UsedMarketURL;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -33,7 +33,7 @@ public class SplashActivity extends Activity {
         x.view().inject(this);
 
         //在服务器上请求闪屏页图片
-        x.image().bind(iv_splash, URL.splash_url);
+        x.image().bind(iv_splash, UsedMarketURL.splash_url);
         //设置动画
         initAnim();
     }

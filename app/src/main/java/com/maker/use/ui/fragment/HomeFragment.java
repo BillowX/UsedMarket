@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.maker.use.R;
 import com.maker.use.domain.Top;
-import com.maker.use.global.URL;
+import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment {
      */
     private void getDataFromServer() {
         //获取TOP10图片的地址
-        String url = URL.VPImgUrl;
+        String url = UsedMarketURL.VPImgUrl;
         x.http().get(new RequestParams(url), new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -259,7 +259,7 @@ public class HomeFragment extends BaseFragment {
 
             ImageView imageView = new ImageView(UIUtils.getContext());
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            x.image().bind(imageView, URL.url_heart + mImgs.get(position).imgUrl);
+            x.image().bind(imageView, UsedMarketURL.url_heart + mImgs.get(position).imgUrl);
             container.addView(imageView);
             return imageView;
         }

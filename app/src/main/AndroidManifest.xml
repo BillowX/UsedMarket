@@ -27,6 +27,8 @@
             android:name=".ui.activity.IssueActivity"
             android:theme="@style/Transparent"
             />
+        <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.RegisterActivity"/>
     </application>
 
 </manifest>

@@ -91,6 +91,15 @@ public class IssueActivity extends Activity {
     }
 
     public void dismiss(View view) {
+        dismissAnim();
+    }
+
+    @Override
+    public void onBackPressed() {
+        dismissAnim();
+    }
+
+    private void dismissAnim() {
         PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("ScaleY", 1.0f, 0.0f);
         PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat("ScaleX", 1.0f, 0.0f);
         ObjectAnimator.ofPropertyValuesHolder(ll_issue, p1, p2).setDuration(500).start();
@@ -119,6 +128,5 @@ public class IssueActivity extends Activity {
 
             }
         });
-
     }
 }
