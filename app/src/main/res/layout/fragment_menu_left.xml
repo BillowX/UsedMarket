@@ -13,11 +13,21 @@
         android:padding="10dp"
         android:src="@drawable/register_default_head"/>
 
+
+    <ImageView
+        android:id="@+id/iv_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_icon"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:src="@drawable/sex_man"/>
+
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_icon"
+        android:layout_below="@id/iv_sex"
         android:layout_centerHorizontal="true"
         android:text="Footprint"
         android:textColor="#000"
@@ -40,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/main_home_selected"/>
+                android:src="@drawable/main_left_issue"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -48,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/one"
-                android:text="第1个Item"
+                android:text="我发布的"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -64,7 +74,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/main_home_selected"/>
+                android:src="@drawable/main_left_attention"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -72,7 +82,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/two"
-                android:text="第2个Item"
+                android:text="我关注的"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -88,7 +98,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/main_home_selected"/>
+                android:src="@drawable/main_left_out"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -96,7 +106,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/three"
-                android:text="第3个Item"
+                android:text="我卖出的"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -112,7 +122,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/main_home_selected"/>
+                android:src="@drawable/main_left_in"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -120,7 +130,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/four"
-                android:text="第4个Item"
+                android:text="我买到的"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -136,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/main_home_selected"/>
+                android:src="@drawable/main_left_help"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -144,9 +154,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/five"
-                android:text="第5个Item"
+                android:text="帮助与反馈"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
+
         </RelativeLayout>
     </LinearLayout>
 

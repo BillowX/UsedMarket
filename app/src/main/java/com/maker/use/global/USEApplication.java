@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Process;
 
+import com.maker.use.utils.SpUtil;
+
 import org.xutils.x;
 
 /**
@@ -16,6 +18,7 @@ public class USEApplication extends Application {
     private static Context context;
     private static Handler handler;
     private static int mainThreadId;
+
     public static Context getContext() {
         return context;
     }
@@ -32,10 +35,10 @@ public class USEApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
-
         this.context = getApplicationContext();
         this.handler = new Handler();
         this.mainThreadId = Process.myTid();
 
+        SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
     }
 }

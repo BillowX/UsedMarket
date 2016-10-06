@@ -3,15 +3,20 @@ package com.maker.use.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
 import com.maker.use.R;
+import com.maker.use.domain.User;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.ui.fragment.ClassifyFragment;
 import com.maker.use.ui.fragment.DonateFragment;
 import com.maker.use.ui.fragment.HomeFragment;
 import com.maker.use.ui.fragment.MessageFragment;
 import com.maker.use.ui.view.MainNavigateTabBar;
+import com.maker.use.utils.LoginUtils;
+import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -26,7 +31,6 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout dl_root;
     @ViewInject(R.id.mainTabBar)
     private MainNavigateTabBar mNavigateTabBar;
-    private onLoginListener mOnLoginListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +41,25 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initUserData() {
-        if ("login".equals(getIntent().getStringExtra("info"))) {
-            dl_root.openDrawer(Gravity.LEFT);
-            if (mOnLoginListener != null) {
-                mOnLoginListener.onLogin(getIntent().getStringExtra("username"));
+        //在刚打开应用时，检查是否登陆过，如果有的话提取保存的用户信息进行登陆验证
+        if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+            String s = SpUtil.getString("user", "");
+            if (!TextUtils.isEmpty(s)) {
+                String[] results = s.split(",");
+                User user = new User();
+                user.username = results[0];
+                user.password = results[1];
+                user.sex = results[2];
+
+                LoginUtils.login(user.username, user.password,this);
             }
         }
+
+        //在登陆页面登陆后返回的登陆操作
+        if ("login".equals(getIntent().getStringExtra("info"))) {
+            dl_root.openDrawer(Gravity.LEFT);
+        }
+
     }
 
     private void initView() {
@@ -115,12 +132,9 @@ public class MainActivity extends BaseActivity {
         startActivity(new Intent(UIUtils.getContext(), IssueActivity.class));
     }
 
-    public void setOnLoginListener(onLoginListener listener) {
-        mOnLoginListener = listener;
-    }
-
-    //登陆回调接口
-    public interface onLoginListener {
-        public void onLogin(String username);
+    @Override
+    public void onBackPressed() {
+        SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
+        super.onBackPressed();
     }
 }

@@ -11,8 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maker.use.R;
+import com.maker.use.domain.User;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
+import com.maker.use.utils.LoginUtils;
+import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.util.DensityUtil;
@@ -24,14 +28,18 @@ import static android.R.attr.radius;
 
 
 /**
+ * 左测边栏
  * Created by XT on 2016/9/26.
  */
 
 public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.iv_icon)
     ImageView iv_icon;
+    @ViewInject(R.id.iv_sex)
+    ImageView iv_sex;
     @ViewInject(R.id.tv_username)
     TextView tv_username;
+    private MainActivity mActivity;
 
     @Nullable
     @Override
@@ -45,11 +53,15 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setOnLoginListener(new MainActivity.onLoginListener() {
+        mActivity = (MainActivity) getActivity();
+
+
+        LoginUtils.setOnLoginListener(new LoginUtils.onLoginListener() {
             @Override
-            public void onLogin(String username) {
-                tv_username.setText("你好，" + username);
+            public void onLogin(User user) {
+                //用户名
+                tv_username.setText("你好，" + user.username);
+                //用户头像
                 ImageOptions imageOptions = new ImageOptions.Builder()
                         .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                         .setRadius(DensityUtil.dip2px(radius))
@@ -58,7 +70,18 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                         .setFailureDrawableId(R.drawable.register_default_head)
                         .setLoadingDrawableId(R.drawable.register_default_head)
                         .build();
-                x.image().bind(iv_icon, "http://119.29.213.119:8080/UsedMarket/head/" + username + "_head.jpg", imageOptions);
+                x.image().bind(iv_icon, "http://119.29.213.119:8080/UsedMarket/head/" + user.username + "_head.jpg", imageOptions);
+                //用户性别
+                if ("man".equals(user.sex)) {
+                    iv_sex.setImageResource(R.drawable.sex_man);
+                } else {
+                    iv_sex.setImageResource(R.drawable.sex_woman);
+                }
+
+                UIUtils.toast("登陆成功");
+                //更新登陆状态
+                SpUtil.putBoolean(ConstentValue.IS_LOGIN, true);
+
             }
         });
     }
@@ -68,6 +91,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.iv_icon:
                 startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+                mActivity.finish();
                 break;
         }
     }

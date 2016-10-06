@@ -170,16 +170,22 @@ public class UIUtils {
      * @param msg
      */
     public static void toast(String msg) {
-        if(toast==null){
+        if (toast == null) {
             toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
         }
         //将text文本设置给吐司
         toast.setText(msg);
-        toast.show();
+        runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                toast.show();
+            }
+        });
     }
 
     /**
      * 隐藏view对象
+     *
      * @param view
      */
     public static void setViewGone(View... view) {
