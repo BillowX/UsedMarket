@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.maker.use.manager.ActivityCollector;
+
 import org.xutils.x;
 
 /**
@@ -22,5 +24,12 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        ActivityCollector.addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

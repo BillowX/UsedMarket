@@ -78,4 +78,15 @@ public class SpUtil {
                 Context.MODE_PRIVATE);
         return sp.getInt(key, defValue);
     }
+
+    /**
+     * 在sp中移除一个键值为key的值
+     *
+     * @param key
+     */
+    public static void remove(String key) {
+        SharedPreferences sp = UIUtils.getContext().getSharedPreferences("config",
+                Context.MODE_PRIVATE);
+        sp.edit().remove(key).commit();
+    }
 }

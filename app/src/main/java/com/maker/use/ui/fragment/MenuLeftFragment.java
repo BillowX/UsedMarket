@@ -15,6 +15,7 @@ import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
+import com.maker.use.ui.activity.UserDetailActivity;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
@@ -90,9 +91,14 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_icon:
-                startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
-                mActivity.finish();
-                break;
+                if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+                    startActivity(new Intent(UIUtils.getContext(), UserDetailActivity.class));
+                } else {
+                    startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+                    mActivity.finish();
+                    break;
+                }
+
         }
     }
 
