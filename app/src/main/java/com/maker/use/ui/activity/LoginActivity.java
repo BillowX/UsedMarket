@@ -117,5 +117,6 @@ public class LoginActivity extends BaseActivity {
 
     public void register(View view) {
         startActivity(new Intent(UIUtils.getContext(), RegisterActivity.class));
+        finish();
     }
 }

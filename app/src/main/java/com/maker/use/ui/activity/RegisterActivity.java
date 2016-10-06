@@ -194,7 +194,8 @@ public class RegisterActivity extends BaseActivity {
     private void saveHead() {
         if (mHeadFile != null) {
             RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadServlet");    // 网址
-            params.addBodyParameter("head", mHeadFile);
+            params.addBodyParameter("img", mHeadFile);
+            params.addBodyParameter("msg", "hello");
             x.http().post(params, new Callback.CommonCallback<String>() {
 
                 @Override
@@ -204,7 +205,7 @@ public class RegisterActivity extends BaseActivity {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    UIUtils.toast("网络出错啦~");
+                    UIUtils.toast("上传头像网络出错啦~");
                 }
 
                 @Override
