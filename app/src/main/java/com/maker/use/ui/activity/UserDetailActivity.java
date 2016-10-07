@@ -1,5 +1,6 @@
 package com.maker.use.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +12,15 @@ import com.maker.use.manager.ActivityCollector;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
-import org.xutils.view.annotation.ContentView;
-
 /**
  * 用户详情页
  * Created by XT on 2016/10/6.
  */
-@ContentView(R.layout.activity_userdetail)
-public class UserDetailActivity extends BaseActivity {
+public class UserDetailActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_userdetail);
     }
 
     public void logout(View view) {
@@ -30,7 +29,8 @@ public class UserDetailActivity extends BaseActivity {
         //更新登陆状态
         SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
         ActivityCollector.finishAll();
-        UIUtils.getContext().startActivity(new Intent(UIUtils.getContext(), MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         UIUtils.toast("注销成功");
+        finish();
     }
 }
