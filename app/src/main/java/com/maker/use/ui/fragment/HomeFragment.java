@@ -68,7 +68,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         return mainView;
     }
 
-    private void initView2() {
+    private void initView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv_home.setLayoutManager(layoutManager);
@@ -96,12 +96,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
             @Override
             public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                        rv_home.loadMoreComplete();
-                    }
-                }, 3000);
+                get5CommoditysFromService(mCommoditys.size());
             }
         });
         //设置适配器
@@ -110,18 +105,39 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     }
 
     private void initData() {
+        get5CommoditysFromService(0);
+    }
+
+    private void get5CommoditysFromService(int index) {
         RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
-        params.addQueryStringParameter("All", "All");
+        params.addQueryStringParameter("index", String.valueOf(index));
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(final String result) {
                 if ("无数据".equals(result)) {
                     UIUtils.toast(result);
                 } else {
-                    Gson gson = new Gson();
-                    mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
-                    }.getType());
-                    initView2();
+                    final Gson gson = new Gson();
+                    if (mCommoditys == null) {
+                        mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
+                        }.getType());
+                        initView();
+                    } else {
+                        UIUtils.getHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<Commodity> newData = (List<Commodity>) gson.fromJson(result, new TypeToken<List<Commodity>>() {
+                                }.getType());
+                                if (newData.size() >= 1) {
+                                    mCommoditys.addAll(newData);
+                                } else {
+                                    UIUtils.toast("没有更多咯");
+                                }
+                                mAdapter.notifyDataSetChanged();
+                                rv_home.loadMoreComplete();
+                            }
+                        }, 3000);
+                    }
                 }
 
             }
@@ -182,47 +198,6 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         Top top = gson.fromJson(result, Top.class);
         mImgs = top.imgs;
         initData();
-    }
-
-    private void initView() {
-        //设置布局管理器
-        //        recView_home.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        rv_home.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
-        //设置下拉刷新和加载更多的样式
-        rv_home.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        rv_home.setLoadingMoreProgressStyle(ProgressStyle.Pacman);
-        //添加头布局
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-//        View headerView = View.inflate(UIUtils.getContext(), R.layout.list_item_header_home, null);
-        x.view().inject(this, header);
-        pagerHeader.setAdapter(new HeaderAdapter());
-        ci.setViewPager(pagerHeader);
-        rv_home.addHeaderView(header);
-        //设置下拉刷新和上拉加载更多的监听
-        rv_home.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rv_home.refreshComplete();
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rv_home.loadMoreComplete();
-                    }
-                }, 1000);
-            }
-        });
-        //设置适配器
-        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-        rv_home.setAdapter(mAdapter);
     }
 
     @Override
