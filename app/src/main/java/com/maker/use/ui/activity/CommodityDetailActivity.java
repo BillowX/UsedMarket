@@ -1,6 +1,5 @@
 package com.maker.use.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +19,8 @@ import org.xutils.x;
 /**
  * Created by XISEVEN on 2016/10/9.
  */
-@ContentView(R.layout.activity_commodity)
-public class CommodityActivity extends BaseActivity {
+@ContentView(R.layout.activity_commoditydetail)
+public class CommodityDetailActivity extends BaseActivity {
     @ViewInject(R.id.iv_userHeadImg)
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)

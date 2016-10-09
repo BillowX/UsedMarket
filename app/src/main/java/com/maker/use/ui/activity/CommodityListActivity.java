@@ -31,7 +31,7 @@ import java.util.List;
  * 我的发布页面
  * Created by XT on 2016/10/8.
  */
-@ContentView(R.layout.activity_myissue)
+@ContentView(R.layout.activity_commoditylist)
 public class CommodityListActivity extends BaseActivity {
     @ViewInject(R.id.lv_myissue)
     ListView lv_myissue;
