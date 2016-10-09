@@ -37,8 +37,8 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     @ViewInject(R.id.rl_root)
     RelativeLayout rl_root;
 
-    @ViewInject(R.id.rv_home)
-    private MyXRecyclerView rv_home;
+//    @ViewInject(R.id.rv_home)
+//    private MyXRecyclerView rv_home;
 
     @ViewInject(R.id.pagerHeader)
     private ViewPager pagerHeader;
@@ -46,6 +46,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     private CircleIndicator ci;
 
     private ArrayList<Top.img> mImgs;
+    private MyXRecyclerView mMyXRecyclerView;
 
     @Nullable
     @Override
@@ -53,11 +54,17 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         View mainView = inflater.inflate(R.layout.fragment_home, null);
         x.view().inject(this, mainView);
 
+        mMyXRecyclerView = new MyXRecyclerView(getActivity());
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mMyXRecyclerView.setLayoutParams(layoutParams);
+
         //添加头布局
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, header);
         getDataFromServer();
-        rv_home.addHeaderView(header);
+
+        mMyXRecyclerView.addHeaderView(header);
+        rl_root.addView(mMyXRecyclerView, layoutParams);
 
         return mainView;
     }
@@ -106,7 +113,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
     @Override
     public View getScrollableView() {
-        return rv_home;
+        return mMyXRecyclerView;
     }
 
     private class HeaderAdapter extends PagerAdapter {

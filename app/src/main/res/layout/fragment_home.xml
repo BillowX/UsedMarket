@@ -4,13 +4,8 @@
                 android:background="#FFF"
                 android:layout_height="match_parent">
 
-    <!--<com.jcodecraeerXRecyclerView.xrecyclerview.
+    <!--<com.maker.use.ui.view.MyXRecyclerView
         android:id="@+id/rv_home"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>-->
-
-    <com.maker.use.ui.view.MyXRecyclerView
-        android:id="@+id/rv_home"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
 </RelativeLayout>

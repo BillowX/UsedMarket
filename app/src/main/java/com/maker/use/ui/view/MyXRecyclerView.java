@@ -44,12 +44,12 @@ public class MyXRecyclerView extends XRecyclerView {
     public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        initView();
+        initView(context);
         initData();
     }
 
-    private void initView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
+    private void initView(Context context) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         setLayoutManager(layoutManager);
         setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
