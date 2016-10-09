@@ -43,15 +43,16 @@ public class MainActivity extends BaseActivity {
     private void initUserData() {
         //在刚打开应用时，检查是否登陆过，如果有的话提取保存的用户信息进行登陆验证
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
-            String s = SpUtil.getString("user", "");
+            String s = SpUtil.getString(ConstentValue.USER, "");
             if (!TextUtils.isEmpty(s)) {
                 String[] results = s.split(",");
                 User user = new User();
-                user.username = results[0];
-                user.password = results[1];
-                user.sex = results[2];
+                user.id = Integer.parseInt(results[0]);
+                user.username = results[1];
+                user.password = results[2];
+                user.sex = results[3];
 
-                LoginUtils.login(user.username, user.password,this);
+                LoginUtils.login(user.username, user.password, this);
             }
         }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.manager.ActivityCollector;
 import com.maker.use.ui.activity.MainActivity;
 
 import org.xutils.common.Callback;
@@ -40,14 +41,15 @@ public class LoginUtils {
                 SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
                 if (!"登陆失败！".equals(result)) {
                     String[] results = result.split(",");
-                    user.username = results[0];
-                    user.password = results[1];
-                    user.sex = results[2];
+                    user.id = Integer.parseInt(results[0]);
+                    user.username = results[1];
+                    user.password = results[2];
+                    user.sex = results[3];
                     //保存用户信息
-                    SpUtil.putString("user", user.toString());
+                    SpUtil.putString(ConstentValue.USER, user.toString());
 
                     if (!(activity instanceof MainActivity)) {
-                        activity.finish();
+                        ActivityCollector.finishAll();
                         Intent intent = new Intent(UIUtils.getContext(), MainActivity.class);
                         intent.putExtra("info", "login");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

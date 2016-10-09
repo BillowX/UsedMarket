@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.maker.use.R;
+import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -128,5 +130,10 @@ public class IssueActivity extends Activity {
 
             }
         });
+    }
+
+    public void issue(View view) {
+        startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+        finish();
     }
 }

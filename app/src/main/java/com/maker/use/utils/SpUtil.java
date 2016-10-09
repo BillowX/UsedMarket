@@ -3,6 +3,8 @@ package com.maker.use.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.maker.use.global.ConstentValue;
+
 public class SpUtil {
     /**
      * 在sp中存储一个boolean对象的值
@@ -88,5 +90,13 @@ public class SpUtil {
         SharedPreferences sp = UIUtils.getContext().getSharedPreferences("config",
                 Context.MODE_PRIVATE);
         sp.edit().remove(key).commit();
+    }
+
+    /**
+     * 获取本地sp存储的用户名
+     * @return
+     */
+    public static String getUsername() {
+        return SpUtil.getString(ConstentValue.USER, "").split(",")[1];
     }
 }

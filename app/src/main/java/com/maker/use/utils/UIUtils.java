@@ -66,6 +66,16 @@ public class UIUtils {
     }
 
     /**
+     * 根据ID获取整数数组
+     *
+     * @param id
+     * @return
+     */
+    public static int[] getIntArray(int id) {
+        return getContext().getResources().getIntArray(id);
+    }
+
+    /**
      * 根据ID获取图片
      *
      * @param id

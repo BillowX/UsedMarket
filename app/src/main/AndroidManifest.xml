@@ -30,6 +30,8 @@
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.RegisterActivity"/>
         <activity android:name=".ui.activity.UserDetailActivity"/>
+        <activity android:name=".ui.activity.UploadCommodityActivity"/>
+        <activity android:name=".ui.activity.CommodityListActivity"/>
     </application>
 
 </manifest>

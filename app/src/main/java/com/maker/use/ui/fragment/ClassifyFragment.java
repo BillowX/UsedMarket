@@ -1,5 +1,6 @@
 package com.maker.use.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maker.use.R;
+import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ViewInject;
@@ -36,6 +38,7 @@ public class ClassifyFragment extends BaseFragment {
             R.drawable.classify_9, R.drawable.classify_10,
             R.drawable.classify_11, R.drawable.classify_12,
             R.drawable.classify_13, R.drawable.classify_14,
+            R.drawable.classify_15
     };
 
     @Nullable
@@ -53,7 +56,9 @@ public class ClassifyFragment extends BaseFragment {
         gv_classify.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                UIUtils.toast(position + "");
+                Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
+                intent.putExtra("category",mItemArray[position]);
+                startActivity(intent);
             }
         });
     }

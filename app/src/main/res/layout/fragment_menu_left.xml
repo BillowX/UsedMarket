@@ -40,6 +40,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_issue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -53,6 +54,7 @@
                 android:src="@drawable/main_left_issue"/>
 
             <TextView
+                android:id="@+id/tv_issue"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#FFF">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:background="#FFF"
+                  android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品名："
+                    android:textColor="#000"
+                    />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价格："
+                    android:textColor="#000"
+                    />
+
+                <EditText
+                    android:id="@+id/et_price"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数量："
+                    android:textColor="#000"
+                    />
+
+                <EditText
+                    android:id="@+id/et_num"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="种类："
+                    android:textColor="#000"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/classify"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/bt_editHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="choiceImg"
+                    android:text="选择图片"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_img"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/register_default_head"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品描述："
+                    android:textColor="#000"
+                    />
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="说点什么吧"
+                    android:lines="8"
+                    />
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/bt_register"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="upload"
+            android:text="上传"/>
+
+    </LinearLayout>
+</ScrollView>

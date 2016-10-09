@@ -19,9 +19,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.maker.use.R;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.UIUtils;
+import com.maker.use.utils.UploadUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -31,14 +33,14 @@ import org.xutils.x;
 
 import java.io.File;
 
+import static com.maker.use.global.ConstentValue.CHOICE_HEAD_DIALOG;
+
 /**
  * 注册页面
  * Created by XT on 2016/10/5.
  */
 @ContentView(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
-    private final int CHOICE_HEAD_DIALOG = 0x1;
-
     @ViewInject(R.id.bt_register)
     Button bt_register;
     @ViewInject(R.id.bt_editHead)
@@ -77,7 +79,7 @@ public class RegisterActivity extends BaseActivity {
                     return;
                 }
 
-                showDialog(CHOICE_HEAD_DIALOG);
+                showDialog(ConstentValue.CHOICE_HEAD_DIALOG);
             }
         });
 
@@ -120,9 +122,9 @@ public class RegisterActivity extends BaseActivity {
                         });
                         if ("注册成功".equals(result)) {
                             //保存用户头像
-                            saveHead();
+                            UploadUtils.uploadHead(mHeadFile);
 
-                            UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+//                            UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             finish();
                         }
                     }
@@ -142,83 +144,9 @@ public class RegisterActivity extends BaseActivity {
 
                     }
                 });
-
-               /* new Thread() {
-                    @Override
-                    public void run() {
-                        String path = UsedMarketURL.server_heart + "/servlet/RegisterServlet";
-                        URL url;
-                        try {
-                            url = new URL(path);
-                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                            conn.setRequestMethod("POST");
-                            conn.setConnectTimeout(5000);
-                            conn.setReadTimeout(5000);
-
-                            conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-                            String info = "username=" + URLEncoder.encode(username) + "&password=" + password + "&sex=" + URLEncoder.encode(finalSex);
-                            byte[] Info = info.getBytes();
-                            conn.setRequestProperty("Content-Length", Info.length + "");
-
-                            conn.setDoOutput(true);
-                            OutputStream os = conn.getOutputStream();
-                            os.write(Info);
-
-                            if (conn.getResponseCode() == 200) {
-                                InputStream is = conn.getInputStream();
-                                final String text = InputUtils.getTextFromStream(is);
-                                UIUtils.runOnMainThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        UIUtils.toast(text);
-                                    }
-                                });
-                                if ("注册成功".equals(text)) {
-                                    UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                                    finish();
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();*/
             }
         });
 
-    }
-
-    /**
-     * 保存用户头像到服务器上
-     */
-    private void saveHead() {
-        if (mHeadFile != null) {
-            RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadServlet");    // 网址
-            params.addBodyParameter("img", mHeadFile);
-            params.addBodyParameter("msg", "hello");
-            x.http().post(params, new Callback.CommonCallback<String>() {
-
-                @Override
-                public void onSuccess(String result) {
-                    UIUtils.toast(result);
-                }
-
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    UIUtils.toast("上传头像网络出错啦~");
-                }
-
-                @Override
-                public void onCancelled(CancelledException cex) {
-
-                }
-
-                @Override
-                public void onFinished() {
-
-                }
-            });
-        }
     }
 
     @Override

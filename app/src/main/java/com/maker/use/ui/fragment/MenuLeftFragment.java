@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.maker.use.R;
@@ -15,6 +16,7 @@ import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
+import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.UserDetailActivity;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
@@ -40,6 +42,9 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     ImageView iv_sex;
     @ViewInject(R.id.tv_username)
     TextView tv_username;
+    @ViewInject(R.id.rl_issue)
+    RelativeLayout rl_issue;
+
     private MainActivity mActivity;
 
     @Nullable
@@ -47,7 +52,6 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_left, container, false);
         x.view().inject(this, view);
-        iv_icon.setOnClickListener(this);
 
         initView();
         return view;
@@ -55,7 +59,8 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         mActivity = (MainActivity) getActivity();
-
+        iv_icon.setOnClickListener(this);
+        rl_issue.setOnClickListener(this);
 
         LoginUtils.setOnLoginListener(new LoginUtils.onLoginListener() {
             @Override
@@ -95,10 +100,19 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                     startActivity(new Intent(UIUtils.getContext(), UserDetailActivity.class));
                 } else {
                     startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
-                    mActivity.finish();
-                    break;
+//                    mActivity.finish();
                 }
-
+                break;
+            case R.id.rl_issue:
+                if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+                    Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
+                    intent.putExtra("username", SpUtil.getUsername());
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+//                    mActivity.finish();
+                }
+                break;
         }
     }
 
