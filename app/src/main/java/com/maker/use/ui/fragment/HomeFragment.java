@@ -63,8 +63,9 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         View mainView = inflater.inflate(R.layout.fragment_home, null);
         x.view().inject(this, mainView);
 
+        initView();
         getDataFromServer();
-
+        initData();
         return mainView;
     }
 
@@ -78,8 +79,6 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         //添加头布局
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, header);
-        pagerHeader.setAdapter(new HeaderAdapter());
-        ci.setViewPager(pagerHeader);
         rv_home.addHeaderView(header);
         //设置刷新和加载监听
         rv_home.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -88,8 +87,9 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
                 refreshTime++;
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        mAdapter.notifyDataSetChanged();
-                        rv_home.refreshComplete();
+                        mCommoditys.clear();
+                        mCommoditys = null;
+                        get5CommoditysFromService(0);
                     }
                 }, 3000);
             }
@@ -99,9 +99,6 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
                 get5CommoditysFromService(mCommoditys.size());
             }
         });
-        //设置适配器
-        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-        rv_home.setAdapter(mAdapter);
     }
 
     private void initData() {
@@ -121,7 +118,12 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
                     if (mCommoditys == null) {
                         mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
                         }.getType());
-                        initView();
+                        //设置适配器
+                        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
+                        rv_home.setAdapter(mAdapter);
+
+                        mAdapter.notifyDataSetChanged();
+                        rv_home.refreshComplete();
                     } else {
                         UIUtils.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -197,7 +199,8 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         Gson gson = new Gson();
         Top top = gson.fromJson(result, Top.class);
         mImgs = top.imgs;
-        initData();
+        pagerHeader.setAdapter(new HeaderAdapter());
+        ci.setViewPager(pagerHeader);
     }
 
     @Override
