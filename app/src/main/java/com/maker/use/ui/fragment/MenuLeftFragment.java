@@ -14,9 +14,10 @@ import android.widget.TextView;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
+import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
-import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.UserDetailActivity;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
@@ -76,7 +77,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                         .setFailureDrawableId(R.drawable.register_default_head)
                         .setLoadingDrawableId(R.drawable.register_default_head)
                         .build();
-                x.image().bind(iv_icon, "http://119.29.213.119:8080/UsedMarket/head/" + user.username + "_head.jpg", imageOptions);
+                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg", imageOptions);
                 //用户性别
                 if ("man".equals(user.sex)) {
                     iv_sex.setImageResource(R.drawable.sex_man);

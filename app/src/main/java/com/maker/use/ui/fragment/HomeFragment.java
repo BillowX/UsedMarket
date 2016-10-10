@@ -25,6 +25,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -51,7 +52,9 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         View mainView = inflater.inflate(R.layout.fragment_home, null);
         x.view().inject(this, mainView);
 
-        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("all","all");
+        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, layoutParams);

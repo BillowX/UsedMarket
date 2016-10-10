@@ -1,9 +1,12 @@
 package com.maker.use.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,6 +14,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.CommodityDetailActivity;
 import com.maker.use.ui.adapter.MyRecyclerViewAdapter;
 import com.maker.use.utils.UIUtils;
 
@@ -18,6 +22,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -28,21 +33,27 @@ import java.util.List;
 
 public class MyXRecyclerView extends XRecyclerView {
 
+    private HashMap<String, String> map;
+
     //刷新时间
     private int refreshTime = 0;
     private List<Commodity> mCommoditys;
     private MyRecyclerViewAdapter mAdapter;
+    private String mAll;
+    private String mUsername;
+    private String mCategory;
 
-    public MyXRecyclerView(Context context) {
-        this(context, null, 0);
+    public MyXRecyclerView(Context context, HashMap<String, String> map) {
+        this(context, null, 0, map);
     }
 
-    public MyXRecyclerView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    public MyXRecyclerView(Context context, AttributeSet attrs, HashMap<String, String> map) {
+        this(context, attrs, 0, map);
     }
 
-    public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map) {
         super(context, attrs, defStyle);
+        this.map = map;
 
         initView();
         initData();
@@ -64,25 +75,44 @@ public class MyXRecyclerView extends XRecyclerView {
                     public void run() {
                         mCommoditys.clear();
                         mCommoditys = null;
-                        get10CommoditysFromService(0);
+                        get10CommoditysFromService("0");
                     }
                 }, 3000);
             }
 
             @Override
             public void onLoadMore() {
-                get10CommoditysFromService(mCommoditys.size());
+                get10CommoditysFromService(String.valueOf(mCommoditys.size()));
             }
         });
     }
 
     private void initData() {
-        get10CommoditysFromService(0);
+        if (map.get("all") != null) {
+            mAll = map.get("all");
+        } else if (map.get("username") != null) {
+            mUsername = map.get("username");
+        } else if (map.get("category") != null) {
+            mCategory = map.get("category");
+        }
+        get10CommoditysFromService("0");
+
+
     }
 
-    private void get10CommoditysFromService(int index) {
+    private void get10CommoditysFromService(String index) {
         RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
-        params.addQueryStringParameter("index", String.valueOf(index));
+
+
+        if (!TextUtils.isEmpty(mAll)) {
+            params.addQueryStringParameter("all", mAll);
+        } else if (!TextUtils.isEmpty(mUsername)) {
+            params.addQueryStringParameter("username", mUsername);
+        } else if (!TextUtils.isEmpty(mCategory)) {
+            params.addQueryStringParameter("category", mCategory);
+        }
+
+        params.addQueryStringParameter("index", index);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
@@ -93,10 +123,21 @@ public class MyXRecyclerView extends XRecyclerView {
                     if (mCommoditys == null) {
                         mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
                         }.getType());
-                        //设置适配器
-                        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-                        setAdapter(mAdapter);
+                        if (mCommoditys != null) {
+                            //设置适配器
+                            mAdapter = new MyRecyclerViewAdapter(mCommoditys);
+                            mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, Commodity commodity) {
+                                    Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
+                                    intent.putExtra("commodity", commodity);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    UIUtils.getContext().startActivity(intent);
 
+                                }
+                            });
+                            setAdapter(mAdapter);
+                        }
                         mAdapter.notifyDataSetChanged();
                         refreshComplete();
                     } else {

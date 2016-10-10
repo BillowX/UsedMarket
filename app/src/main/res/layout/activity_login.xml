@@ -4,6 +4,8 @@
               android:layout_height="fill_parent"
               android:background="#FFF"
               android:orientation="vertical"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
     >
 
     <RelativeLayout
