@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.maker.use.R;
+import com.maker.use.global.ConstentValue;
+import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ContentView;
@@ -133,7 +135,12 @@ public class IssueActivity extends Activity {
     }
 
     public void issue(View view) {
-        startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+        if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+            UIUtils.toast("请先登陆哦~");
+            startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+        } else {
+            startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+        }
         finish();
     }
 }

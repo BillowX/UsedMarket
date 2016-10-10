@@ -22,8 +22,10 @@ import java.util.List;
  * Created by XISEVEN on 2016/9/27.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> implements View.OnClickListener {
+
     List<Commodity> CommodityList;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     public MyRecyclerViewAdapter(List<Commodity> list) {
         this.CommodityList = list;
@@ -32,7 +34,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     //创建新View，被LayoutManager所调用
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_commoditylist, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_commoditylist, parent, false);
+        view.setOnClickListener(this);
+        MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
@@ -49,6 +53,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.tv_name.setText(CommodityList.get(position).name);
         holder.tv_description.setText(CommodityList.get(position).description);
         holder.tv_price.setText(String.valueOf(CommodityList.get(position).price));
+
+        //将数据保存在itemView的Tag中，以便点击时进行获取
+        holder.itemView.setTag(CommodityList.get(position));
     }
 
     //获取数据的数量
@@ -69,6 +76,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             CommodityList.add(position, commodity);
             notifyItemInserted(position);
         }
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取数据
+            mOnItemClickListener.onItemClick(v, (Commodity) v.getTag());
+        }
+    }
+
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view, Commodity commodity);
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素

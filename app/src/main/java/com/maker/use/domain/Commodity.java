@@ -10,12 +10,17 @@ import java.io.Serializable;
 public class Commodity implements Serializable {
     public int id;
     public String name;
-    public String userHeadImg;
     public String category;
     public double price;
     public int num;
     public String imgurl;
     public String description;
-    public String userName;
+    public String username;
     public String time;
+
+    @Override
+    public String toString() {
+        return id + "," + name + "," + category + "," + price + "," + num + "," +
+                imgurl + "," + description + "," + username + "," + time;
+    }
 }

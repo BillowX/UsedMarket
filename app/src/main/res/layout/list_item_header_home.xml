@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:lvp_delayTime="2000"
-            app:lvp_isAutoLoop="true" />
+            app:lvp_isAutoLoop="true"/>
 
         <com.lzy.widget.tab.CircleIndicator
             android:id="@+id/ci"
@@ -25,6 +25,6 @@
             android:layout_alignParentBottom="true"
             android:background="#4000"
             app:ci_normalRadiusColor="#FFF"
-            app:ci_selectedRadiusColor="#FFF" />
+            app:ci_selectedRadiusColor="#FFF"/>
     </RelativeLayout>
 </FrameLayout>
