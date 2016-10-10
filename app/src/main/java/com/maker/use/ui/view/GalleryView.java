@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class MyRecyclerView extends RecyclerView {
+public class GalleryView extends RecyclerView {
 
     /**
      * 记录当前第一个View
@@ -14,7 +14,7 @@ public class MyRecyclerView extends RecyclerView {
 
     private OnItemScrollChangeListener mItemScrollChangeListener;
 
-    public MyRecyclerView(Context context, AttributeSet attrs) {
+    public GalleryView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO Auto-generated constructor stub
         setOnScrollListener(new OnScrollListener() {

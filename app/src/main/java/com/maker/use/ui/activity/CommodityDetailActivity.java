@@ -11,7 +11,7 @@ import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.adapter.GalleryAdapter;
-import com.maker.use.ui.view.MyRecyclerView;
+import com.maker.use.ui.view.GalleryView;
 
 import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
@@ -43,7 +43,7 @@ public class CommodityDetailActivity extends BaseActivity {
     @ViewInject(R.id.iv_img)
     private ImageView iv_img;
     @ViewInject(R.id.recView_goods_img)
-    private MyRecyclerView recView_goods_img;
+    private GalleryView recView_goods_img;
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
 
@@ -91,7 +91,7 @@ public class CommodityDetailActivity extends BaseActivity {
             GalleryAdapter mAdapter = new GalleryAdapter(this, mDatas);
             recView_goods_img.setAdapter(mAdapter);
 
-            recView_goods_img.setOnItemScrollChangeListener(new MyRecyclerView.OnItemScrollChangeListener() {
+            recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
                 @Override
                 public void onChange(View view, int position) {
                     iv_img.setImageResource(mDatas.get(position));
