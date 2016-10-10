@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
@@ -43,7 +46,6 @@ public class MyXRecyclerView extends XRecyclerView {
     private String mAll;
     private String mUsername;
     private String mCategory;
-    private ImageView mErrorImageView;
 
     public MyXRecyclerView(Context context, HashMap<String, String> map) {
         this(context, null, 0, map);
@@ -84,7 +86,11 @@ public class MyXRecyclerView extends XRecyclerView {
 
             @Override
             public void onLoadMore() {
-                get10CommoditysFromService(String.valueOf(mCommoditys.size()));
+                if (mAdapter != null) {
+                    get10CommoditysFromService(String.valueOf(mCommoditys.size()));
+                }else{
+                    loadMoreComplete();
+                }
             }
         });
     }
@@ -123,34 +129,28 @@ public class MyXRecyclerView extends XRecyclerView {
                 if (mCommoditys == null) {
                     mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
                     }.getType());
-                    //设置适配器
-                    mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-                    mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, Commodity commodity) {
-                            Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
-                            intent.putExtra("commodity", commodity);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            UIUtils.getContext().startActivity(intent);
 
-                        }
-                    });
-                    setAdapter(mAdapter);
                     //如果没有数据，则显示一个空白样式的图片
                     if (mCommoditys.size() < 1) {
                         UIUtils.toast("暂无数据哦");
-                        if (mErrorImageView == null) {
-//                            mErrorImageView = new ImageView(UIUtils.getContext());
-//                            mErrorImageView.setImageResource(R.drawable.empty);
-//                            addView(mErrorImageView);
-                        }
+                        EmptyAdapter emptyAdapter = new EmptyAdapter();
+                        setAdapter(emptyAdapter);
                     } else {
-                        if (mErrorImageView != null) {
-//                            removeView(mErrorImageView);
-//                            mErrorImageView = null;
-                        }
+                        //设置适配器
+                        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
+                        mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, Commodity commodity) {
+                                Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
+                                intent.putExtra("commodity", commodity);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                UIUtils.getContext().startActivity(intent);
+
+                            }
+                        });
+                        setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
                     }
-                    mAdapter.notifyDataSetChanged();
                     refreshComplete();
                 }
                 //加载更多逻辑
@@ -187,6 +187,31 @@ public class MyXRecyclerView extends XRecyclerView {
 
             }
         });
+    }
+
+    class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.MyEmptyViewHolder> {
+
+        @Override
+        public MyEmptyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_commoditylist_empty, parent, false);
+            MyEmptyViewHolder holder = new MyEmptyViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MyEmptyViewHolder holder, int position) {
+        }
+
+        @Override
+        public int getItemCount() {
+            return 1;
+        }
+
+        class MyEmptyViewHolder extends RecyclerView.ViewHolder {
+            public MyEmptyViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
     }
 
 }
