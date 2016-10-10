@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,6 +43,7 @@ public class MyXRecyclerView extends XRecyclerView {
     private String mAll;
     private String mUsername;
     private String mCategory;
+    private ImageView mErrorImageView;
 
     public MyXRecyclerView(Context context, HashMap<String, String> map) {
         this(context, null, 0, map);
@@ -116,48 +118,58 @@ public class MyXRecyclerView extends XRecyclerView {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
-                if ("无数据".equals(result)) {
-                    UIUtils.toast(result);
-                } else {
-                    final Gson gson = new Gson();
-                    if (mCommoditys == null) {
-                        mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
-                        }.getType());
-                        if (mCommoditys != null) {
-                            //设置适配器
-                            mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-                            mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, Commodity commodity) {
-                                    Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
-                                    intent.putExtra("commodity", commodity);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    UIUtils.getContext().startActivity(intent);
+                final Gson gson = new Gson();
+                //刷新逻辑
+                if (mCommoditys == null) {
+                    mCommoditys = gson.fromJson(result, new TypeToken<List<Commodity>>() {
+                    }.getType());
+                    //设置适配器
+                    mAdapter = new MyRecyclerViewAdapter(mCommoditys);
+                    mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, Commodity commodity) {
+                            Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
+                            intent.putExtra("commodity", commodity);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            UIUtils.getContext().startActivity(intent);
 
-                                }
-                            });
-                            setAdapter(mAdapter);
                         }
-                        mAdapter.notifyDataSetChanged();
-                        refreshComplete();
+                    });
+                    setAdapter(mAdapter);
+                    //如果没有数据，则显示一个空白样式的图片
+                    if (mCommoditys.size() < 1) {
+                        UIUtils.toast("暂无数据哦");
+                        if (mErrorImageView == null) {
+//                            mErrorImageView = new ImageView(UIUtils.getContext());
+//                            mErrorImageView.setImageResource(R.drawable.empty);
+//                            addView(mErrorImageView);
+                        }
                     } else {
-                        UIUtils.getHandler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                List<Commodity> newData = (List<Commodity>) gson.fromJson(result, new TypeToken<List<Commodity>>() {
-                                }.getType());
-                                if (newData.size() >= 1) {
-                                    mCommoditys.addAll(newData);
-                                } else {
-                                    UIUtils.toast("没有更多咯");
-                                }
-                                mAdapter.notifyDataSetChanged();
-                                loadMoreComplete();
-                            }
-                        }, 3000);
+                        if (mErrorImageView != null) {
+//                            removeView(mErrorImageView);
+//                            mErrorImageView = null;
+                        }
                     }
+                    mAdapter.notifyDataSetChanged();
+                    refreshComplete();
                 }
-
+                //加载更多逻辑
+                else {
+                    UIUtils.getHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<Commodity> newData = (List<Commodity>) gson.fromJson(result, new TypeToken<List<Commodity>>() {
+                            }.getType());
+                            if (newData.size() >= 1) {
+                                mCommoditys.addAll(newData);
+                            } else {
+                                UIUtils.toast("没有更多咯");
+                            }
+                            mAdapter.notifyDataSetChanged();
+                            loadMoreComplete();
+                        }
+                    }, 3000);
+                }
             }
 
             @Override

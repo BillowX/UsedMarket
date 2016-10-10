@@ -52,6 +52,13 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         View mainView = inflater.inflate(R.layout.fragment_home, null);
         x.view().inject(this, mainView);
 
+        initView();
+
+        return mainView;
+    }
+
+    public void initView() {
+        //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         map.put("all","all");
         mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
@@ -64,8 +71,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         getDataFromServer();
         mMyXRecyclerView.addHeaderView(header);
 
-
-        return mainView;
+        //空界面
     }
 
     /**
