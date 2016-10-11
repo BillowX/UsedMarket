@@ -29,7 +29,7 @@ import java.util.HashMap;
  * Created by XT on 2016/10/8.
  */
 @ContentView(R.layout.activity_commoditylist)
-public class CommodityListActivity extends BaseActivity {
+public class CommodityListActivity extends BaseActivity{
 
     @ViewInject(R.id.rl_root)
     RelativeLayout rl_root;

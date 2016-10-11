@@ -4,15 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +47,7 @@ import java.util.List;
  * Created by XT on 2016/10/9.
  */
 
-public class MyXRecyclerView extends XRecyclerView {
+public class MyXRecyclerView extends XRecyclerView implements View.OnClickListener {
 
     private HashMap<String, String> map;
 
@@ -49,6 +58,7 @@ public class MyXRecyclerView extends XRecyclerView {
     private String mAll;
     private String mUsername;
     private String mCategory;
+    private PopupWindow mPopupWindow;
 
     public MyXRecyclerView(Context context, HashMap<String, String> map) {
         this(context, null, 0, map);
@@ -167,40 +177,7 @@ public class MyXRecyclerView extends XRecyclerView {
                             mAdapter.setOnItemLongClickListener(new MyXRecyclerViewAdapter.OnRecyclerViewItemLongClickListener() {
                                 @Override
                                 public void onItemLongClick(View view, Commodity commodity, final int position) {
-                                    RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
-                                    params1.addQueryStringParameter("id", String.valueOf(commodity.id));
-                                    x.http().get(params1, new CommonCallback<String>() {
-                                        @Override
-                                        public void onSuccess(String result) {
-                                            if ("删除成功".equals(result)) {
-                                                if (mCommoditys != null) {
-                                                    mCommoditys.remove(position);
-                                                    if (mCommoditys.size() < 1) {
-                                                        mCommoditys.clear();
-                                                        mCommoditys = null;
-                                                        get10CommoditysFromService("0");
-                                                    }
-                                                    mAdapter.notifyDataSetChanged();
-                                                }
-                                            }
-                                            UIUtils.toast(result);
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable ex, boolean isOnCallback) {
-                                            UIUtils.toast("网络出错啦");
-                                        }
-
-                                        @Override
-                                        public void onCancelled(CancelledException cex) {
-
-                                        }
-
-                                        @Override
-                                        public void onFinished() {
-
-                                        }
-                                    });
+                                    showPopupWindow(view, commodity, position);
                                 }
                             });
                         }
@@ -249,6 +226,90 @@ public class MyXRecyclerView extends XRecyclerView {
 
     public MyXRecyclerViewAdapter getMyXRecyclerViewAdapter() {
         return mAdapter;
+    }
+
+    /**
+     * 显示删除按钮的PopupWindow
+     */
+    protected void showPopupWindow(View view, final Commodity commodity, final int position) {
+        View popupWindowView = View.inflate(UIUtils.getContext(), R.layout.popupwindow_commodity_item,
+                null);
+        Button bt_delete = (Button) popupWindowView
+                .findViewById(R.id.bt_delete);
+
+        bt_delete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
+                params1.addQueryStringParameter("id", String.valueOf(commodity.id));
+                x.http().get(params1, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if ("删除成功".equals(result)) {
+                            if (mCommoditys != null) {
+                                mCommoditys.remove(position);
+                                if (mCommoditys.size() < 1) {
+                                    mCommoditys.clear();
+                                    mCommoditys = null;
+                                    get10CommoditysFromService("0");
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        UIUtils.toast(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        UIUtils.toast("网络出错啦");
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+                if (mPopupWindow != null) {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(500);
+        alphaAnimation.setFillAfter(true);
+
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1, 0, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        scaleAnimation.setDuration(500);
+        scaleAnimation.setFillAfter(true);
+
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+
+        popupWindowView.setAnimation(animationSet);
+
+        mPopupWindow = new PopupWindow(popupWindowView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
+        mPopupWindow.showAtLocation(view,Gravity.CENTER, 0, 0);
+//        mPopupWindow.showAsDropDown(view);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
     }
 
     /**
