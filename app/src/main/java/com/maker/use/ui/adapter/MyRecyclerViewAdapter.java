@@ -109,4 +109,5 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
         }
     }
+
 }
