@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/linearlayout_divider_shape"
+    android:orientation="vertical"
+    android:showDividers="middle|end">
+
+    <include
+        android:id="@+id/setting_title"
+        layout="@layout/layout_title" />
+
+    <TextView
+        android:id="@+id/setting_update"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:textSize="@dimen/layout_info_textSize"
+        android:text="更新"
+        />
+    <TextView
+        android:id="@+id/setting_eceipt_address"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:textSize="@dimen/layout_info_textSize"
+        android:text="收货地址"
+        />
+    <TextView
+        android:id="@+id/setting_about"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:textSize="@dimen/layout_info_textSize"
+        android:text="关于"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/linearlayout_divider_shape"
+    android:orientation="vertical"
+    android:showDividers="middle|end">
+
+    <include
+        android:id="@+id/personInfo_title"
+        layout="@layout/layout_title" />
+
+
+    <LinearLayout
+        android:id="@+id/userImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="用户头像"
+            android:textSize="@dimen/layout_info_textSize" />
+
+        <ImageView
+            android:id="@+id/iv_person_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="用户名"
+            android:textSize="@dimen/layout_info_textSize" />
+
+        <TextView
+            android:id="@+id/tv_person_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="1234"
+            android:textSize="@dimen/layout_infoValue_textSize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/userSex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="性别"
+            android:textSize="@dimen/layout_info_textSize" />
+
+        <TextView
+            android:id="@+id/tv_person_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="男"
+            android:textSize="@dimen/layout_infoValue_textSize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/passWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="修改密码"
+            android:textSize="@dimen/layout_info_textSize" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cancel_account"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_view_border"
+        android:gravity="center"
+        android:padding="@dimen/layout_info_textSize"
+        android:text="注销帐号"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/layout_info_textSize" />
+
+</LinearLayout>
