@@ -64,9 +64,9 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         return CommodityList.size();
     }
 
-    public void add(Commodity commodity) {
+    public void add(List<Commodity> list) {
         if (CommodityList != null) {
-            CommodityList.add(commodity);
+            CommodityList.addAll(list);
             notifyItemInserted(CommodityList.size());
         }
     }
@@ -90,7 +90,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         }
     }
 
-    public static interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, Commodity commodity);
     }
 

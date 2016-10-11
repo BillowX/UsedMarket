@@ -1,9 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
                 android:id="@+id/rl_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="#FFF"
                 android:clipToPadding="true"
-                android:fitsSystemWindows="true"
-                android:layout_height="match_parent">
+                android:fitsSystemWindows="true">
 
+    <FrameLayout
+        android:id="@+id/deleteBar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:alpha="0.5"
+        android:elevation="1dp"
+        android:background="@drawable/ripple_deletebar"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="20sp"
+            android:textColor="?android:colorForeground"
+            android:text="Delete"
+            />
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/fab_add"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ripple"
+        android:elevation="1dp"
+        android:src="@drawable/ic_action_add"
+        android:stateListAnimator="@drawable/anim"
+        />
 </RelativeLayout>

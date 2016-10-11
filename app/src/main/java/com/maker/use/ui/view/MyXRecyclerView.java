@@ -61,9 +61,20 @@ public class MyXRecyclerView extends XRecyclerView {
     public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map) {
         super(context, attrs, defStyle);
         this.map = map;
+        checkWhereFrom();
 
         initView();
         initData();
+    }
+
+    private void checkWhereFrom() {
+        if (map.get("all") != null) {
+            mAll = map.get("all");
+        } else if (map.get("username") != null) {
+            mUsername = map.get("username");
+        } else if (map.get("category") != null) {
+            mCategory = map.get("category");
+        }
     }
 
     private void initView() {
@@ -106,16 +117,7 @@ public class MyXRecyclerView extends XRecyclerView {
     }
 
     private void initData() {
-        if (map.get("all") != null) {
-            mAll = map.get("all");
-        } else if (map.get("username") != null) {
-            mUsername = map.get("username");
-        } else if (map.get("category") != null) {
-            mCategory = map.get("category");
-        }
         get10CommoditysFromService("0");
-
-
     }
 
     private void get10CommoditysFromService(String index) {
@@ -159,7 +161,7 @@ public class MyXRecyclerView extends XRecyclerView {
                             }
                         });
                         setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
+//                        mAdapter.notifyDataSetChanged();
                     }
                     refreshComplete();
                 }
@@ -171,11 +173,12 @@ public class MyXRecyclerView extends XRecyclerView {
                             List<Commodity> newData = (List<Commodity>) gson.fromJson(result, new TypeToken<List<Commodity>>() {
                             }.getType());
                             if (newData.size() >= 1) {
-                                mCommoditys.addAll(newData);
+                                mAdapter.add(newData);
+//                                mCommoditys.addAll(newData);
                             } else {
                                 UIUtils.toast("没有更多咯");
                             }
-                            mAdapter.notifyDataSetChanged();
+//                            mAdapter.notifyDataSetChanged();
                             loadMoreComplete();
                         }
                     }, 3000);
@@ -199,6 +202,9 @@ public class MyXRecyclerView extends XRecyclerView {
         });
     }
 
+    /**
+     * 数据为空时的RecyclerView的条目适配器
+     */
     class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.MyEmptyViewHolder> {
 
         @Override
@@ -226,8 +232,6 @@ public class MyXRecyclerView extends XRecyclerView {
 
     /**
      * 分隔线装饰
-     *
-     * @author youmingdot
      */
     class DividerLine extends RecyclerView.ItemDecoration {
         /**
