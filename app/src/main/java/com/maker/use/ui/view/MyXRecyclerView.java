@@ -2,7 +2,10 @@ package com.maker.use.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Handler;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +22,7 @@ import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
-import com.maker.use.ui.adapter.MyRecyclerViewAdapter;
+import com.maker.use.ui.adapter.MyXRecyclerViewAdapter;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -42,7 +45,7 @@ public class MyXRecyclerView extends XRecyclerView {
     //刷新时间
     private int refreshTime = 0;
     private List<Commodity> mCommoditys;
-    private MyRecyclerViewAdapter mAdapter;
+    private MyXRecyclerViewAdapter mAdapter;
     private String mAll;
     private String mUsername;
     private String mCategory;
@@ -70,6 +73,13 @@ public class MyXRecyclerView extends XRecyclerView {
         setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         setLoadingMoreProgressStyle(ProgressStyle.Pacman);
 //      setArrowImageView(R.drawable.iconfont_downgrey);
+        //设置Item增加、移除动画
+        setItemAnimator(new DefaultItemAnimator());
+        //设置条目之间的分割线
+        DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
+        dividerLine.setSize(1);
+        dividerLine.setColor(0xFFDDDDDD);
+        addItemDecoration(dividerLine);
         //设置刷新和加载监听
         setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -88,7 +98,7 @@ public class MyXRecyclerView extends XRecyclerView {
             public void onLoadMore() {
                 if (mAdapter != null) {
                     get10CommoditysFromService(String.valueOf(mCommoditys.size()));
-                }else{
+                } else {
                     loadMoreComplete();
                 }
             }
@@ -137,8 +147,8 @@ public class MyXRecyclerView extends XRecyclerView {
                         setAdapter(emptyAdapter);
                     } else {
                         //设置适配器
-                        mAdapter = new MyRecyclerViewAdapter(mCommoditys);
-                        mAdapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                        mAdapter = new MyXRecyclerViewAdapter(mCommoditys);
+                        mAdapter.setOnItemClickListener(new MyXRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
                             @Override
                             public void onItemClick(View view, Commodity commodity) {
                                 Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
@@ -210,6 +220,105 @@ public class MyXRecyclerView extends XRecyclerView {
         class MyEmptyViewHolder extends RecyclerView.ViewHolder {
             public MyEmptyViewHolder(View itemView) {
                 super(itemView);
+            }
+        }
+    }
+
+    /**
+     * 分隔线装饰
+     *
+     * @author youmingdot
+     */
+    class DividerLine extends RecyclerView.ItemDecoration {
+        /**
+         * 水平方向
+         */
+        public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
+
+        /**
+         * 垂直方向
+         */
+        public static final int VERTICAL = LinearLayoutManager.VERTICAL;
+
+        // 画笔
+        private Paint paint;
+
+        // 布局方向
+        private int orientation;
+        // 分割线颜色
+        private int color;
+        // 分割线尺寸
+        private int size;
+
+        public DividerLine() {
+            this(VERTICAL);
+        }
+
+        public DividerLine(int orientation) {
+            this.orientation = orientation;
+
+            paint = new Paint();
+        }
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            super.onDrawOver(c, parent, state);
+
+            if (orientation == VERTICAL) {
+                drawHorizontal(c, parent);
+            } else {
+                drawVertical(c, parent);
+            }
+        }
+
+        /**
+         * 设置分割线颜色
+         *
+         * @param color 颜色
+         */
+        public void setColor(int color) {
+            this.color = color;
+            paint.setColor(color);
+        }
+
+        /**
+         * 设置分割线尺寸
+         *
+         * @param size 尺寸
+         */
+        public void setSize(int size) {
+            this.size = size;
+        }
+
+        // 绘制垂直分割线
+        protected void drawVertical(Canvas c, RecyclerView parent) {
+            final int top = parent.getPaddingTop();
+            final int bottom = parent.getHeight() - parent.getPaddingBottom();
+
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int left = child.getRight() + params.rightMargin;
+                final int right = left + size;
+
+                c.drawRect(left, top, right, bottom, paint);
+            }
+        }
+
+        // 绘制水平分割线
+        protected void drawHorizontal(Canvas c, RecyclerView parent) {
+            final int left = parent.getPaddingLeft();
+            final int right = parent.getWidth() - parent.getPaddingRight();
+
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = parent.getChildAt(i);
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                final int top = child.getBottom() + params.bottomMargin;
+                final int bottom = top + size;
+
+                c.drawRect(left, top, right, bottom, paint);
             }
         }
     }

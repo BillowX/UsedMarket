@@ -22,12 +22,12 @@ import java.util.List;
  * Created by XISEVEN on 2016/9/27.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> implements View.OnClickListener {
+public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerViewAdapter.MyViewHolder> implements View.OnClickListener {
 
     List<Commodity> CommodityList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-    public MyRecyclerViewAdapter(List<Commodity> list) {
+    public MyXRecyclerViewAdapter(List<Commodity> list) {
         this.CommodityList = list;
     }
 
