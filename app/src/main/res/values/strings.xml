@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">USE</string>
 
+    <string name="delete_commodity">commodity</string>
+    <string name="delete_position">position</string>
+
     <string-array name="tab_tag">
         <item>首页</item>
         <item>分类</item>

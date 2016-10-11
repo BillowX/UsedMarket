@@ -12,7 +12,6 @@ import android.view.ViewOutlineProvider;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.lzy.widget.HeaderScrollHelper;
 import com.maker.use.R;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
@@ -27,7 +26,7 @@ import java.util.HashMap;
  * Created by XT on 2016/10/8.
  */
 @ContentView(R.layout.activity_commoditylist)
-public class CommodityListActivity extends BaseActivity implements HeaderScrollHelper.ScrollableContainer {
+public class CommodityListActivity extends BaseActivity {
 
     @ViewInject(R.id.rl_root)
     RelativeLayout rl_root;
@@ -50,8 +49,7 @@ public class CommodityListActivity extends BaseActivity implements HeaderScrollH
         if (!TextUtils.isEmpty(username)) {
             map.put("username", username);
             fab_add.setVisibility(View.VISIBLE);
-
-            //将发布按钮绘制成圆形
+            //将发布按钮绘制成圆形(5.0)
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
 
@@ -64,10 +62,15 @@ public class CommodityListActivity extends BaseActivity implements HeaderScrollH
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             outline.setOval(-4, -4, fabSize + 2, fabSize + 2);
                         }
-
                     }
                 };
+                //设置裁剪
+                fab_add.setClipToOutline(true);
                 fab_add.setOutlineProvider(viewOutlineProvider);
+                //可以判断裁剪状态
+//                fab_add.getClipToOutline();
+                //可以禁止裁剪状态
+//                fab_add.setClipToOutline(false);
             }
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,11 +89,6 @@ public class CommodityListActivity extends BaseActivity implements HeaderScrollH
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, 0, layoutParams);
 
-    }
-
-    @Override
-    public View getScrollableView() {
-        return mMyXRecyclerView;
     }
 
 }

@@ -87,10 +87,10 @@ public class MyXRecyclerView extends XRecyclerView {
         //设置Item增加、移除动画
         setItemAnimator(new DefaultItemAnimator());
         //设置条目之间的分割线
-        DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
-        dividerLine.setSize(1);
-        dividerLine.setColor(0xFFDDDDDD);
-        addItemDecoration(dividerLine);
+//        DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
+//        dividerLine.setSize(1);
+//        dividerLine.setColor(0xFFDDDDDD);
+//        addItemDecoration(dividerLine);
         //设置刷新和加载监听
         setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -121,7 +121,7 @@ public class MyXRecyclerView extends XRecyclerView {
     }
 
     private void get10CommoditysFromService(String index) {
-        RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
+        final RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
 
 
         if (!TextUtils.isEmpty(mAll)) {
@@ -150,6 +150,7 @@ public class MyXRecyclerView extends XRecyclerView {
                     } else {
                         //设置适配器
                         mAdapter = new MyXRecyclerViewAdapter(mCommoditys);
+                        //设置条目点击监听
                         mAdapter.setOnItemClickListener(new MyXRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
                             @Override
                             public void onItemClick(View view, Commodity commodity) {
@@ -160,6 +161,42 @@ public class MyXRecyclerView extends XRecyclerView {
 
                             }
                         });
+                        //只有在用户发布界面才能有长按删除操作
+                        if (!TextUtils.isEmpty(mUsername)) {
+                            //设置条目长按监听
+                            mAdapter.setOnItemLongClickListener(new MyXRecyclerViewAdapter.OnRecyclerViewItemLongClickListener() {
+                                @Override
+                                public void onItemLongClick(View view, Commodity commodity, final int position) {
+                                    RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
+                                    params1.addQueryStringParameter("id", String.valueOf(commodity.id));
+                                    x.http().get(params1, new CommonCallback<String>() {
+                                        @Override
+                                        public void onSuccess(String result) {
+                                            if ("删除成功".equals(result)) {
+                                                mAdapter.delete(position);
+                                            }
+                                            UIUtils.toast(result);
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable ex, boolean isOnCallback) {
+                                            UIUtils.toast("网络出错啦");
+                                        }
+
+                                        @Override
+                                        public void onCancelled(CancelledException cex) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinished() {
+
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
                         setAdapter(mAdapter);
 //                        mAdapter.notifyDataSetChanged();
                     }
