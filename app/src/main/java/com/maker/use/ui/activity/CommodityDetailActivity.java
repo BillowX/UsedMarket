@@ -74,7 +74,7 @@ public class CommodityDetailActivity extends BaseActivity {
                     .build();
             x.image().bind(iv_userHeadimg, UsedMarketURL.server_heart + "/head/" + commodity.username + "_head.jpg", imageOptions);
             tv_userName.setText(commodity.username);
-            tv_goods_price.setText("¥ " + commodity.price);
+            tv_goods_price.setText("¥  " + commodity.price);
             tv_goods_time.setText(commodity.time);
             tv_goods_name.setText(commodity.name);
             tv_goods_description.setText(commodity.description);
