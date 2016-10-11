@@ -144,7 +144,7 @@ public class MyXRecyclerView extends XRecyclerView {
 
                     //如果没有数据，则显示一个空白样式的图片
                     if (mCommoditys.size() < 1) {
-                        UIUtils.toast("暂无数据哦");
+//                        UIUtils.toast("暂无数据哦");
                         EmptyAdapter emptyAdapter = new EmptyAdapter();
                         setAdapter(emptyAdapter);
                     } else {
@@ -173,7 +173,15 @@ public class MyXRecyclerView extends XRecyclerView {
                                         @Override
                                         public void onSuccess(String result) {
                                             if ("删除成功".equals(result)) {
-                                                mAdapter.delete(position);
+                                                if (mCommoditys != null) {
+                                                    mCommoditys.remove(position);
+                                                    if (mCommoditys.size() < 1) {
+                                                        mCommoditys.clear();
+                                                        mCommoditys = null;
+                                                        get10CommoditysFromService("0");
+                                                    }
+                                                    mAdapter.notifyDataSetChanged();
+                                                }
                                             }
                                             UIUtils.toast(result);
                                         }

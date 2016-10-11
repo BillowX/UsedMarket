@@ -84,8 +84,9 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         if (CommodityList != null) {
             CommodityList.remove(position);
             Log.e("index", position + "");
-
-            notifyItemRemoved(position);
+            notifyItemRangeRemoved(position,CommodityList.size());
+//            notifyItemRangeChanged(1,CommodityList.size());
+//            notifyItemRemoved(position);
         }
     }
 

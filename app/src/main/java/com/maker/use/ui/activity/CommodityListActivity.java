@@ -1,6 +1,5 @@
 package com.maker.use.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,11 +12,15 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.maker.use.R;
+import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.util.HashMap;
 
@@ -72,10 +75,34 @@ public class CommodityListActivity extends BaseActivity {
                 //可以禁止裁剪状态
 //                fab_add.setClipToOutline(false);
             }
+            //添加按钮点击事件
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+//                    startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+
+                    //添加测试代码
+                    x.http().get(new RequestParams(UsedMarketURL.server_heart + "/servlet/InsertTestDataServlet"), new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            UIUtils.toast("添加成功");
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
                 }
             });
 
