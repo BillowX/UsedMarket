@@ -2,6 +2,7 @@ package com.maker.use.ui.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,15 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         if (CommodityList != null) {
             CommodityList.add(position, commodity);
             notifyItemInserted(position);
+        }
+    }
+
+    public void delete(int position) {
+        if (CommodityList != null) {
+            CommodityList.remove(position);
+            Log.e("index", position + "");
+
+            notifyItemRemoved(position);
         }
     }
 

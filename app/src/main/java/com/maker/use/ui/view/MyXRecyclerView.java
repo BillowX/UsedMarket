@@ -202,6 +202,10 @@ public class MyXRecyclerView extends XRecyclerView {
         });
     }
 
+    public MyXRecyclerViewAdapter getMyXRecyclerViewAdapter() {
+        return mAdapter;
+    }
+
     /**
      * 数据为空时的RecyclerView的条目适配器
      */
