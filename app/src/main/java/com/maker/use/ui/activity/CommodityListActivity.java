@@ -1,11 +1,14 @@
 package com.maker.use.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -40,24 +43,32 @@ public class CommodityListActivity extends BaseActivity {
     Toolbar toolbar;
 
     private MyXRecyclerView mMyXRecyclerView;
+    private String mUsername;
+    private String mCategory;
+    private String mQuery;
+    private String mAll;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        checkWhereFrom();
         initView();
     }
 
-    private void initView() {
-        //设置ToolBar
-        toolbar.inflateMenu(R.menu.toolbar_commodity_menu);
+    private void checkWhereFrom() {
+        mUsername = getIntent().getStringExtra("username");
+        mCategory = getIntent().getStringExtra("category");
+        mQuery = getIntent().getStringExtra("query");
+        mAll = getIntent().getStringExtra("all");
+    }
 
+    private void initView() {
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
-        String username = getIntent().getStringExtra("username");
-        String category = getIntent().getStringExtra("category");
-        if (!TextUtils.isEmpty(username)) {
-            map.put("username", username);
+        if (!TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mQuery)) {
+            map.put("username", mUsername);
+            //toolbar设置标题必须在setSupportActionBar才能生效
             toolbar.setTitle("我的发布");
             fab_add.setVisibility(View.VISIBLE);
             //将发布按钮绘制成圆形(5.0)
@@ -114,10 +125,25 @@ public class CommodityListActivity extends BaseActivity {
                 }
             });
 
-        } else if (!TextUtils.isEmpty(category)) {
-            map.put("category", category);
-            toolbar.setTitle(category);
+        } else if (!TextUtils.isEmpty(mCategory) && TextUtils.isEmpty(mQuery)) {
+            map.put("category", mCategory);
+            toolbar.setTitle(mCategory);
             fab_add.setVisibility(View.GONE);
+        } else if (!TextUtils.isEmpty(mUsername) && !TextUtils.isEmpty(mQuery)) {
+            toolbar.setTitle("在“我的发布”中搜索“" + mQuery + "”");
+            fab_add.setVisibility(View.GONE);
+            map.put("username", mUsername);
+            map.put("query", mQuery);
+        } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
+            toolbar.setTitle("在“" + mCategory + "”中搜索“" + mQuery + "”");
+            fab_add.setVisibility(View.GONE);
+            map.put("category", mCategory);
+            map.put("query", mQuery);
+        } else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
+            toolbar.setTitle("在“全部商品”中搜索“" + mQuery + "”");
+            fab_add.setVisibility(View.GONE);
+            map.put("all", mAll);
+            map.put("query", mQuery);
         }
 
         mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
@@ -125,6 +151,39 @@ public class CommodityListActivity extends BaseActivity {
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, 0, layoutParams);
 
+
+        //设置ToolBar
+        //取代原本的actionbar
+        setSupportActionBar(toolbar);
     }
 
+    //如果有Menu,创建完后,系统会自动添加到ToolBar上
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.toolbar_commodity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
+                if (!TextUtils.isEmpty(mUsername)) {
+                    //说明是在登陆用户发布的商品中查找
+                    intent.putExtra("username", mUsername);
+                } else if (!TextUtils.isEmpty(mCategory)) {
+                    //说明是在登陆用户发布的商品中查找
+                    intent.putExtra("category", mCategory);
+                } else if (!TextUtils.isEmpty(mAll)) {
+                    //说明是在登陆用户全部商品中查找
+                    intent.putExtra("all", mAll);
+                }
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return true;
+    }
 }

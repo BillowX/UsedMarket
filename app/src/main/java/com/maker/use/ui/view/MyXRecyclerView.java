@@ -59,6 +59,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     private String mUsername;
     private String mCategory;
     private PopupWindow mPopupWindow;
+    private String mQuery;
 
     public MyXRecyclerView(Context context, HashMap<String, String> map) {
         this(context, null, 0, map);
@@ -71,20 +72,17 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map) {
         super(context, attrs, defStyle);
         this.map = map;
-        checkWhereFrom();
 
+        checkWhereFrom();
         initView();
         initData();
     }
 
     private void checkWhereFrom() {
-        if (map.get("all") != null) {
-            mAll = map.get("all");
-        } else if (map.get("username") != null) {
-            mUsername = map.get("username");
-        } else if (map.get("category") != null) {
-            mCategory = map.get("category");
-        }
+        mAll = map.get("all");
+        mUsername = map.get("username");
+        mCategory = map.get("category");
+        mQuery = map.get("query");
     }
 
     private void initView() {
@@ -133,13 +131,22 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     private void get10CommoditysFromService(String index) {
         final RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
 
-
-        if (!TextUtils.isEmpty(mAll)) {
+        //根据whereFrom判断请求参数
+        if (!TextUtils.isEmpty(mAll) && TextUtils.isEmpty(mQuery)) {
             params.addQueryStringParameter("all", mAll);
-        } else if (!TextUtils.isEmpty(mUsername)) {
+        } else if (!TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mQuery)) {
             params.addQueryStringParameter("username", mUsername);
-        } else if (!TextUtils.isEmpty(mCategory)) {
+        } else if (!TextUtils.isEmpty(mCategory) && TextUtils.isEmpty(mQuery)) {
             params.addQueryStringParameter("category", mCategory);
+        } else if (!TextUtils.isEmpty(mUsername) && !TextUtils.isEmpty(mQuery)) {
+            params.addQueryStringParameter("username", mUsername);
+            params.addQueryStringParameter("query", mQuery);
+        } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
+            params.addQueryStringParameter("category", mCategory);
+            params.addQueryStringParameter("query", mQuery);
+        }else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
+            params.addQueryStringParameter("all", mAll);
+            params.addQueryStringParameter("query", mQuery);
         }
 
         params.addQueryStringParameter("index", index);
@@ -300,7 +307,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable());
-        mPopupWindow.showAtLocation(view,Gravity.CENTER, 0, 0);
+        mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 //        mPopupWindow.showAsDropDown(view);
 
     }

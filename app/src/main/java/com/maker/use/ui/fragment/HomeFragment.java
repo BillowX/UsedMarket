@@ -1,5 +1,6 @@
 package com.maker.use.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -16,6 +18,7 @@ import com.lzy.widget.tab.CircleIndicator;
 import com.maker.use.R;
 import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.SearchActivity;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
@@ -42,6 +45,8 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     private ViewPager pagerHeader;
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
+    @ViewInject(R.id.ibt_find)
+    private ImageButton ibt_find;
 
     private ArrayList<Top.img> mImgs;
     private MyXRecyclerView mMyXRecyclerView;
@@ -60,7 +65,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     public void initView() {
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
-        map.put("all","all");
+        map.put("all", "all");
         mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
@@ -71,7 +76,14 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         getDataFromServer();
         mMyXRecyclerView.addHeaderView(header);
 
-        //空界面
+        ibt_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
+                intent.putExtra("all","all");
+                startActivity(intent);
+            }
+        });
     }
 
     /**

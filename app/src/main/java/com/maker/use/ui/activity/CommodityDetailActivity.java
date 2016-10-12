@@ -3,6 +3,7 @@ package com.maker.use.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class CommodityDetailActivity extends BaseActivity {
     private GalleryView recView_goods_img;
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +58,13 @@ public class CommodityDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         Commodity commodity = (Commodity) getIntent().getSerializableExtra("commodity");
         if (commodity != null) {
             //用户头像

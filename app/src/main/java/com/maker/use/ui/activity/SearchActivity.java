@@ -1,8 +1,12 @@
 package com.maker.use.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,7 +20,6 @@ import com.maker.use.utils.UIUtils;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -28,17 +31,69 @@ public class SearchActivity extends BaseActivity {
 
     @ViewInject(R.id.fl_recommend)
     FrameLayout fl_recommend;
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
 
-    private ArrayList<String> mData;
+    private String[] mData = UIUtils.getStringArray(R.array.classify);
+    private String mUsername;
+    private String mCategory;
+    private String mAll;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        checkWhereFrom();
         initView();
     }
 
+    private void checkWhereFrom() {
+        mUsername = getIntent().getStringExtra("username");
+        mCategory = getIntent().getStringExtra("category");
+        mAll = getIntent().getStringExtra("all");
+    }
+
     private void initView() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        SearchView sv = (SearchView) toolbar.findViewById(R.id.sv);
+        // 设置该SearchView默认是否自动缩小为图标
+        sv.setIconifiedByDefault(false);
+        // 为该SearchView组件设置事件监听器
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
+                if (!TextUtils.isEmpty(mUsername)) {
+                    intent.putExtra("username", mUsername);
+                    intent.putExtra("query", query);
+                } else if (!TextUtils.isEmpty(mCategory)) {
+                    intent.putExtra("category", mCategory);
+                    intent.putExtra("query", query);
+                }else if (!TextUtils.isEmpty(mAll)) {
+                    intent.putExtra("all", mAll);
+                    intent.putExtra("query", query);
+                }
+                startActivity(intent);
+                finish();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        // 设置该SearchView显示搜索按钮
+        sv.setSubmitButtonEnabled(true);
+        // 设置该SearchView内默认显示的提示文本
+        sv.setQueryHint("请输入关键字");
+
+
         //使用自定义的控件StellarMap
         final StellarMap stellarMap = new StellarMap(UIUtils.getContext());
         stellarMap.setAdapter(new MyStellarMapAdapter());
@@ -74,10 +129,10 @@ public class SearchActivity extends BaseActivity {
         //返回某组的item个数
         @Override
         public int getCount(int group) {
-            int count = mData.size() / getGroupCount();
+            int count = mData.length / getGroupCount();
             if (group == getGroupCount() - 1) {
                 //除不尽的数加在最后一页显示
-                count += mData.size() % getGroupCount();
+                count += mData.length % getGroupCount();
             }
             return count;
         }
@@ -88,7 +143,7 @@ public class SearchActivity extends BaseActivity {
             //因为每次Position都会从0开始计数，所以根据前几组的数据加起来，才能确定当前的角标位置
             position += group * getCount(group - 1);
 
-            final String keyword = mData.get(position);
+            final String keyword = mData[position];
             TextView textView = new TextView(UIUtils.getContext());
             textView.setText(keyword);
             //设置随机大小和随机颜色
@@ -100,7 +155,9 @@ public class SearchActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
-                    UIUtils.toast(keyword);
+                    Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
+                    intent.putExtra("category", keyword);
+                    startActivity(intent);
                 }
             });
 

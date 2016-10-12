@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -52,6 +53,8 @@ public class UploadCommodityActivity extends BaseActivity {
     EditText et_description;
     @ViewInject(R.id.iv_img)
     ImageView iv_img;
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
 
     private String mName;
     private String mPrice;
@@ -68,7 +71,17 @@ public class UploadCommodityActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initView();
         initData();
+    }
+
+    private void initView() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initData() {

@@ -2,12 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:clipToPadding="true"
+              android:background="@color/TranslucentSystemBarColor"
               android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="搜索"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/fl_recommend"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="#FFF"/>
 
 </LinearLayout>

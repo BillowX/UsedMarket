@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,8 @@ public class RegisterActivity extends BaseActivity {
     RadioButton rb_man;
     @ViewInject(R.id.rb_woman)
     RadioButton rb_woman;
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
 
     private Uri fileUri = null;
     private String headPath;
@@ -70,6 +73,13 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         bt_editHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
