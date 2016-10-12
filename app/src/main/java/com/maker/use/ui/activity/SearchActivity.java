@@ -156,8 +156,18 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                    intent.putExtra("category", keyword);
+                    if (!TextUtils.isEmpty(mUsername)) {
+                        intent.putExtra("username", mUsername);
+                        intent.putExtra("query", keyword);
+                    } else if (!TextUtils.isEmpty(mCategory)) {
+                        intent.putExtra("category", mCategory);
+                        intent.putExtra("query", keyword);
+                    }else if (!TextUtils.isEmpty(mAll)) {
+                        intent.putExtra("all", mAll);
+                        intent.putExtra("query", keyword);
+                    }
                     startActivity(intent);
+                    finish();
                 }
             });
 
