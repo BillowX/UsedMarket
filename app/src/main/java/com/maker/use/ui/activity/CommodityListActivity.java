@@ -4,6 +4,7 @@ import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +30,14 @@ import java.util.HashMap;
  * Created by XT on 2016/10/8.
  */
 @ContentView(R.layout.activity_commoditylist)
-public class CommodityListActivity extends BaseActivity{
+public class CommodityListActivity extends BaseActivity {
 
     @ViewInject(R.id.rl_root)
     RelativeLayout rl_root;
     @ViewInject(R.id.fab_add)
     ImageButton fab_add;
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
 
     private MyXRecyclerView mMyXRecyclerView;
 
@@ -46,11 +49,16 @@ public class CommodityListActivity extends BaseActivity{
     }
 
     private void initView() {
+        //设置ToolBar
+        toolbar.inflateMenu(R.menu.toolbar_commodity_menu);
+
+        //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         String username = getIntent().getStringExtra("username");
         String category = getIntent().getStringExtra("category");
         if (!TextUtils.isEmpty(username)) {
             map.put("username", username);
+            toolbar.setTitle("我的发布");
             fab_add.setVisibility(View.VISIBLE);
             //将发布按钮绘制成圆形(5.0)
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -108,6 +116,7 @@ public class CommodityListActivity extends BaseActivity{
 
         } else if (!TextUtils.isEmpty(category)) {
             map.put("category", category);
+            toolbar.setTitle(category);
             fab_add.setVisibility(View.GONE);
         }
 

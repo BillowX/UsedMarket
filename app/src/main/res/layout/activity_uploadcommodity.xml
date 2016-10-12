@@ -1,137 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
-            android:background="#FFF">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/TranslucentSystemBarColor"
+              android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:background="#FFF"
-                  android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:background="@color/TranslucentSystemBarColor"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+        toolbar:logoDescription="返回"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="发布商品"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000"/>
 
-        <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#FFF"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true">
 
-            <TableRow>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:background="#FFF"
+                      android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商品名："
-                    android:textColor="#000"
-                    />
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="20"
-                    android:singleLine="true"
-                    />
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品名："
+                        android:textColor="#000"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="价格："
-                    android:textColor="#000"
-                    />
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        />
+                </TableRow>
 
-                <EditText
-                    android:id="@+id/et_price"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="20"
-                    />
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格："
+                        android:textColor="#000"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="数量："
-                    android:textColor="#000"
-                    />
+                    <EditText
+                        android:id="@+id/et_price"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        />
+                </TableRow>
 
-                <EditText
-                    android:id="@+id/et_num"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="20"
-                    />
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="数量："
+                        android:textColor="#000"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="种类："
-                    android:textColor="#000"
-                    />
+                    <EditText
+                        android:id="@+id/et_num"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        />
+                </TableRow>
 
-                <Spinner
-                    android:id="@+id/spinner_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/classify"
-                    />
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="种类："
+                        android:textColor="#000"
+                        />
 
-                <Button
-                    android:id="@+id/bt_editHead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="choiceImg"
-                    android:text="选择图片"
-                    />
+                    <Spinner
+                        android:id="@+id/spinner_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/classify"
+                        />
+                </TableRow>
 
-                <ImageView
-                    android:id="@+id/iv_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/register_default_head"
-                    />
-            </TableRow>
+                <TableRow>
 
-            <TableRow>
+                    <Button
+                        android:id="@+id/bt_editHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="choiceImg"
+                        android:text="选择图片"
+                        />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商品描述："
-                    android:textColor="#000"
-                    />
+                    <ImageView
+                        android:id="@+id/iv_img"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/register_default_head"
+                        />
+                </TableRow>
 
-                <EditText
-                    android:id="@+id/et_description"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="说点什么吧"
-                    android:lines="8"
-                    />
-            </TableRow>
-        </TableLayout>
+                <TableRow>
 
-        <Button
-            android:id="@+id/bt_register"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="upload"
-            android:text="上传"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品描述："
+                        android:textColor="#000"
+                        />
 
-    </LinearLayout>
-</ScrollView>
+                    <EditText
+                        android:id="@+id/et_description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="说点什么吧"
+                        android:lines="8"
+                        />
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/bt_register"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="upload"
+                android:text="上传"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

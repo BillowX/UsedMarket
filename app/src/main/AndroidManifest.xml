@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".global.USEApplication"
@@ -22,17 +23,36 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity"/>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:theme="@style/ImageTranslucentTheme"
+            />
         <activity
             android:name=".ui.activity.IssueActivity"
             android:theme="@style/Transparent"
             />
-        <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.RegisterActivity"/>
-        <activity android:name=".ui.activity.UserDetailActivity"/>
-        <activity android:name=".ui.activity.UploadCommodityActivity"/>
-        <activity android:name=".ui.activity.CommodityListActivity"/>
-        <activity android:name=".ui.activity.CommodityDetailActivity"/>
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/ImageTranslucentTheme"
+            />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name=".ui.activity.UserDetailActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name=".ui.activity.UploadCommodityActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name=".ui.activity.CommodityListActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name=".ui.activity.CommodityDetailActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
     </application>
 
 </manifest>

@@ -16,4 +16,21 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+
+    <style name="Theme.ToolBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow</item>
+        <!--Action Menu Item 的文字颜色-->
+        <item name="android:textColorPrimary">#f00</item>
+        <!--ActionMenu Item 的文字大小-->
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ActionButton.Overflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_more_overflow</item>
+    </style>
+
+    <!--当图片为背景时，系统状态栏为透明-->
+    <style name="ImageTranslucentTheme" parent="AppTheme">
+        <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    </style>
 </resources>

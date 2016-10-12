@@ -11,4 +11,6 @@
     <color name="tab_text_normal">#212121</color>
 
     <color name="transparent_background">#B0000000</color>
+    
+    <color name="TranslucentSystemBarColor">#ff68BCE4</color>
 </resources>

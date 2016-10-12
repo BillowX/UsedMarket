@@ -47,10 +47,6 @@ public class CommodityDetailActivity extends BaseActivity {
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
 
-    @ViewInject(value = R.id.tv_title, parentId = R.id.goods_title)
-    private TextView tv_goods_title;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +56,7 @@ public class CommodityDetailActivity extends BaseActivity {
 
     private void initView() {
         Commodity commodity = (Commodity) getIntent().getSerializableExtra("commodity");
-        tv_goods_title.setText("商品详情");
         if (commodity != null) {
-
             //用户头像
             ImageOptions imageOptions = new ImageOptions.Builder()
                     .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
@@ -83,7 +77,6 @@ public class CommodityDetailActivity extends BaseActivity {
 
             final ArrayList<Integer> mDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.a,
                     R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e));
-
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -106,26 +99,6 @@ public class CommodityDetailActivity extends BaseActivity {
                     iv_img.setImageResource(mDatas.get(position));
                 }
             });
-
-           /* LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recView_goods_img.setLayoutManager(layoutManager);
-            recView_goods_img.setAdapter(new RecyclerView.Adapter() {
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return null;
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-                }
-
-                @Override
-                public int getItemCount() {
-                    return 0;
-                }
-            });*/
         }
     }
 }
