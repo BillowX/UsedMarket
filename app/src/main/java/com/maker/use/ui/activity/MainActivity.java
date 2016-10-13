@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
@@ -45,13 +46,14 @@ public class MainActivity extends BaseActivity {
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             String s = SpUtil.getString(ConstentValue.USER, "");
             if (!TextUtils.isEmpty(s)) {
-                String[] results = s.split(",");
+                /*String[] results = s.split(",");
                 User user = new User();
                 user.id = Integer.parseInt(results[0]);
                 user.username = results[1];
                 user.password = results[2];
-                user.sex = results[3];
-
+                user.sex = results[3];*/
+                Gson gson = new Gson();
+                User user = gson.fromJson(s, User.class);
                 LoginUtils.login(user.username, user.password, this);
             }
         }

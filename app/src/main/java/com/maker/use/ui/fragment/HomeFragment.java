@@ -69,7 +69,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
-        rl_root.addView(mMyXRecyclerView, layoutParams);
+        rl_root.addView(mMyXRecyclerView, 0, layoutParams);
         //添加头布局
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, header);
@@ -80,7 +80,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
-                intent.putExtra("all","all");
+                intent.putExtra("all", "all");
                 startActivity(intent);
             }
         });

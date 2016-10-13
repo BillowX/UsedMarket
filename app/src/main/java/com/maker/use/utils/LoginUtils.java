@@ -3,6 +3,7 @@ package com.maker.use.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
@@ -29,7 +30,6 @@ public class LoginUtils {
      * @param password
      */
     public static void login(String username, String password, final Activity activity) {
-        final User user = new User();
         //使用XUtils框架请求网络
         RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/LoginServlet");    // 网址
         params.addQueryStringParameter("username", username); // 参数1
@@ -40,13 +40,17 @@ public class LoginUtils {
                 //更新登陆状态
                 SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
                 if (!"登陆失败！".equals(result)) {
-                    String[] results = result.split(",");
+                    /*String[] results = result.split(",");
                     user.id = Integer.parseInt(results[0]);
                     user.username = results[1];
                     user.password = results[2];
-                    user.sex = results[3];
+                    user.sex = results[3];*/
+
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(result, User.class);
                     //保存用户信息
-                    SpUtil.putString(ConstentValue.USER, user.toString());
+//                    SpUtil.putString(ConstentValue.USER, user.toString());
+                    SpUtil.putString(ConstentValue.USER, result);
 
                     if (!(activity instanceof MainActivity)) {
                         ActivityCollector.finishAll();

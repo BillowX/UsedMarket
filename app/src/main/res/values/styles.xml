@@ -33,4 +33,16 @@
     <style name="ImageTranslucentTheme" parent="AppTheme">
         <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
     </style>
+
+    <!--系统状态栏背景为对应Activity的标题背景颜色-->
+    <style name="ColorTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    </style>
+
+    <!--TextInputLayout的提示字体样式-->
+    <style name="FloatingStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#529CF5</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

@@ -16,6 +16,9 @@
         android:elevation="5dp"
         android:logo="@null"
         android:theme="@style/Theme.ToolBar"
+
+        toolbar:contentInsetStart="0dp"
+        toolbar:contentInsetLeft="0dp"
         toolbar:navigationIcon="@drawable/toolbar_back"
         toolbar:title="用户注册"
         toolbar:titleMarginStart="1dp"

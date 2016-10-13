@@ -13,14 +13,14 @@
                     android:layout_centerInParent="true">
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/image_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="42dp"
             android:layout_marginRight="42dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/login_img"
-            android:layout_marginTop="40dp"/>
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/linearLayout01"
@@ -32,20 +32,29 @@
             android:background="#aFFF"
             android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:hint="用户名"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
 
                 <EditText
                     android:id="@+id/et_username"
-                    android:layout_width="220dp"
-                    android:layout_height="40dp"
                     android:background="#00ffffff"
-                    android:hint="请输入用户名"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
 
-            </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
@@ -54,15 +63,33 @@
                 android:layout_marginRight="1dp"
                 android:background="#CCC"/>
 
-            <EditText
-                android:id="@+id/et_password"
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="#00ffffff"
-                android:hint="请输入密码"
-                android:inputType="textPassword"
-                android:paddingLeft="10dp"/>
+                android:hint="密码"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="16"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                app:passwordToggleEnabled="true"
+                >
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="fill_parent"
+                    android:background="#00ffffff"
+                    android:layout_height="fill_parent"
+                    android:inputType="textPassword"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_login"

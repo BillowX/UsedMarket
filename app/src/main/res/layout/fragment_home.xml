@@ -4,18 +4,24 @@
                 android:layout_height="match_parent"
                 android:background="#FFF">
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ibt_find"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/ripple"
-        android:elevation="1dp"
+        android:clickable="true"
         android:src="@drawable/home_find"
-        android:stateListAnimator="@drawable/anim"
+
+        app:backgroundTint="#FFC652"
+        app:backgroundTintMode="src_over"
+        app:borderWidth="1dp"
+        app:elevation="11dp"
+        app:fabSize="auto"
+        app:rippleColor="#CCC"
         />
 </RelativeLayout>
