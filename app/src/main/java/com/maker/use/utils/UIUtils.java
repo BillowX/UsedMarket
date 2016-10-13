@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Process;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -191,6 +192,14 @@ public class UIUtils {
                 toast.show();
             }
         });
+    }
+
+    /**
+     * 显示SnackBar
+     */
+    public static void snackBar(View view, String msg) {
+        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
     }
 
     /**
