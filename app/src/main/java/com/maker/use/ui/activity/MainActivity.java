@@ -2,10 +2,15 @@ package com.maker.use.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.maker.use.R;
@@ -28,6 +33,8 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    @ViewInject(R.id.nv_right)
+    NavigationView nv_right;
     @ViewInject(R.id.dl_root)
     private DrawerLayout dl_root;
     @ViewInject(R.id.mainTabBar)
@@ -86,7 +93,6 @@ public class MainActivity extends BaseActivity {
                 View mMenu = drawerView;
                 float scale = 1 - slideOffset;
                 float rightScale = 0.8f + scale * 0.2f;
-
                 if (drawerView.getTag().equals("LEFT")) {
 
                     float leftScale = 1 - 0.3f * scale;
@@ -102,6 +108,15 @@ public class MainActivity extends BaseActivity {
                     mContent.invalidate();
                     ViewHelper.setScaleX(mContent, rightScale);
                     ViewHelper.setScaleY(mContent, rightScale);
+                } else if (drawerView.getTag().equals("RIGHT")) {
+                    ViewHelper.setTranslationX(mContent,
+                            -mMenu.getMeasuredWidth() * slideOffset);
+                    ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
+                    ViewHelper.setPivotY(mContent,
+                            mContent.getMeasuredHeight() / 2);
+                    mContent.invalidate();
+                    ViewHelper.setScaleX(mContent, rightScale);
+                    ViewHelper.setScaleY(mContent, rightScale);
                 }
             }
 
@@ -111,6 +126,26 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(View drawerView) {
+            }
+        });
+
+        nv_right.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+
+                }
+                Snackbar.make(nv_right, "Snackbar comes out", Snackbar.LENGTH_LONG)
+                        .setAction("Action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(
+                                        MainActivity.this,
+                                        "Toast comes out",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                return false;
             }
         });
 
