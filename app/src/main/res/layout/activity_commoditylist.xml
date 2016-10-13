@@ -2,6 +2,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/TranslucentSystemBarColor"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
               android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -10,8 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
         android:theme="@style/Theme.ToolBar"
         toolbar:titleTextColor="#000"/>
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/rl_root"
@@ -20,15 +24,39 @@
                     android:layout_weight="1"
                     android:background="#FFF">
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/fab_add"
             android:layout_width="@dimen/fab_size"
             android:layout_height="@dimen/fab_size"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_action_add"
+            android:elevation="1dp"
+            android:src="@drawable/list_add"
+            android:stateListAnimator="@drawable/anim"
+            />-->
+
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:src="@drawable/list_add"
+
+            app:backgroundTint="#2ECC71"
+            app:backgroundTintMode="src_over"
+            app:borderWidth="1dp"
+            app:elevation="11dp"
+            app:fabSize="auto"
+            app:rippleColor="#CCC"
             />
     </RelativeLayout>
 </LinearLayout>
