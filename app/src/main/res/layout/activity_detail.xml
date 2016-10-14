@@ -30,7 +30,7 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <!--设置toolbar的颜色-->
+        <!--设置toolbar和系统状态栏的背景颜色-->
         <!--app:contentScrim="@color/TranslucentSystemBarColor"-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"

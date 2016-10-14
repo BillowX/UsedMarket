@@ -48,8 +48,7 @@
             android:name=".ui.activity.CommodityListActivity"
             android:theme="@style/ColorTranslucentTheme"/>
         <activity
-            android:name=".ui.activity.CommodityDetailActivity"
-            android:theme="@style/ColorTranslucentTheme"/>
+            android:name=".ui.activity.CommodityDetailActivity"/>
         <activity
             android:name=".ui.activity.SearchActivity"
             android:theme="@style/ColorTranslucentTheme"/>

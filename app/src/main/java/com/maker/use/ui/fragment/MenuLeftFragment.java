@@ -77,7 +77,8 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                         .setFailureDrawableId(R.drawable.register_default_head)
                         .setLoadingDrawableId(R.drawable.register_default_head)
                         .build();
-                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg", imageOptions);
+                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg",imageOptions);
+
                 //用户性别
                 if ("man".equals(user.sex)) {
                     iv_sex.setImageResource(R.drawable.sex_man);

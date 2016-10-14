@@ -3,6 +3,7 @@ package com.maker.use.global;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Process;
 
 import com.maker.use.utils.SpUtil;
@@ -36,7 +37,12 @@ public class USEApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         this.context = getApplicationContext();
-        this.handler = new Handler();
+        this.handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+            }
+        };
         this.mainThreadId = Process.myTid();
 
         SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);

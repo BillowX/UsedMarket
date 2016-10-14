@@ -89,9 +89,9 @@ public class DonateFragment extends BaseFragment {
             case android.R.id.home:
                 Snackbar.make(mMainView, "bar bar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
+//        return super.onOptionsItemSelected(item);
     }
 
     static class Adapter extends FragmentPagerAdapter {
