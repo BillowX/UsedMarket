@@ -143,4 +143,9 @@ public class IssueActivity extends Activity {
         }
         finish();
     }
+
+    public void collection(View view) {
+//        startActivity(new Intent(UIUtils.getContext(), Test_UploadImgActivity.class));
+        finish();
+    }
 }
