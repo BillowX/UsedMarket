@@ -110,7 +110,7 @@ public class CommodityDetailActivity extends BaseActivity {
             x.image().bind(iv_userHeadimg, UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg", imageOptions);
             tv_userName.setText(mCommodity.username);
             tv_goods_price.setText("¥ " + mCommodity.price);
-            tv_goods_time.setText(mCommodity.time);
+//            tv_goods_time.setText(mCommodity.time);
             tv_goods_name.setText(mCommodity.name);
             tv_goods_description.setText(mCommodity.description);
 //            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
@@ -235,10 +235,10 @@ public class CommodityDetailActivity extends BaseActivity {
                     });
 
                     if (isOpen) {
-                        tv_detail_author.setText("点击收缩商品详情");
+                        tv_detail_author.setText("点击收缩详情");
                         iv_arrow.setImageResource(R.drawable.arrow_up);
                     } else {
-                        tv_detail_author.setText("点击展开商品详情");
+                        tv_detail_author.setText("点击展开详情");
                         iv_arrow.setImageResource(R.drawable.arrow_down);
                     }
 
