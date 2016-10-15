@@ -260,6 +260,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
         bt_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPopupWindow.dismiss();
                 UIUtils.progressDialog(context);
                 RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
                 params1.addQueryStringParameter("id", String.valueOf(commodity.id));
@@ -292,7 +293,8 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
 
                     @Override
                     public void onFinished() {
-                        mPopupWindow.dismiss();
+                        UIUtils.closeProgressDialog();
+
                     }
                 });
                 if (mPopupWindow != null) {
