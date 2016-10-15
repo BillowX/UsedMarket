@@ -80,7 +80,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         map.put("all", "all");
-        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map, cl_root);
+        mMyXRecyclerView = new MyXRecyclerView(activity, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         cl_root.addView(mMyXRecyclerView, 0, layoutParams);

@@ -146,7 +146,7 @@ public class CommodityListActivity extends BaseActivity {
             map.put("query", mQuery);
         }
 
-        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map,cl_root);
+        mMyXRecyclerView = new MyXRecyclerView(this, map,cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, 0, layoutParams);

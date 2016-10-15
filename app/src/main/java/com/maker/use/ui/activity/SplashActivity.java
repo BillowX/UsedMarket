@@ -24,6 +24,7 @@ import org.xutils.x;
  */
 @ContentView(R.layout.activity_splash)
 public class SplashActivity extends Activity {
+
     @ViewInject(R.id.iv_splash)
     private ImageView iv_splash;
 
@@ -34,6 +35,7 @@ public class SplashActivity extends Activity {
 
         //在服务器上请求闪屏页图片
         x.image().bind(iv_splash, UsedMarketURL.splash_url);
+
         //设置动画
         initAnim();
     }
@@ -86,6 +88,7 @@ public class SplashActivity extends Activity {
                 finish();
             }
         });
+
     }
 
 }

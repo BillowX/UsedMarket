@@ -30,6 +30,8 @@ public class LoginUtils {
      * @param password
      */
     public static void login(String username, String password, final Activity activity) {
+        UIUtils.closeProgressDialog();
+        UIUtils.progressDialog(activity);
         //使用XUtils框架请求网络
         RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/LoginServlet");    // 网址
         params.addQueryStringParameter("username", username); // 参数1
@@ -73,12 +75,11 @@ public class LoginUtils {
 
             @Override
             public void onCancelled(CancelledException cex) {
-
             }
 
             @Override
             public void onFinished() {
-
+                UIUtils.closeProgressDialog();
             }
         });
 

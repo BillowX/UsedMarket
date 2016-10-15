@@ -112,7 +112,7 @@ public class UploadCommodityActivity extends BaseActivity {
         if (!checkData()) {
             return;
         }
-
+        UIUtils.progressDialog(this);
         RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadCommodityServlet");
         params.addBodyParameter("username", mUsername);
         params.addBodyParameter("name", mName);
@@ -147,7 +147,7 @@ public class UploadCommodityActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                UIUtils.closeProgressDialog();
             }
         });
     }

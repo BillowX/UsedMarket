@@ -1,14 +1,17 @@
 package com.maker.use.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Process;
 import android.support.design.widget.Snackbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.maker.use.R;
 import com.maker.use.global.USEApplication;
 
 /**
@@ -18,6 +21,8 @@ import com.maker.use.global.USEApplication;
 
 public class UIUtils {
     private static Toast toast;
+    private static Toast mCustomToast;
+    private static ProgressDialog progressDialog;
 
     /**
      * 获取应用上下文对象
@@ -192,6 +197,52 @@ public class UIUtils {
                 toast.show();
             }
         });
+    }
+
+    /**
+     * 显示自定义的吐司
+     */
+    public static void customToast() {
+        View customToast = View.inflate(getContext(), R.layout.custom_toast, null);
+        if (mCustomToast == null) {
+            mCustomToast = new Toast(getContext());
+        }
+        mCustomToast.setGravity(Gravity.CENTER, 0, 0);
+        mCustomToast.setDuration(Toast.LENGTH_LONG);
+        mCustomToast.setView(customToast);
+
+
+        runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mCustomToast.show();
+            }
+        });
+    }
+
+    public static void closeCustomToastToast() {
+        if (mCustomToast != null) {
+            mCustomToast.cancel();
+        }
+    }
+
+    /**
+     * 显示进度对话框
+     */
+    public static void progressDialog(final Context context) {
+        runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                closeProgressDialog();
+                progressDialog = ProgressDialog.show(context, "请稍等...", "获取数据中...", true);
+            }
+        });
+    }
+
+    public static void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     /**

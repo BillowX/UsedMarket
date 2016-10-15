@@ -7,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,7 +83,6 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
-                Log.e("tabtitle", holder.fragmentClass.getSimpleName());
                 if (!"HomeFragment".equals(holder.fragmentClass.getSimpleName())) {
                     mOnFragmentChangeListener.onFragmentChange();
                 } else {

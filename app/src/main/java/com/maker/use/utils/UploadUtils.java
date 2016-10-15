@@ -1,5 +1,7 @@
 package com.maker.use.utils;
 
+import android.content.Context;
+
 import com.maker.use.global.UsedMarketURL;
 
 import org.xutils.common.Callback;
@@ -17,8 +19,10 @@ public class UploadUtils {
     /**
      * 保存用户头像到服务器上
      */
-    public static void uploadHead(File headFile) {
+    public static void uploadHead(Context context, File headFile) {
         if (headFile != null) {
+            UIUtils.closeProgressDialog();
+            UIUtils.progressDialog(context);
             RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadHeadServlet");    // 网址
             params.addBodyParameter("img", headFile);
             params.addBodyParameter("msg", "hello");
@@ -41,7 +45,7 @@ public class UploadUtils {
 
                 @Override
                 public void onFinished() {
-
+                    UIUtils.closeProgressDialog();
                 }
             });
         }

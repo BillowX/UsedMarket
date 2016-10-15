@@ -51,6 +51,7 @@ import java.util.List;
 public class MyXRecyclerView extends XRecyclerView implements View.OnClickListener {
 
     private final CoordinatorLayout cl_root;
+    private final Context context;
     private HashMap<String, String> map;
 
     //刷新时间
@@ -62,6 +63,8 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     private String mCategory;
     private PopupWindow mPopupWindow;
     private String mQuery;
+    //判断是不是刷新逻辑，如果不是，说明第一次进入，那么显示加载中对话框
+    private boolean isRefresh = false;
 
     public MyXRecyclerView(Context context, HashMap<String, String> map, CoordinatorLayout cl_root) {
         this(context, null, 0, map, cl_root);
@@ -73,6 +76,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
 
     public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map, CoordinatorLayout cl_root) {
         super(context, attrs, defStyle);
+        this.context = context;
         this.map = map;
         this.cl_root = cl_root;
         checkWhereFrom();
@@ -131,6 +135,9 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     }
 
     private void get10CommoditysFromService(String index) {
+        if (!isRefresh) {
+            UIUtils.progressDialog(context);
+        }
         final RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
 
         //根据whereFrom判断请求参数
@@ -229,7 +236,10 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
 
             @Override
             public void onFinished() {
-
+                if (!isRefresh) {
+                    UIUtils.closeProgressDialog();
+                    isRefresh = true;
+                }
             }
         });
     }
@@ -250,6 +260,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
         bt_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                UIUtils.progressDialog(context);
                 RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
                 params1.addQueryStringParameter("id", String.valueOf(commodity.id));
                 x.http().get(params1, new Callback.CommonCallback<String>() {
@@ -281,11 +292,11 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
 
                     @Override
                     public void onFinished() {
-
+                        mPopupWindow.dismiss();
                     }
                 });
                 if (mPopupWindow != null) {
-                    mPopupWindow.dismiss();
+
                 }
             }
         });

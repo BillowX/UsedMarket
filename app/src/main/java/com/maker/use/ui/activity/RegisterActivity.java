@@ -116,7 +116,7 @@ public class RegisterActivity extends BaseActivity {
                 if (rb_man.isChecked())
                     sex = "man";
                 final String finalSex = sex;
-
+                UIUtils.progressDialog(RegisterActivity.this);
                 RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/RegisterServlet");    // 网址
                 params.addBodyParameter("username", mUsername);    // 参数1（post方式用addBodyParameter）
                 params.addBodyParameter("password", mPassword);    // 参数2（post方式用addBodyParameter）
@@ -132,7 +132,7 @@ public class RegisterActivity extends BaseActivity {
                         });
                         if ("注册成功".equals(result)) {
                             //保存用户头像
-                            UploadUtils.uploadHead(mHeadFile);
+                            UploadUtils.uploadHead(RegisterActivity.this, mHeadFile);
 
 //                            UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                             finish();
@@ -151,7 +151,7 @@ public class RegisterActivity extends BaseActivity {
 
                     @Override
                     public void onFinished() {
-
+                        UIUtils.closeProgressDialog();
                     }
                 });
             }
