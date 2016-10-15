@@ -121,6 +121,17 @@
                         android:text="选择图片"
                         />
 
+                    <GridView
+                        android:id="@+id/noScrollgridview"
+                        android:layout_width="290dp"
+                        android:layout_height="350dp"
+                        android:layout_marginLeft="5dp"
+                        android:horizontalSpacing="3dp"
+                        android:numColumns="4"
+                        android:scrollbars="none"
+                        android:verticalSpacing="5dp" >
+                    </GridView>
+
                     <ImageView
                         android:id="@+id/iv_img"
                         android:layout_width="80dp"

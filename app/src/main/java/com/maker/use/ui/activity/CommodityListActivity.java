@@ -1,17 +1,15 @@
 package com.maker.use.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Outline;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
@@ -41,6 +39,8 @@ public class CommodityListActivity extends BaseActivity {
     ImageButton fab_add;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
+    @ViewInject(R.id.cl_root)
+    CoordinatorLayout cl_root;
 
     private MyXRecyclerView mMyXRecyclerView;
     private String mUsername;
@@ -72,7 +72,7 @@ public class CommodityListActivity extends BaseActivity {
             toolbar.setTitle("我的发布");
             fab_add.setVisibility(View.VISIBLE);
             //将发布按钮绘制成圆形(5.0)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
 
                     @Override
@@ -93,7 +93,7 @@ public class CommodityListActivity extends BaseActivity {
 //                fab_add.getClipToOutline();
                 //可以禁止裁剪状态
 //                fab_add.setClipToOutline(false);
-            }
+            }*/
             //添加按钮点击事件
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,7 +146,7 @@ public class CommodityListActivity extends BaseActivity {
             map.put("query", mQuery);
         }
 
-        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
+        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map,cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, 0, layoutParams);

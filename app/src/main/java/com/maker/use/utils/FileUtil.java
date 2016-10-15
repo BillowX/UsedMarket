@@ -16,6 +16,7 @@ public class FileUtil {
 //    public final static String USEDMARKET_PATH = Environment.getExternalStorageDirectory() + "/UsedMarket";
 
     public final static String HEAD_PATH = UIUtils.getContext().getFilesDir() + "/UsedMarket/head";
+    public final static String IMG_PATH = UIUtils.getContext().getFilesDir() + "/UsedMarket/img";
     public final static String USEDMARKET_PATH = UIUtils.getContext().getFilesDir() + "/UsedMarket";
 
     /**
@@ -127,5 +128,54 @@ public class FileUtil {
 
         Bitmap bitmap = BitmapFactory.decodeFile(HEAD_PATH + "/" + userId + ".jpg");
         return bitmap;
+    }
+
+
+
+
+
+    public static boolean writeFile(File file, String path) {
+        boolean result = true;
+        try {
+            FileOutputStream fout = new FileOutputStream(file);
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            //压缩图片
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+
+            try {
+                fout.flush();
+                fout.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                result = false;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            result = false;
+        } catch (Exception e) {
+            Log.e("FileUtil", "exception=" + e.toString());
+        }
+
+        return result;
+    }
+
+    //根据传值,创建一个以该值为文件名的jpg图片
+    public static File createImgFile(String filename) {
+        File fileParent = new File(IMG_PATH);
+        if (!fileParent.exists()) {
+            fileParent.mkdirs();
+        }
+
+        File file = null;
+        file = new File(IMG_PATH + "/" + filename + ".jpg");
+        if (file.exists() == false) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return file;
     }
 }

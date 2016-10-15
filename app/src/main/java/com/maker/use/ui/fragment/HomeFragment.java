@@ -3,8 +3,9 @@ package com.maker.use.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,12 @@ import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.lzy.widget.HeaderScrollHelper;
+import com.lzy.widget.loop.LoopViewPager;
 import com.lzy.widget.tab.CircleIndicator;
 import com.maker.use.R;
 import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.activity.SearchActivity;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
@@ -38,16 +41,14 @@ import java.util.HashMap;
 
 public class HomeFragment extends BaseFragment implements HeaderScrollHelper.ScrollableContainer {
 
-    @ViewInject(R.id.rl_root)
-    RelativeLayout rl_root;
-
+    @ViewInject(R.id.cl_root)
+    CoordinatorLayout cl_root;
     @ViewInject(R.id.pagerHeader)
-    private ViewPager pagerHeader;
+    private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
     @ViewInject(R.id.ibt_find)
     private ImageButton ibt_find;
-
     private ArrayList<Top.img> mImgs;
     private MyXRecyclerView mMyXRecyclerView;
 
@@ -63,18 +64,50 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     }
 
     public void initView() {
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
+            @Override
+            public void onFragmentChange() {
+                pagerHeader.setAutoLoop(false, 0);
+            }
+
+            @Override
+            public void onFragmentIsHomeFragment() {
+                pagerHeader.setAutoLoop(true, 3000);
+            }
+        });
+
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         map.put("all", "all");
-        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map);
+        mMyXRecyclerView = new MyXRecyclerView(UIUtils.getContext(), map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
-        rl_root.addView(mMyXRecyclerView, 0, layoutParams);
+        cl_root.addView(mMyXRecyclerView, 0, layoutParams);
         //添加头布局
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        x.view().inject(this, header);
+        final View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        x.view().inject(this, headerView);
         getDataFromServer();
-        mMyXRecyclerView.addHeaderView(header);
+        mMyXRecyclerView.addHeaderView(headerView);
+        //添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
+        mMyXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View newView = mMyXRecyclerView.getChildAt(1);
+
+                if (newView != null && newView != headerView) {
+                    pagerHeader.setAutoLoop(false, 0);
+                } else {
+                    pagerHeader.setAutoLoop(true, 3000);
+                }
+            }
+        });
 
         ibt_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +166,19 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         return mMyXRecyclerView;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        pagerHeader.setAutoLoop(false, 0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pagerHeader.setAutoLoop(true, 3000);
+    }
+
+
     private class HeaderAdapter extends PagerAdapter {
 
         @Override
@@ -159,6 +205,4 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
             return view == object;
         }
     }
-
-
 }

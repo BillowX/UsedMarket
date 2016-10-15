@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,7 @@ import java.util.List;
 
 public class MyXRecyclerView extends XRecyclerView implements View.OnClickListener {
 
+    private final CoordinatorLayout cl_root;
     private HashMap<String, String> map;
 
     //刷新时间
@@ -61,18 +63,18 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
     private PopupWindow mPopupWindow;
     private String mQuery;
 
-    public MyXRecyclerView(Context context, HashMap<String, String> map) {
-        this(context, null, 0, map);
+    public MyXRecyclerView(Context context, HashMap<String, String> map, CoordinatorLayout cl_root) {
+        this(context, null, 0, map, cl_root);
     }
 
-    public MyXRecyclerView(Context context, AttributeSet attrs, HashMap<String, String> map) {
-        this(context, attrs, 0, map);
+    public MyXRecyclerView(Context context, AttributeSet attrs, HashMap<String, String> map, CoordinatorLayout cl_root) {
+        this(context, attrs, 0, map, cl_root);
     }
 
-    public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map) {
+    public MyXRecyclerView(Context context, AttributeSet attrs, int defStyle, HashMap<String, String> map, CoordinatorLayout cl_root) {
         super(context, attrs, defStyle);
         this.map = map;
-
+        this.cl_root = cl_root;
         checkWhereFrom();
         initView();
         initData();
@@ -144,7 +146,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
         } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
             params.addQueryStringParameter("category", mCategory);
             params.addQueryStringParameter("query", mQuery);
-        }else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
+        } else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
             params.addQueryStringParameter("all", mAll);
             params.addQueryStringParameter("query", mQuery);
         }
@@ -205,7 +207,8 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
                                 mAdapter.add(newData);
 //                                mCommoditys.addAll(newData);
                             } else {
-                                UIUtils.toast("没有更多咯");
+//                                UIUtils.toast("没有更多咯");
+                                UIUtils.snackBar(cl_root, "没有更多咯");
                             }
 //                            mAdapter.notifyDataSetChanged();
                             loadMoreComplete();

@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout dl_root;
     @ViewInject(R.id.mainTabBar)
     private MainNavigateTabBar mNavigateTabBar;
+    private onFragmentChangeListener mOnFragmentChangeListener;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,17 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, tabTags[2]));
         mNavigateTabBar.addTab(DonateFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_donate_normal, R.drawable.main_donate_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
+        mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
+                Log.e("tabtitle", holder.fragmentClass.getSimpleName());
+                if (!"HomeFragment".equals(holder.fragmentClass.getSimpleName())) {
+                    mOnFragmentChangeListener.onFragmentChange();
+                } else {
+                    mOnFragmentChangeListener.onFragmentIsHomeFragment();
+                }
+            }
+        });
 
         //侧边栏监听
         dl_root.setDrawerListener(new DrawerLayout.DrawerListener() {
@@ -174,5 +187,15 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
         super.onBackPressed();
+    }
+
+    public void setOnFragmentChangeListener(onFragmentChangeListener listener) {
+        this.mOnFragmentChangeListener = listener;
+    }
+
+    public interface onFragmentChangeListener {
+        public void onFragmentChange();
+
+        public void onFragmentIsHomeFragment();
     }
 }

@@ -307,7 +307,7 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
         outState.putString(KEY_CURRENT_TAG, mCurrentTag);
     }
 
-    private static class ViewHolder {
+    public static class ViewHolder {
         public String tag;
         public TabParam pageParam;
         public ImageView tabIcon;

@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
@@ -24,16 +25,11 @@ import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 
-import org.xutils.common.util.DensityUtil;
-import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static android.R.attr.radius;
 
 /**
  * 商品详情页
@@ -94,12 +90,13 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
+        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mCommodity.imgurl).centerCrop().into(iv_head);
+//        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
 
         //初始化中心布局
         if (mCommodity != null) {
             //用户头像
-            ImageOptions imageOptions = new ImageOptions.Builder()
+            /*ImageOptions imageOptions = new ImageOptions.Builder()
                     .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                     .setRadius(DensityUtil.dip2px(radius))
                     .setIgnoreGif(false)
@@ -107,7 +104,11 @@ public class CommodityDetailActivity extends BaseActivity {
                     .setFailureDrawableId(R.drawable.register_default_head)
                     .setLoadingDrawableId(R.drawable.register_default_head)
                     .build();
-            x.image().bind(iv_userHeadimg, UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg", imageOptions);
+            x.image().bind(iv_userHeadimg, UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg", imageOptions);*/
+            Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg")
+                    .centerCrop().into(iv_userHeadimg);
+
+
             tv_userName.setText(mCommodity.username);
             tv_goods_price.setText("¥ " + mCommodity.price);
 //            tv_goods_time.setText(mCommodity.time);
@@ -129,8 +130,6 @@ public class CommodityDetailActivity extends BaseActivity {
                 public void onChange(View view, int position) {
                     iv_img.setImageResource(mDatas.get(position));
                 }
-
-                ;
             });
 
             mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
@@ -169,8 +168,6 @@ public class CommodityDetailActivity extends BaseActivity {
     }
 
 
-
-
     /**
      * 展开或关闭详情
      */
@@ -192,6 +189,9 @@ public class CommodityDetailActivity extends BaseActivity {
             // 只有描述信息大于7行,才启动动画
             if (longHeight > shortHeight) {
                 animator = ValueAnimator.ofInt(shortHeight, longHeight);
+            } else {
+                rl_detail_toggle.setVisibility(View.GONE);
+                UIUtils.snackBar(rl_detail_toggle,"没有更多咯~");
             }
         }
 

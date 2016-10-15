@@ -148,4 +148,10 @@ public class IssueActivity extends Activity {
 //        startActivity(new Intent(UIUtils.getContext(), Test_UploadImgActivity.class));
         finish();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }

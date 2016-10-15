@@ -1,20 +1,20 @@
 package com.maker.use.ui.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -31,8 +31,11 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import static com.maker.use.global.ConstentValue.CHOICE_HEAD_DIALOG;
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * 上传商品页面
@@ -40,6 +43,8 @@ import static com.maker.use.global.ConstentValue.CHOICE_HEAD_DIALOG;
  */
 @ContentView(R.layout.activity_uploadcommodity)
 public class UploadCommodityActivity extends BaseActivity {
+
+    private static final int REQUEST_IMAGE = 1;
 
     @ViewInject(R.id.et_name)
     EditText et_name;
@@ -55,7 +60,10 @@ public class UploadCommodityActivity extends BaseActivity {
     ImageView iv_img;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
+    @ViewInject(R.id.noScrollgridview)
+    private GridView noScrollgridview;
 
+    private ArrayList<String> mPath;
     private String mName;
     private String mPrice;
     private String mNum;
@@ -80,6 +88,18 @@ public class UploadCommodityActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+
+        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        HashMap<String, Object> map = new HashMap<String, Object>();
+//        noScrollgridview.setAdapter(adapter);
+        noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
     }
@@ -155,62 +175,40 @@ public class UploadCommodityActivity extends BaseActivity {
             UIUtils.toast("先输入商品名，才能选择图片！");
             return;
         }
-        showDialog(CHOICE_HEAD_DIALOG);
+        gotoChoiceImg();
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (id) {
-            case CHOICE_HEAD_DIALOG: {
-                builder.setTitle("选择头像来源")
-                        .setItems(new String[]{"相册", "拍照"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    //跳转到图片浏览器的应用，选取要发送的图片
-                                    Intent i = new Intent();
-                                    i.setType("image/*");
-                                    i.putExtra("return-data", true);
-                                    i.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
-                                } else if (which == 1) { //拍照
-                                    Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-                                    mImgFile = FileUtil.createHeadFile("_commodity");
-                                    fileUri = Uri.fromFile(mImgFile);
-                                    it.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                                    startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
-                                }
-                            }
-                        });
-            }
-            break;
-        }
-        return builder.create();
+    private void gotoChoiceImg() {
+        MultiImageSelector.create(UIUtils.getContext())
+                .showCamera(true) // 是否显示相机. 默认为显示
+                .count(9) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
+                .single() // 单选模式
+                .multi() // 多选模式, 默认模式;
+                .origin(mPath) // 默认已选择图片. 只有在选择模式为多选时有效
+                .start(this, REQUEST_IMAGE);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
             return;
         }
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                // 获取返回的图片列表
+                mPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                Log.e("img", mPath.get(mPath.size() - 1).toString());
 
-        //通过“图片浏览器”获得自己的头像图片
-        if (requestCode == Activity.DEFAULT_KEYS_SHORTCUT) {
-            Uri uri = data.getData();
-            mImgFile = FileUtil.createHeadFile("_commodity");
-            mImgPath = mImgFile.getAbsolutePath();
-            boolean result = FileUtil.writeFile(getContentResolver(), mImgFile, uri);
-            Bitmap bitmap = BitmapFactory.decodeFile(mImgFile.getAbsolutePath());
-            if (bitmap != null) {
-                iv_img.setImageBitmap(bitmap);
-            }
-        }
-        //通过手机的拍照功能，获得自己的头像图片
-        else if (requestCode == Activity.DEFAULT_KEYS_DIALER) {
-            mImgPath = fileUri.getPath();
-            Bitmap bitmap = BitmapFactory.decodeFile(mImgPath);
-            if (bitmap != null) {
-                iv_img.setImageBitmap(bitmap);
+                for (int i = 0; i < mPath.size(); i++) {
+                    ImageView imageView = new ImageView(UIUtils.getContext());
+                    mImgFile = FileUtil.createImgFile("_commodity");
+                    mImgPath = mImgFile.getAbsolutePath();
+                    FileUtil.writeFile(mImgFile, mPath.get(i));
+                    Bitmap bitmap = BitmapFactory.decodeFile(mImgFile.getAbsolutePath());
+                    if (bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                        noScrollgridview.addView(imageView);
+                    }
+                }
             }
         }
     }

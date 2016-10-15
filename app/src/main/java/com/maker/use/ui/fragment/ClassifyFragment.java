@@ -38,7 +38,7 @@ public class ClassifyFragment extends BaseFragment {
             R.drawable.classify_9, R.drawable.classify_10,
             R.drawable.classify_11, R.drawable.classify_12,
             R.drawable.classify_13, R.drawable.classify_14,
-            R.drawable.classify_15
+            R.drawable.classify_15, R.drawable.classify_16,
     };
 
     @Nullable
@@ -57,7 +57,7 @@ public class ClassifyFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                intent.putExtra("category",mItemArray[position]);
+                intent.putExtra("category", mItemArray[position]);
                 startActivity(intent);
             }
         });

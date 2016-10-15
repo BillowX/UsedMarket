@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,7 +85,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         if (CommodityList != null) {
             CommodityList.remove(position);
             Log.e("index", position + "");
-            notifyItemRangeRemoved(position,CommodityList.size());
+            notifyItemRangeRemoved(position, CommodityList.size());
 //            notifyItemRangeChanged(1,CommodityList.size());
 //            notifyItemRemoved(position);
         }
@@ -112,6 +113,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         TextView tv_name;
         TextView tv_description;
         TextView tv_price;
+        HorizontalScrollView hsv_img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -119,7 +121,9 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
             tv_description = (TextView) itemView.findViewById(R.id.tv_description);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
+            hsv_img = (HorizontalScrollView) itemView.findViewById(R.id.hsv_img);
 
+            hsv_img.setOnClickListener(this);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

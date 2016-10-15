@@ -54,6 +54,11 @@
             android:theme="@style/ColorTranslucentTheme"/>
         <activity
             android:name=".ui.fragment.donateFragment.CheeseDetailActivity"/>'
+
+        <!--Image Selector Entry-->
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
     </application>
 
 </manifest>

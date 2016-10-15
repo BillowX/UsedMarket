@@ -11,7 +11,6 @@ public class GalleryView extends RecyclerView {
      * 记录当前第一个View
      */
     private View mCurrentView;
-
     private OnItemScrollChangeListener mItemScrollChangeListener;
 
     public GalleryView(Context context, AttributeSet attrs) {

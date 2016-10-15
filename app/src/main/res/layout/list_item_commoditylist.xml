@@ -9,7 +9,7 @@
     android:layout_marginRight="5dp"
     android:layout_marginTop="10dp"
 
-    card_view:cardBackgroundColor="@android:color/holo_orange_dark"
+    card_view:cardBackgroundColor="@android:color/white"
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="10dp">
 
@@ -23,69 +23,178 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0F0"
+            android:layout_marginBottom="1dp"
             android:padding="5dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:src="@drawable/classify_15"/>
+            <!--<ImageView
                 android:id="@+id/iv_icon"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
                 android:src="@drawable/classify_15"
-                />
-
+                />-->
             <LinearLayout
+                android:id="@+id/ll_user_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/iv_icon"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
                 android:layout_toRightOf="@id/iv_icon"
-                android:gravity="center">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="username"
+                        android:textColor="#000"/>
+
+                    <ImageView
+                        android:id="@+id/iv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:src="@drawable/sex_man"/>
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Footprint"
-                    android:textColor="#000"/>
-
-                <ImageView
-                    android:id="@+id/iv_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_input_add"/>
+                    android:text="2个小时前"/>
             </LinearLayout>
-
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/iv_icon"
-                android:src="@android:drawable/ic_menu_more"
+                android:layout_centerInParent="true"
+                android:paddingRight="7dp"
+                android:src="@drawable/like"
                 />
         </RelativeLayout>
 
-        <RelativeLayout
+        <HorizontalScrollView
+            android:id="@+id/hsv_img"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:padding="0dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:layout_width="match_parent"
+                          android:layout_height="100dp"
+                          android:orientation="horizontal"
+                          android:paddingBottom="3dp"
+                          android:paddingTop="3dp">
+
+                <ImageView
+                    android:id="@+id/iv_img"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic1"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_1"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic2"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_2"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic3"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_3"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic4"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_4"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic5"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_5"/>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF0"
-            android:padding="5dp">
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/iv_img"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/ic_launcher"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="红楼梦第二部"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:singleLine="true"
+                    android:text="在2014年12月份购买此书,希望转手给相同爱好者"
+                    android:textColor="#CCC"
+                    android:textSize="14sp"
+                    />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
@@ -110,74 +219,21 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@id/ll_right"
-                android:layout_toRightOf="@id/iv_img"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="红楼梦第二部"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_description"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="在2014年12月份购买此书,希望转手给相同爱好者"
-                        android:textColor="#CCC"
-                        android:textSize="14sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:text="|"
-                        android:textColor="#CCC"
-                        android:textSize="14sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="一个小时前"
-                        android:textColor="#CCC"
-                        android:textSize="14sp"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffA"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_margin="3dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/bt_forward"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="#aff"
+                android:background="#FFF"
                 android:text="赞"
                 android:textColor="#000"/>
 
@@ -185,8 +241,9 @@
                 android:id="@+id/bt_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="#faa"
+                android:background="#FFF"
                 android:text="留言"
                 android:textColor="#000"/>
 
@@ -195,8 +252,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#df1"
-                android:text="关注"
+                android:background="#FFF"
+                android:text="购买"
                 android:textColor="#000"/>
         </LinearLayout>
     </LinearLayout>

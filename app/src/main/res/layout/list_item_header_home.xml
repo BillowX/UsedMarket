@@ -15,7 +15,7 @@
             android:id="@+id/pagerHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:lvp_delayTime="2000"
+            app:lvp_delayTime="3000"
             app:lvp_isAutoLoop="true"/>
 
         <com.lzy.widget.tab.CircleIndicator

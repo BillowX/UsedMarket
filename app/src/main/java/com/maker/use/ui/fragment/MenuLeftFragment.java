@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
@@ -77,7 +78,9 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                         .setFailureDrawableId(R.drawable.register_default_head)
                         .setLoadingDrawableId(R.drawable.register_default_head)
                         .build();
-                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg",imageOptions);
+//                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg",imageOptions);
+                Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg")
+                        .centerCrop().into(iv_icon);
 
                 //用户性别
                 if ("man".equals(user.sex)) {
