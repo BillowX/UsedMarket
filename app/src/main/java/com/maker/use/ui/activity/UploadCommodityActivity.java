@@ -1,26 +1,18 @@
 package com.maker.use.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
@@ -32,10 +24,8 @@ import org.xutils.x;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
-import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * 上传商品页面
@@ -45,7 +35,6 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 public class UploadCommodityActivity extends BaseActivity {
 
     private static final int REQUEST_IMAGE = 1;
-
     @ViewInject(R.id.et_name)
     EditText et_name;
     @ViewInject(R.id.et_price)
@@ -60,9 +49,7 @@ public class UploadCommodityActivity extends BaseActivity {
     ImageView iv_img;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
-    @ViewInject(R.id.noScrollgridview)
-    private GridView noScrollgridview;
-
+    
     private ArrayList<String> mPath;
     private String mName;
     private String mPrice;
@@ -70,10 +57,8 @@ public class UploadCommodityActivity extends BaseActivity {
     private String mDescription;
     private String mCategory;
     private String mUsername;
-
     private File mImgFile;
     private Uri fileUri = null;
-    private String mImgPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,16 +77,6 @@ public class UploadCommodityActivity extends BaseActivity {
         });
 
 
-        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        HashMap<String, Object> map = new HashMap<String, Object>();
-//        noScrollgridview.setAdapter(adapter);
-        noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
     }
 
     private void initData() {
@@ -191,25 +166,6 @@ public class UploadCommodityActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
             return;
-        }
-        if (requestCode == REQUEST_IMAGE) {
-            if (resultCode == RESULT_OK) {
-                // 获取返回的图片列表
-                mPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                Log.e("img", mPath.get(mPath.size() - 1).toString());
-
-                for (int i = 0; i < mPath.size(); i++) {
-                    ImageView imageView = new ImageView(UIUtils.getContext());
-                    mImgFile = FileUtil.createImgFile("_commodity");
-                    mImgPath = mImgFile.getAbsolutePath();
-                    FileUtil.writeFile(mImgFile, mPath.get(i));
-                    Bitmap bitmap = BitmapFactory.decodeFile(mImgFile.getAbsolutePath());
-                    if (bitmap != null) {
-                        imageView.setImageBitmap(bitmap);
-                        noScrollgridview.addView(imageView);
-                    }
-                }
-            }
         }
     }
 

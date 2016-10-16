@@ -10,9 +10,11 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.utils.UIUtils;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -45,13 +47,26 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + CommodityList.get(position).username + "_head.jpg")
+                .centerCrop().into(holder.iv_user_head);
+        holder.tv_username.setText(CommodityList.get(position).username);
+
         ImageOptions imageOptions = new ImageOptions.Builder()
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setIgnoreGif(false)
                 .setFailureDrawableId(R.drawable.error)
                 .setLoadingDrawableId(R.drawable.loading)
                 .build();
-        x.image().bind(holder.iv_img, UsedMarketURL.server_heart + "//" + CommodityList.get(position).imgurl, imageOptions);
+        String[] splitImgUrl = CommodityList.get(position).imgurl.split(";");
+        for (int i = 0; i < 9; i++) {
+            if (i < splitImgUrl.length) {
+                x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
+            } else {
+                holder.ivPics[i].setVisibility(View.GONE);
+            }
+        }
+
         holder.tv_name.setText(CommodityList.get(position).name);
         holder.tv_description.setText(CommodityList.get(position).description);
         holder.tv_price.setText(String.valueOf(CommodityList.get(position).price));
@@ -109,15 +124,32 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        ImageView[] ivPics;
         ImageView iv_img;
+        TextView tv_username;
         TextView tv_name;
         TextView tv_description;
         TextView tv_price;
         HorizontalScrollView hsv_img;
+        ImageView iv_user_head;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
+
+            iv_user_head = (ImageView) itemView.findViewById(R.id.iv_user_head);
+            tv_username = (TextView) itemView.findViewById(R.id.tv_username);
+
+            ivPics = new ImageView[9];
+            ivPics[0] = (ImageView) itemView.findViewById(R.id.iv_pic0);
+            ivPics[1] = (ImageView) itemView.findViewById(R.id.iv_pic1);
+            ivPics[2] = (ImageView) itemView.findViewById(R.id.iv_pic2);
+            ivPics[3] = (ImageView) itemView.findViewById(R.id.iv_pic3);
+            ivPics[4] = (ImageView) itemView.findViewById(R.id.iv_pic4);
+            ivPics[5] = (ImageView) itemView.findViewById(R.id.iv_pic5);
+            ivPics[6] = (ImageView) itemView.findViewById(R.id.iv_pic6);
+            ivPics[7] = (ImageView) itemView.findViewById(R.id.iv_pic7);
+            ivPics[8] = (ImageView) itemView.findViewById(R.id.iv_pic8);
+
             tv_description = (TextView) itemView.findViewById(R.id.tv_description);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);

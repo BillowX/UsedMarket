@@ -27,7 +27,7 @@
             android:padding="5dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_icon"
+                android:id="@+id/iv_user_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
@@ -90,9 +90,9 @@
         <HorizontalScrollView
             android:id="@+id/hsv_img"
             android:layout_width="match_parent"
-            android:clickable="true"
             android:layout_height="100dp"
             android:layout_marginBottom="5dp"
+            android:clickable="true"
             android:padding="0dp">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -103,7 +103,7 @@
                           android:paddingTop="3dp">
 
                 <ImageView
-                    android:id="@+id/iv_img"
+                    android:id="@+id/iv_pic0"
                     android:layout_width="90dp"
                     android:layout_height="100dp"
                     android:layout_alignParentLeft="true"
@@ -150,6 +150,30 @@
                     android:layout_marginLeft="3dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/cheese_5"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic6"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_4"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic7"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_4"/>
+
+                <ImageView
+                    android:id="@+id/iv_pic8"
+                    android:layout_width="90dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/cheese_4"/>
 
             </LinearLayout>
         </HorizontalScrollView>

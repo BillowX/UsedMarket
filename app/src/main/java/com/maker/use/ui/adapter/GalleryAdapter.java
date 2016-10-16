@@ -10,19 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maker.use.R;
+import com.maker.use.global.UsedMarketURL;
 
-import java.util.List;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 public class GalleryAdapter extends
         RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private OnItemClickLitener mOnItemClickLitener;
     private LayoutInflater mInflater;
-    private List<Integer> mDatas;
+    private String[] mDatas;
 
-    public GalleryAdapter(Context context, List<Integer> datats) {
+    public GalleryAdapter(Context context, String[] datas) {
         mInflater = LayoutInflater.from(context);
-        mDatas = datats;
+        mDatas = datas;
     }
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
@@ -31,7 +33,7 @@ public class GalleryAdapter extends
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mDatas.length;
     }
 
     @Override
@@ -47,7 +49,15 @@ public class GalleryAdapter extends
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        viewHolder.mImg.setImageResource(mDatas.get(i));
+        ImageOptions imageOptions = new ImageOptions.Builder()
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setIgnoreGif(false)
+                .setFailureDrawableId(R.drawable.error)
+                .setLoadingDrawableId(R.drawable.loading)
+                .build();
+        x.image().bind(viewHolder.mImg, UsedMarketURL.server_heart + "//" + mDatas[i], imageOptions);
+
+//        viewHolder.mImg.setImageResource(mDatas.[i]);
 
         if (mOnItemClickLitener != null) {
             viewHolder.itemView.setOnClickListener(new OnClickListener() {
@@ -68,6 +78,7 @@ public class GalleryAdapter extends
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImg;
         TextView mTxt;
+
         public ViewHolder(View arg0) {
             super(arg0);
         }

@@ -31,8 +31,14 @@
         <item>其它</item>
     </string-array>
 
+    <string name="title_activity_select_picture">SelectPictureActivity</string>
+    <string name="dir_all_pictures">/所有图片</string>
+    <string name="complete">完成</string>
+    <string name="chose_at_most">最多选择</string>
+    <string name="sheet">张</string>
 
-
+    <string name="picture">图片</string>
+    <string name="all_picture">所有图片</string>
 
 
     <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue

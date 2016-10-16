@@ -139,7 +139,7 @@ public class IssueActivity extends Activity {
             UIUtils.toast("请先登陆哦~");
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         } else {
-            startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+            startActivity(new Intent(UIUtils.getContext(), AddCommodityActivity.class));
         }
         finish();
     }

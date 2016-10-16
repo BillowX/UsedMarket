@@ -25,11 +25,10 @@ import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.xutils.x;
 
 /**
  * 商品详情页
@@ -67,6 +66,7 @@ public class CommodityDetailActivity extends BaseActivity {
     private LinearLayout.LayoutParams mParams;
     //是否展开详情
     private boolean isOpen = false;
+    private String[] mSplitImgUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +78,8 @@ public class CommodityDetailActivity extends BaseActivity {
 
     private void initData() {
         mCommodity = (Commodity) getIntent().getSerializableExtra("commodity");
+        mSplitImgUrl = mCommodity.imgurl.split(";");
+
     }
 
     private void initView() {
@@ -90,7 +92,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mCommodity.imgurl).centerCrop().into(iv_head);
+        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0]).centerCrop().into(iv_head);
 //        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
 
         //初始化中心布局
@@ -116,26 +118,37 @@ public class CommodityDetailActivity extends BaseActivity {
             tv_goods_description.setText(mCommodity.description);
 //            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
 
+            final String[] splitImgUrl = mCommodity.imgurl.split(";");
 
-            final ArrayList<Integer> mDatas = new ArrayList<Integer>(Arrays.asList(R.drawable.a,
-                    R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e));
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recView_goods_img.setLayoutManager(linearLayoutManager);
-            GalleryAdapter mAdapter = new GalleryAdapter(this, mDatas);
+            GalleryAdapter mAdapter = new GalleryAdapter(this, splitImgUrl);
             recView_goods_img.setAdapter(mAdapter);
 
             recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
                 @Override
                 public void onChange(View view, int position) {
-                    iv_img.setImageResource(mDatas.get(position));
+                    ImageOptions imageOptions = new ImageOptions.Builder()
+                            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                            .setIgnoreGif(false)
+                            .setFailureDrawableId(R.drawable.error)
+                            .setLoadingDrawableId(R.drawable.loading)
+                            .build();
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + splitImgUrl[position], imageOptions);
                 }
             });
 
             mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    iv_img.setImageResource(mDatas.get(position));
+                    ImageOptions imageOptions = new ImageOptions.Builder()
+                            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                            .setIgnoreGif(false)
+                            .setFailureDrawableId(R.drawable.error)
+                            .setLoadingDrawableId(R.drawable.loading)
+                            .build();
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + splitImgUrl[position], imageOptions);
                 }
             });
         }
@@ -191,7 +204,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 animator = ValueAnimator.ofInt(shortHeight, longHeight);
             } else {
                 rl_detail_toggle.setVisibility(View.GONE);
-                UIUtils.snackBar(rl_detail_toggle,"没有更多咯~");
+                UIUtils.snackBar(rl_detail_toggle, "没有更多咯~");
             }
         }
 

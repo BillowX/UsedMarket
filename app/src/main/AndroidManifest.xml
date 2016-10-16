@@ -55,6 +55,11 @@
         <activity
             android:name=".ui.fragment.donateFragment.CheeseDetailActivity"/>'
 
+
+        <activity
+            android:name=".ui.activity.AddCommodityActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
+
         <!--Image Selector Entry-->
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
