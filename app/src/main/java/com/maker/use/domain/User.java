@@ -13,6 +13,10 @@ public class User implements Serializable {
     public String password;
     public String sex;
 
+    public User(String username) {
+        this.username = username;
+    }
+
     public String toString() {
         return id + "," + username + "," + password + "," + sex;
     }

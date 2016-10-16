@@ -133,6 +133,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
                             android:background="#FFF"
+                            android:onClick="ContactSeller"
                             android:paddingRight="1dp"
                             android:text="联系卖家"
                             android:textSize="15sp"/>

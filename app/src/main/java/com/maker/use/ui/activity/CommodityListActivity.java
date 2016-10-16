@@ -98,7 +98,7 @@ public class CommodityListActivity extends BaseActivity {
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    startActivity(new Intent(UIUtils.getContext(), UploadCommodityActivity.class));
+                    startActivity(new Intent(UIUtils.getContext(), AddCommodityActivity.class));
 
                     //添加测试代码
                     x.http().get(new RequestParams(UsedMarketURL.server_heart + "/servlet/InsertTestDataServlet"), new Callback.CommonCallback<String>() {
@@ -146,7 +146,7 @@ public class CommodityListActivity extends BaseActivity {
             map.put("query", mQuery);
         }
 
-        mMyXRecyclerView = new MyXRecyclerView(this, map,cl_root);
+        mMyXRecyclerView = new MyXRecyclerView(this, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         rl_root.addView(mMyXRecyclerView, 0, layoutParams);

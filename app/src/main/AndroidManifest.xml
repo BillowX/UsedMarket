@@ -42,9 +42,6 @@
             android:name=".ui.activity.UserDetailActivity"
             android:theme="@style/ColorTranslucentTheme"/>
         <activity
-            android:name=".ui.activity.UploadCommodityActivity"
-            android:theme="@style/ColorTranslucentTheme"/>
-        <activity
             android:name=".ui.activity.CommodityListActivity"
             android:theme="@style/ColorTranslucentTheme"/>
         <activity

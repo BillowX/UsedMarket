@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import com.maker.use.R;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.utils.ChatUtils;
 import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.UIUtils;
 import com.maker.use.utils.UploadUtils;
@@ -111,6 +112,10 @@ public class RegisterActivity extends BaseActivity {
                     UIUtils.toast("密码不能为空！");
                     return;
                 }
+                if (mHeadFile == null) {
+                    UIUtils.toast("头像不能为空！");
+                    return;
+                }
 
                 String sex = "woman";
                 if (rb_man.isChecked())
@@ -131,6 +136,9 @@ public class RegisterActivity extends BaseActivity {
                             }
                         });
                         if ("注册成功".equals(result)) {
+                            //注册leanCloud消息对话
+                            ChatUtils.registerChat(mUsername, mUsername, UsedMarketURL.server_heart + "/head/" + mUsername + "_head.jpg");
+
                             //保存用户头像
                             UploadUtils.uploadHead(RegisterActivity.this, mHeadFile);
 

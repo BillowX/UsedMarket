@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+        toolbar:logoDescription="返回"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="发布商品"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="5dp"
+                android:background="#FFF">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:hint="商品名"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="16"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:hint="价格"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_price"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="70dp"
+                android:hint="数量"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_num"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="7dp"
+                    android:text="种类："
+                    android:textColor="#808080"
+                    android:textSize="11sp"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:entries="@array/classify"
+                    />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="#00000000"/>
+
+            <TextView
+                android:id="@+id/tv11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="商品描述"
+                android:textSize="23sp"
+                />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="#00000000"/>
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_et"
+                android:gravity="left|top"
+                android:hint="写下你的商品描述..."
+                android:inputType="textMultiLine"
+                android:maxLength="300"
+                android:padding="5dp"
+                android:paddingTop="20dp"
+                android:textColorHint="#808080"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="#00000000"/>
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="附加图片"
+                android:textSize="23sp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="#00000000"/>
+
+            <GridView
+                android:id="@+id/gv_img"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:horizontalSpacing="2dp"
+                android:numColumns="9"
+                android:transcriptMode="alwaysScroll"
+                android:scrollbars="vertical"
+                android:verticalSpacing="5dp">
+            </GridView>
+
+            <Button
+                android:id="@+id/submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_submit"
+                android:text="提交"
+                android:onClick="upload"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

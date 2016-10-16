@@ -45,9 +45,9 @@
                 android:id="@+id/ll_user_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:layout_toRightOf="@id/iv_icon"
+                android:layout_toRightOf="@id/iv_user_head"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -60,7 +60,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="username"
-                        android:textColor="#000"/>
+                        android:textColor="#000"
+                        android:textSize="18sp"/>
 
                     <ImageView
                         android:id="@+id/iv_sex"
@@ -73,7 +74,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2个小时前"/>
+                    android:text="2个小时前"
+                    android:textSize="15sp"/>
             </LinearLayout>
 
             <ImageView

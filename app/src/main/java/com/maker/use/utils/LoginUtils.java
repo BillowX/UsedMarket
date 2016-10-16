@@ -42,16 +42,10 @@ public class LoginUtils {
                 //更新登陆状态
                 SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
                 if (!"登陆失败！".equals(result)) {
-                    /*String[] results = result.split(",");
-                    user.id = Integer.parseInt(results[0]);
-                    user.username = results[1];
-                    user.password = results[2];
-                    user.sex = results[3];*/
 
                     Gson gson = new Gson();
                     User user = gson.fromJson(result, User.class);
                     //保存用户信息
-//                    SpUtil.putString(ConstentValue.USER, user.toString());
                     SpUtil.putString(ConstentValue.USER, result);
 
                     if (!(activity instanceof MainActivity)) {

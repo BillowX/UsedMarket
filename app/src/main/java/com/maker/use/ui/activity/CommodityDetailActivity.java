@@ -1,10 +1,12 @@
 package com.maker.use.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -16,11 +18,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
+import com.maker.use.domain.User;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.adapter.GalleryAdapter;
 import com.maker.use.ui.view.GalleryView;
+import com.maker.use.utils.ChatUtils;
+import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -92,7 +99,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0]).centerCrop().into(iv_head);
+        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[mSplitImgUrl.length - 1]).centerCrop().into(iv_head);
 //        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
 
         //初始化中心布局
@@ -330,5 +337,19 @@ public class CommodityDetailActivity extends BaseActivity {
         textView.measure(widthMeasureSpec, heightMeasureSpec);
         //返回测量后的高度
         return textView.getMeasuredHeight();
+    }
+
+    public void ContactSeller(View view) {
+        if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+            startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+            finish();
+        } else {
+            String s = SpUtil.getString(ConstentValue.USER, "");
+            if (!TextUtils.isEmpty(s)) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(s, User.class);
+                ChatUtils.openChat(UIUtils.getContext(), user.username, mCommodity.username);
+            }
+        }
     }
 }
