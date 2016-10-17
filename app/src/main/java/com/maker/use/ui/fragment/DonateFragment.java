@@ -12,15 +12,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.maker.use.R;
 import com.maker.use.ui.activity.MainActivity;
-import com.maker.use.ui.fragment.donateFragment.CheeseListFragment;
+import com.maker.use.ui.fragment.donateFragment.CampusDynamicFragment;
+import com.maker.use.ui.fragment.donateFragment.DonationsFragment;
+import com.maker.use.ui.fragment.donateFragment.LoveCrowdFundingFragment;
+import com.maker.use.ui.fragment.donateFragment.OriginalityCrowdFundingFragment;
 
 import org.xutils.x;
 
@@ -50,21 +50,23 @@ public class DonateFragment extends BaseFragment {
     private void initView() {
         mActivity = (MainActivity) getActivity();
 
+        //初始化toolbar
         Toolbar toolbar = (Toolbar) mMainView.findViewById(R.id.toolbar);
         mActivity.setSupportActionBar(toolbar);
         final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_icon_money);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        //初始化viewpager
         ViewPager viewPager = (ViewPager) mMainView.findViewById(R.id.viewpager);
         if (viewPager != null) {
             Adapter adapter = new Adapter(mActivity.getSupportFragmentManager());
-            adapter.addFragment(new CheeseListFragment(), "Category 1");
-            adapter.addFragment(new CheeseListFragment(), "Category 2");
-            adapter.addFragment(new CheeseListFragment(), "Category 3");
+            adapter.addFragment(new CampusDynamicFragment(), "校园动态");
+            adapter.addFragment(new DonationsFragment(), "捐赠物资");
+            adapter.addFragment(new OriginalityCrowdFundingFragment(), "创意众筹");
+            adapter.addFragment(new LoveCrowdFundingFragment(), "爱心众筹");
             viewPager.setAdapter(adapter);
         }
-
+        //设置FloatingActionButton点击事件
         FloatingActionButton fab = (FloatingActionButton) mMainView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +75,12 @@ public class DonateFragment extends BaseFragment {
                         .setAction("Action", null).show();
             }
         });
-
+        //将TabLayout与ViewPager绑定
         TabLayout tabLayout = (TabLayout) mMainView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
+   /* @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.sample_actions, menu);
     }
@@ -92,7 +94,7 @@ public class DonateFragment extends BaseFragment {
         }
         return true;
 //        return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();

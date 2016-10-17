@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="5dp"
+        android:background="#a000"
+        android:padding="1dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/cheese_1"/>
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/avatar"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="在小东湖发现毒蛇一枚"
+        android:textColor="#000"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@android:id/text1"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/avatar"
+        android:layout_alignParentBottom="true"
+        android:text="两个月前"
+        android:textColor="#8000"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@android:id/text1"
+        android:layout_marginTop="5dp"
+        android:text="广商小东湖"
+        android:textColor="#8000"
+        android:textSize="16sp"/>
+
+</RelativeLayout>
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/list_item_avatar_size"
+            android:layout_height="@dimen/list_item_avatar_size"
+            android:layout_marginRight="16dp"/>
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+    </LinearLayout>-->

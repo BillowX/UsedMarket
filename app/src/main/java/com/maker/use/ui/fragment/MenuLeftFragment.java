@@ -38,6 +38,7 @@ import static android.R.attr.radius;
  */
 
 public class MenuLeftFragment extends Fragment implements View.OnClickListener {
+    public User mUser;
     @ViewInject(R.id.iv_icon)
     ImageView iv_icon;
     @ViewInject(R.id.iv_sex)
@@ -46,7 +47,6 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     TextView tv_username;
     @ViewInject(R.id.rl_issue)
     RelativeLayout rl_issue;
-
     private MainActivity mActivity;
 
     @Nullable
@@ -67,6 +67,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         LoginUtils.setOnLoginListener(new LoginUtils.onLoginListener() {
             @Override
             public void onLogin(User user) {
+                mUser = user;
                 //用户名
                 tv_username.setText("你好，" + user.username);
                 //用户头像
@@ -102,7 +103,9 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.iv_icon:
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
-                    startActivity(new Intent(UIUtils.getContext(), UserDetailActivity.class));
+                    Intent intent = new Intent(UIUtils.getContext(), UserDetailActivity.class);
+                    intent.putExtra("user", mUser);
+                    startActivity(intent);
                 } else {
                     startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
 //                    mActivity.finish();

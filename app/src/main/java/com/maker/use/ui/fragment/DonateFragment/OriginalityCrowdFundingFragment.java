@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CheeseListFragment extends Fragment {
+public class OriginalityCrowdFundingFragment extends Fragment {
 
     @Nullable
     @Override
@@ -83,7 +83,7 @@ public class CheeseListFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item, parent, false);
+                    .inflate(R.layout.list_item_donate_dynamic, parent, false);
             view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }
