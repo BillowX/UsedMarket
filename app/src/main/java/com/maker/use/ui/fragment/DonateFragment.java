@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.maker.use.R;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.fragment.donateFragment.CampusDynamicFragment;
-import com.maker.use.ui.fragment.donateFragment.DonationsFragment;
+import com.maker.use.ui.fragment.donateFragment.DonationsDynamicFragment;
 import com.maker.use.ui.fragment.donateFragment.LoveCrowdFundingFragment;
 import com.maker.use.ui.fragment.donateFragment.OriginalityCrowdFundingFragment;
 
@@ -61,7 +61,7 @@ public class DonateFragment extends BaseFragment {
         if (viewPager != null) {
             Adapter adapter = new Adapter(mActivity.getSupportFragmentManager());
             adapter.addFragment(new CampusDynamicFragment(), "校园动态");
-            adapter.addFragment(new DonationsFragment(), "捐赠物资");
+            adapter.addFragment(new DonationsDynamicFragment(), "捐赠动态");
             adapter.addFragment(new OriginalityCrowdFundingFragment(), "创意众筹");
             adapter.addFragment(new LoveCrowdFundingFragment(), "爱心众筹");
             viewPager.setAdapter(adapter);

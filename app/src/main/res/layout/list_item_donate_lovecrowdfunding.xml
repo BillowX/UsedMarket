@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+
+    card_view:cardBackgroundColor="@color/TranslucentSystemBarColor"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="10dp">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/TranslucentSystemBarColor"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#a000"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/shoushang"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="献出您的爱心，温暖我的家。"
+            android:textColor="#000"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="轻松筹的概念则指的是众筹项目相对轻量。微信版轻松筹上的项目大多聚焦在用户的日常生活领域，比如一次聚会、一个生日礼物等。这些众筹项目大多只是发起人一个小愿望，并且也比较容易得到朋友间的反馈和支持。当然，不仅是这些轻量的项目，轻松筹支持任何内容的众筹。只不过这些与生活密切相关的小愿望更适合微信这个传播平台。"
+            android:textColor="#8000"
+            android:textSize="13sp"/>
+
+        <ProgressBar
+            android:id="@+id/tv_author"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_bar_layer"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="目标金额："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="100000元"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="已筹金额："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="99999元"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="筹款已经："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="27天"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="支持人数："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="999人"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:text="留言鼓励"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/bt_praise"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:text="帮助TA"
+                android:textColor="#000"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+
+    card_view:cardBackgroundColor="@color/TranslucentSystemBarColor"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="10dp">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/TranslucentSystemBarColor"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#a000"
+            android:padding="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/wurenji"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:text="无人机(手机遥控版)"
+            android:textColor="#000"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:text="无人驾驶飞机简称“无人机”，是利用无线电遥控设备和自备的程序控制装置操纵的不载人飞机。机上无驾驶舱，但安装有自动驾驶仪、程序控制装置等设备。地面、舰艇上或母机遥控站人员通过雷达等设备，对其进行跟踪、定位、遥控、遥测和数字传输。可在无线电遥控下像普通飞机一样起飞或用助推火箭发射升空，也可由母机带到空中投放飞行。回收时，可用与普通飞机着陆过程一样的方式自动着陆，也可通过遥控用降落伞或拦网回收。可反覆使用多次。广泛用于空中侦察、监视、通信、反潜、电子干扰等。"
+            android:textColor="#8000"
+            android:textSize="13sp"/>
+
+        <ProgressBar
+            android:id="@+id/tv_author"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_bar_layer"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="目标资金："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="100000元"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="已筹资金："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="99999元"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="剩余时间："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="27天"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="支持人数："
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="999人"
+                android:textColor="#F00"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_forward"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:text="赞"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/bt_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:text="留言"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/bt_praise"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:text="支持"
+                android:textColor="#000"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

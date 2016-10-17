@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/selector_commoditylist_item_bg"
+              android:orientation="vertical"
+              android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:text="芜湖壹加壹向暴雨灾区捐赠抗洪物资"
+        android:textColor="#000"
+        android:textSize="18sp"
+        />
+
+    <HorizontalScrollView
+        android:id="@+id/hsv_img"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:padding="0dp">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="match_parent"
+                      android:layout_height="100dp"
+                      android:orientation="horizontal"
+                      android:paddingBottom="3dp"
+                      android:paddingTop="3dp">
+
+            <ImageView
+                android:id="@+id/iv_pic0"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_5"/>
+
+            <ImageView
+                android:id="@+id/iv_pic1"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_1"/>
+
+            <ImageView
+                android:id="@+id/iv_pic2"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_2"/>
+
+            <ImageView
+                android:id="@+id/iv_pic3"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_3"/>
+
+            <ImageView
+                android:id="@+id/iv_pic4"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_4"/>
+
+            <ImageView
+                android:id="@+id/iv_pic5"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_5"/>
+
+            <ImageView
+                android:id="@+id/iv_pic6"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_4"/>
+
+            <ImageView
+                android:id="@+id/iv_pic7"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_4"/>
+
+            <ImageView
+                android:id="@+id/iv_pic8"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="3dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/cheese_4"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="近日，芜湖普降大雨，多地受灾严重。 7月4日张家山中心文化路社区壹加壹党支部志愿者积极响应抗洪救灾的倡议，深入重灾区，捐赠抗洪救灾物资，支援芜湖市暴雨受灾地区重建工作。对此，芜湖壹加壹党支部代表张珍荣总经理表示：“洪水无情人有情，危难时刻伸援手，为灾区群众捐赠重要的生活必需品，是壹加壹作为一个企业应有的担当与责任。”"
+                android:textColor="#CCC"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_forward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#FFF"
+            android:text="赞"
+            android:textColor="#000"/>
+
+        <Button
+            android:id="@+id/bt_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#FFF"
+            android:text="留言"
+            android:textColor="#000"/>
+
+        <Button
+            android:id="@+id/bt_praise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFF"
+            android:text="支持"
+            android:textColor="#000"/>
+    </LinearLayout>
+</LinearLayout>

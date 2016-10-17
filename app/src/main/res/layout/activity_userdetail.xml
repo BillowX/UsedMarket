@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:onClick="onClick"
         android:orientation="horizontal"
         android:padding="@dimen/activity_vertical_margin">
 
@@ -54,7 +53,6 @@
         android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClick"
         android:orientation="horizontal"
         android:padding="@dimen/activity_vertical_margin">
 
@@ -79,7 +77,6 @@
         android:id="@+id/userSex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClick"
         android:orientation="horizontal"
         android:padding="@dimen/activity_vertical_margin">
 
@@ -104,7 +101,6 @@
         android:id="@+id/bt_change_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="ChangePassword"
         android:text="修改密码"
         />
 

@@ -1,57 +1,57 @@
-/*
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.maker.use.ui.fragment.donateFragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
+import com.maker.use.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 创意众筹页面
+ */
 public class OriginalityCrowdFundingFragment extends Fragment {
+
+    private StaggeredHomeAdapter mStaggeredHomeAdapter;
+    private List<String> mDatas;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        initData();
+
         RecyclerView rv = (RecyclerView) inflater.inflate(
                 R.layout.fragment_cheese_list, container, false);
         setupRecyclerView(rv);
         return rv;
     }
 
+    protected void initData() {
+        mDatas = new ArrayList<String>();
+        for (int i = 'A'; i < 'z'; i++) {
+            mDatas.add("" + (char) i);
+        }
+    }
+
     private void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Cheeses.sCheeseStrings, 30)));
+        mStaggeredHomeAdapter = new StaggeredHomeAdapter(getActivity(), mDatas);
+
+
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setAdapter(mStaggeredHomeAdapter);
     }
 
     private List<String> getRandomSublist(String[] array, int amount) {
@@ -63,77 +63,100 @@ public class OriginalityCrowdFundingFragment extends Fragment {
         return list;
     }
 
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
+    static class StaggeredHomeAdapter extends
+            RecyclerView.Adapter<StaggeredHomeAdapter.MyViewHolder> {
 
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
-        private List<String> mValues;
+        private List<String> mDatas;
+        private LayoutInflater mInflater;
 
-        public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-            mValues = items;
+        private List<Integer> mHeights;
+        private OnItemClickLitener mOnItemClickLitener;
+
+        public StaggeredHomeAdapter(Context context, List<String> datas) {
+            mInflater = LayoutInflater.from(context);
+            mDatas = datas;
+
+            mHeights = new ArrayList<Integer>();
+            for (int i = 0; i < mDatas.size(); i++) {
+                mHeights.add((int) (350 + Math.random() * 120));
+            }
         }
 
-        public String getValueAt(int position) {
-            return mValues.get(position);
+        public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+            this.mOnItemClickLitener = mOnItemClickLitener;
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_donate_dynamic, parent, false);
-            view.setBackgroundResource(mBackground);
-            return new ViewHolder(view);
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            MyViewHolder holder = new MyViewHolder(mInflater.inflate(
+                    R.layout.list_item_donate_originalitycrowdfunding, parent, false));
+            return holder;
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText(mValues.get(position));
+        public void onBindViewHolder(final MyViewHolder holder, final int position) {
+            ViewGroup.LayoutParams lp = holder.ll_root.getLayoutParams();
+            lp.height = UIUtils.dip2px(mHeights.get(position));
 
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+            holder.ll_root.setLayoutParams(lp);
+//            holder.tv_title.setText(mDatas.get(position));
 
-                    context.startActivity(intent);
-                }
-            });
+            // 如果设置了回调，则设置点击事件
+            if (mOnItemClickLitener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = holder.getLayoutPosition();
+                        mOnItemClickLitener.onItemClick(holder.itemView, pos);
+                    }
+                });
 
-            Glide.with(holder.mImageView.getContext())
-                    .load(Cheeses.getRandomCheeseDrawable())
-                    .fitCenter()
-                    .into(holder.mImageView);
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        int pos = holder.getLayoutPosition();
+                        mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
+                        removeData(pos);
+                        return false;
+                    }
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return mDatas.size();
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final ImageView mImageView;
-            public final TextView mTextView;
-            public String mBoundString;
+        public void addData(int position) {
+            mDatas.add(position, "Insert One");
+            mHeights.add((int) (100 + Math.random() * 300));
+            notifyItemInserted(position);
+        }
 
-            public ViewHolder(View view) {
+        public void removeData(int position) {
+            mDatas.remove(position);
+            notifyItemRemoved(position);
+        }
+
+        public interface OnItemClickLitener {
+            void onItemClick(View view, int position);
+
+            void onItemLongClick(View view, int position);
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+
+            TextView tv_title;
+            LinearLayout ll_root;
+
+            public MyViewHolder(View view) {
                 super(view);
-                mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
-            }
+                tv_title = (TextView) view.findViewById(R.id.tv_title);
+                ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
 
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTextView.getText();
             }
         }
     }
-
 
 }
