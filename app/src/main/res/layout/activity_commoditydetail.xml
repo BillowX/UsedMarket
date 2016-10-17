@@ -319,7 +319,7 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -363,5 +363,5 @@
                 android:text="购买"
                 android:textColor="#001"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->
 </LinearLayout>

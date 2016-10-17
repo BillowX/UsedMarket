@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +58,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
                 .setFailureDrawableId(R.drawable.error)
                 .setLoadingDrawableId(R.drawable.loading)
                 .build();
+
         String[] splitImgUrl = CommodityList.get(position).imgurl.split(";");
         for (int i = 0; i < 9; i++) {
             if (i < splitImgUrl.length) {
@@ -124,16 +125,15 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        LinearLayout ll_img;
         ImageView[] ivPics;
-        ImageView iv_img;
         TextView tv_username;
         TextView tv_name;
         TextView tv_description;
         TextView tv_price;
-        HorizontalScrollView hsv_img;
         ImageView iv_user_head;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(final View itemView) {
             super(itemView);
 
             iv_user_head = (ImageView) itemView.findViewById(R.id.iv_user_head);
@@ -153,9 +153,18 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
             tv_description = (TextView) itemView.findViewById(R.id.tv_description);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
-            hsv_img = (HorizontalScrollView) itemView.findViewById(R.id.hsv_img);
 
-            hsv_img.setOnClickListener(this);
+            ll_img = (LinearLayout) itemView.findViewById(R.id.ll_img);
+
+            ll_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null) {
+                        //注意这里使用getTag方法获取数据
+                        mOnItemClickListener.onItemClick(itemView, (Commodity) itemView.getTag(R.string.delete_commodity));
+                    }
+                }
+            });
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

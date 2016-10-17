@@ -339,6 +339,7 @@ public class CommodityDetailActivity extends BaseActivity {
         return textView.getMeasuredHeight();
     }
 
+    //联系卖家按钮触发
     public void ContactSeller(View view) {
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
