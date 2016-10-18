@@ -1,15 +1,17 @@
 package com.maker.use.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -48,7 +50,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
     @ViewInject(R.id.ibt_find)
-    private ImageButton ibt_find;
+    private FloatingActionButton ibt_find;
     private ArrayList<Top.img> mImgs;
     private MyXRecyclerView mMyXRecyclerView;
 
@@ -64,7 +66,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     }
 
     public void initView() {
-        MainActivity activity = (MainActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         activity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
             @Override
             public void onFragmentChange() {
@@ -114,7 +116,11 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
                 intent.putExtra("all", "all");
-                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+                } else {
+                    startActivity(intent);
+                }
             }
         });
     }

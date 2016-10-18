@@ -1,10 +1,13 @@
 package com.maker.use.ui.view;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -79,6 +82,7 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
         this.context = context;
         this.map = map;
         this.cl_root = cl_root;
+
         checkWhereFrom();
         initView();
         initData();
@@ -179,12 +183,15 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
                         //设置条目点击监听
                         mAdapter.setOnItemClickListener(new MyXRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
                             @Override
-                            public void onItemClick(View view, Commodity commodity) {
+                            public void onItemClick(final View view, final Commodity commodity) {
                                 Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
                                 intent.putExtra("commodity", commodity);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                UIUtils.getContext().startActivity(intent);
-
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, view, "sharp").toBundle());
+                                else {
+                                    UIUtils.getContext().startActivity(intent);
+                                }
                             }
                         });
                         //只有在用户发布界面才能有长按删除操作
@@ -242,10 +249,6 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
                 }
             }
         });
-    }
-
-    public MyXRecyclerViewAdapter getMyXRecyclerViewAdapter() {
-        return mAdapter;
     }
 
     /**

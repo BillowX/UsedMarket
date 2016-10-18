@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,9 @@ public class IssueActivity extends Activity {
     LinearLayout ll_collection;
     @ViewInject(R.id.ll_issue)
     LinearLayout ll_issue;
+    @ViewInject(R.id.ll_crowd_funding)
+    LinearLayout ll_crowd_funding;
+
     private int mScreenWidth;
     private int mScreenHeight;
 
@@ -72,14 +76,17 @@ public class IssueActivity extends Activity {
             public void onAnimationEnd(Animator animation) {
                 ll_issue.setVisibility(View.VISIBLE);
                 ll_collection.setVisibility(View.VISIBLE);
+                ll_crowd_funding.setVisibility(View.VISIBLE);
 
                 PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("ScaleY", 0.1f, 1.0f);
                 PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat("ScaleX", 0.1f, 1.0f);
                 ObjectAnimator.ofPropertyValuesHolder(ll_issue, p1, p2).setDuration(500).start();
                 ObjectAnimator.ofPropertyValuesHolder(ll_collection, p1, p2).setDuration(500).start();
+                ObjectAnimator.ofPropertyValuesHolder(ll_crowd_funding, p1, p2).setDuration(500).start();
 
                 ll_collection.animate().x(mScreenWidth / 2 - ll_collection.getWidth() * 2).y(mScreenHeight / 2);
                 ll_issue.animate().x(mScreenWidth / 2 + ll_issue.getWidth()).y(mScreenHeight / 2);
+                ll_crowd_funding.animate().x(mScreenWidth / 2 - ll_crowd_funding.getWidth() / 2).y(mScreenHeight / 2 - ll_crowd_funding.getHeight());
             }
 
             @Override
@@ -108,7 +115,9 @@ public class IssueActivity extends Activity {
         PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat("ScaleX", 1.0f, 0.0f);
         ObjectAnimator.ofPropertyValuesHolder(ll_issue, p1, p2).setDuration(500).start();
         ObjectAnimator.ofPropertyValuesHolder(ll_collection, p1, p2).setDuration(500).start();
+        ObjectAnimator.ofPropertyValuesHolder(ll_crowd_funding, p1, p2).setDuration(500).start();
         ll_collection.animate().x(mScreenWidth / 2 - ll_collection.getWidth() / 2).y(mScreenHeight - iv_root.getHeight() * 2);
+        ll_crowd_funding.animate().x(mScreenWidth / 2 - ll_crowd_funding.getWidth() / 2).y(mScreenHeight - iv_root.getHeight() * 2);
         ll_issue.animate().x(mScreenWidth / 2 - ll_collection.getWidth() / 2).y(mScreenHeight - iv_root.getHeight() * 2).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -139,7 +148,12 @@ public class IssueActivity extends Activity {
             UIUtils.toast("请先登陆哦~");
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         } else {
-            startActivity(new Intent(UIUtils.getContext(), AddCommodityActivity.class));
+            Intent intent = new Intent(UIUtils.getContext(), AddCommodityActivity.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
         finish();
     }

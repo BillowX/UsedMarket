@@ -60,6 +60,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
                 .build();
 
         String[] splitImgUrl = CommodityList.get(position).imgurl.split(";");
+
         for (int i = 0; i < 9; i++) {
             if (i < splitImgUrl.length) {
                 x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
@@ -132,6 +133,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         TextView tv_description;
         TextView tv_price;
         ImageView iv_user_head;
+        LinearLayout ll_root;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -161,7 +163,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
                 public void onClick(View v) {
                     if (mOnItemClickListener != null) {
                         //注意这里使用getTag方法获取数据
-                        mOnItemClickListener.onItemClick(itemView, (Commodity) itemView.getTag(R.string.delete_commodity));
+                        mOnItemClickListener.onItemClick(ivPics[0], (Commodity) itemView.getTag(R.string.delete_commodity));
                     }
                 }
             });
@@ -173,7 +175,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         public void onClick(View v) {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取数据
-                mOnItemClickListener.onItemClick(v, (Commodity) v.getTag(R.string.delete_commodity));
+                mOnItemClickListener.onItemClick(ivPics[0], (Commodity) v.getTag(R.string.delete_commodity));
             }
         }
 

@@ -1,4 +1,4 @@
-package com.maker.use.ui.fragment.donateFragment;
+package com.maker.use.ui.fragment.dynamicFragment;
 
 import android.content.Context;
 import android.os.Bundle;

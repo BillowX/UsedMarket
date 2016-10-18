@@ -67,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/one"
-                android:text="我发布的"
+                android:text="我的发布"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -91,7 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/two"
-                android:text="我关注的"
+                android:text="我的关注"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -163,7 +163,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/five"
-                android:text="帮助与反馈"
+                android:text="帮助反馈"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.maker.use.ui.fragment.donateFragment;
+package com.maker.use.ui.fragment.dynamicFragment;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,10 +1,14 @@
 package com.maker.use.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.transition.Fade;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 
 import com.maker.use.R;
@@ -28,6 +32,13 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //开启本activity的动画
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());//new Slide()  new Fade()
+            getWindow().setEnterTransition(new Fade());
+            getWindow().setExitTransition(new Fade());
+        }
         super.onCreate(savedInstanceState);
 
         initView();
@@ -48,7 +59,12 @@ public class LoginActivity extends BaseActivity {
 
 
     public void register(View view) {
-        startActivity(new Intent(UIUtils.getContext(), RegisterActivity.class));
+        Intent intent = new Intent(UIUtils.getContext(), RegisterActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
 //        finish();
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.maker.use.ui.fragment.donateFragment;
+package com.maker.use.ui.fragment.dynamicFragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,17 +27,16 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
+import com.maker.use.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CampusDynamicFragment extends Fragment {
+public class DonationsDynamicFragment extends Fragment {
 
     @Nullable
     @Override
@@ -49,7 +48,7 @@ public class CampusDynamicFragment extends Fragment {
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(UIUtils.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
                 getRandomSublist(Cheeses.sCheeseStrings, 30)));
     }
@@ -83,7 +82,7 @@ public class CampusDynamicFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_donate_campusdynamic, parent, false);
+                    .inflate(R.layout.list_item_donate_donationsdynamic, parent, false);
             view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }
@@ -91,7 +90,7 @@ public class CampusDynamicFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText(mValues.get(position));
+            holder.tv_name.setText(mValues.get(position));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,10 +103,6 @@ public class CampusDynamicFragment extends Fragment {
                 }
             });
 
-            Glide.with(holder.mImageView.getContext())
-                    .load(Cheeses.getRandomCheeseDrawable())
-                    .fitCenter()
-                    .into(holder.mImageView);
         }
 
         @Override
@@ -117,20 +112,18 @@ public class CampusDynamicFragment extends Fragment {
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final ImageView mImageView;
-            public final TextView mTextView;
+            public final TextView tv_name;
             public String mBoundString;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
+                tv_name = (TextView) view.findViewById(R.id.tv_name);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mTextView.getText();
+                return super.toString() + " '";
             }
         }
     }

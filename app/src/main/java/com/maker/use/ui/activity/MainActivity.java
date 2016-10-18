@@ -7,7 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -17,7 +17,7 @@ import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.ui.fragment.ClassifyFragment;
-import com.maker.use.ui.fragment.DonateFragment;
+import com.maker.use.ui.fragment.DynamicFragment;
 import com.maker.use.ui.fragment.HomeFragment;
 import com.maker.use.ui.fragment.MessageFragment;
 import com.maker.use.ui.view.MainNavigateTabBar;
@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout dl_root;
     @ViewInject(R.id.mainTabBar)
     private MainNavigateTabBar mNavigateTabBar;
+
     private onFragmentChangeListener mOnFragmentChangeListener;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity {
 
         //在登陆页面登陆后返回的登陆操作
         if ("login".equals(getIntent().getStringExtra("info"))) {
-            dl_root.openDrawer(Gravity.LEFT);
+//            dl_root.openDrawer(Gravity.LEFT);
         }
 
     }
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(HomeFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_home_normal, R.drawable.main_home_selected, tabTags[0]));
         mNavigateTabBar.addTab(ClassifyFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_classify_normal, R.drawable.main_classify_selected, tabTags[1]));
         mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, tabTags[2]));
-        mNavigateTabBar.addTab(DonateFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_donate_normal, R.drawable.main_donate_selected, tabTags[3]));
+        mNavigateTabBar.addTab(DynamicFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_dynamic_normal, R.drawable.main_dynamic_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
@@ -119,6 +120,9 @@ public class MainActivity extends BaseActivity {
                     mContent.invalidate();
                     ViewHelper.setScaleX(mContent, rightScale);
                     ViewHelper.setScaleY(mContent, rightScale);
+
+                    Log.e("test", "leftScale:" + leftScale + ",scale:" + scale + ",rightScale" + rightScale);
+
                 } else if (drawerView.getTag().equals("RIGHT")) {
                     ViewHelper.setTranslationX(mContent,
                             -mMenu.getMeasuredWidth() * slideOffset);
@@ -133,6 +137,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
+
             }
 
             @Override
@@ -140,11 +145,14 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        nv_right.setItemIconTintList(null);
         nv_right.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-
+                    case R.id.wifi:
+//                        item.setIcon()
+                        break;
                 }
                 Snackbar.make(nv_right, "Snackbar comes out", Snackbar.LENGTH_LONG)
                         .setAction("Action", new View.OnClickListener() {

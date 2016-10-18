@@ -2,13 +2,17 @@ package com.maker.use.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -41,6 +45,13 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //开启本activity的动画
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());//new Slide()  new Fade()
+            getWindow().setEnterTransition(new Explode());
+            getWindow().setExitTransition(new Fade());
+        }
         super.onCreate(savedInstanceState);
 
         checkWhereFrom();
@@ -74,7 +85,7 @@ public class SearchActivity extends BaseActivity {
                 } else if (!TextUtils.isEmpty(mCategory)) {
                     intent.putExtra("category", mCategory);
                     intent.putExtra("query", query);
-                }else if (!TextUtils.isEmpty(mAll)) {
+                } else if (!TextUtils.isEmpty(mAll)) {
                     intent.putExtra("all", mAll);
                     intent.putExtra("query", query);
                 }
@@ -162,7 +173,7 @@ public class SearchActivity extends BaseActivity {
                     } else if (!TextUtils.isEmpty(mCategory)) {
                         intent.putExtra("category", mCategory);
                         intent.putExtra("query", keyword);
-                    }else if (!TextUtils.isEmpty(mAll)) {
+                    } else if (!TextUtils.isEmpty(mAll)) {
                         intent.putExtra("all", mAll);
                         intent.putExtra("query", keyword);
                     }

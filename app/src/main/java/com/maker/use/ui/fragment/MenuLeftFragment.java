@@ -1,7 +1,9 @@
 package com.maker.use.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -105,9 +107,18 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
                     Intent intent = new Intent(UIUtils.getContext(), UserDetailActivity.class);
                     intent.putExtra("user", mUser);
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
                 } else {
-                    startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+                    Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
 //                    mActivity.finish();
                 }
                 break;

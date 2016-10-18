@@ -36,6 +36,7 @@
 
                 <ImageView
                     android:id="@+id/iv_head"
+                    android:transitionName="sharp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -74,9 +75,9 @@
                     android:id="@+id/cv_user_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
-                    app:cardElevation="10dp">
+                    >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -146,9 +147,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cv_user_info"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
-                    app:cardElevation="10dp">
+                    >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -201,9 +202,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cd_commodity_ifo"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
-                    app:cardElevation="10dp">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -268,9 +269,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cv_commodity_detail"
-                    android:layout_margin="5dp"
+                    android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
-                    app:cardElevation="10dp">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"

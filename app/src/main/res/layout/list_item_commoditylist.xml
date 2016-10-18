@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
@@ -9,14 +10,15 @@
     android:layout_marginRight="5dp"
     android:layout_marginTop="10dp"
 
-    card_view:cardBackgroundColor="@android:color/white"
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="10dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/ll_root"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="@drawable/selector_commoditylist_item_bg"
+
+
                   android:orientation="vertical"
                   android:padding="10dp">
 
@@ -109,8 +111,7 @@
                     android:id="@+id/iv_pic0"
                     android:layout_width="90dp"
                     android:layout_height="100dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
+                    android:transitionName="sharp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/ic_launcher"/>
 
@@ -201,6 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:ellipsize="end"
                     android:text="红楼梦第二部"
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -210,9 +212,9 @@
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:singleLine="true"
-                    android:text="在2014年12月份购买此书,希望转手给相同爱好者"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="在2014年12月份购买此书,希望转手给相同爱好者在2014年12月份购买此书,希望转手给相同爱好者在2014年12月份购买此书,希望转手给相同爱好者"
                     android:textColor="#CCC"
                     android:textSize="14sp"
                     />
@@ -229,6 +231,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:padding="5dp"
                     android:text="价格"
                     android:textColor="#f00"
@@ -239,6 +242,7 @@
                     android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:text="50.5元"
                     android:textColor="#F00"
                     android:textSize="17sp"
@@ -254,7 +258,7 @@
             android:layout_margin="3dp"
             android:orientation="horizontal">
 
-            <Button
+            <!--<Button
                 android:id="@+id/bt_forward"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -262,7 +266,7 @@
                 android:layout_weight="1"
                 android:background="#FFF"
                 android:text="赞"
-                android:textColor="#000"/>
+                android:textColor="#000"/>-->
 
             <Button
                 android:id="@+id/bt_comment"

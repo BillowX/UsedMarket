@@ -20,7 +20,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="模块标题"
-        android:textColor="#000"
+        android:textColor="#333333"
         android:textSize="15sp"/>
 
 </LinearLayout>

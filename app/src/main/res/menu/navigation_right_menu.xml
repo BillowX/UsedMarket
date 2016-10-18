@@ -2,30 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_dashboard"
-            android:title="CC Talk"/>
+            android:id="@+id/wifi"
+            android:icon="@drawable/wifi"
+            android:title="仅Wifi加载图片"/>
         <item
-            android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_event"
-            android:title="HJ Class"/>
+            android:id="@+id/see"
+            android:icon="@drawable/see"
+            android:title="公开个人信息"/>
         <item
-            android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_headset"
-            android:title="Words"/>
+            android:id="@+id/message_hint"
+            android:icon="@drawable/message_hint"
+            android:title="开启消息提示音"/>
         <item
-            android:id="@+id/nav_discussion"
-            android:icon="@drawable/ic_forum"
-            android:title="Big HJ"/>
+            android:id="@+id/update"
+            android:icon="@drawable/update"
+            android:title="自动检查更新"/>
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/about"
+            android:title="关于我们"/>
     </group>
     <item android:title="Version">
         <menu>
             <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="Android"/>
+                android:title="UserMarket 1.0"/>
             <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="iOS"/>
+                android:id="@+id/recommend"
+                android:icon="@drawable/recommend"
+                android:title="推荐给朋友"/>
+
         </menu>
     </item>
 </menu>

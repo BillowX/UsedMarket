@@ -2,8 +2,6 @@ package com.maker.use.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.maker.use.R;
 import com.maker.use.ui.activity.MainActivity;
-import com.maker.use.ui.fragment.donateFragment.CampusDynamicFragment;
-import com.maker.use.ui.fragment.donateFragment.DonationsDynamicFragment;
-import com.maker.use.ui.fragment.donateFragment.LoveCrowdFundingFragment;
-import com.maker.use.ui.fragment.donateFragment.OriginalityCrowdFundingFragment;
+import com.maker.use.ui.fragment.dynamicFragment.CampusDynamicFragment;
+import com.maker.use.ui.fragment.dynamicFragment.DonationsDynamicFragment;
+import com.maker.use.ui.fragment.dynamicFragment.LoveCrowdFundingFragment;
+import com.maker.use.ui.fragment.dynamicFragment.OriginalityCrowdFundingFragment;
 
 import org.xutils.x;
 
@@ -32,7 +30,7 @@ import java.util.List;
  * Created by XT on 2016/9/28.
  */
 
-public class DonateFragment extends BaseFragment {
+public class DynamicFragment extends BaseFragment {
 
     private View mMainView;
     private MainActivity mActivity;
@@ -40,7 +38,7 @@ public class DonateFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mMainView = inflater.inflate(R.layout.fragment_donate, null);
+        mMainView = inflater.inflate(R.layout.fragment_dynamic, null);
         x.view().inject(this, mMainView);
 
         initView();
@@ -54,8 +52,9 @@ public class DonateFragment extends BaseFragment {
         Toolbar toolbar = (Toolbar) mMainView.findViewById(R.id.toolbar);
         mActivity.setSupportActionBar(toolbar);
         final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_icon_money);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_campus);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         //初始化viewpager
         ViewPager viewPager = (ViewPager) mMainView.findViewById(R.id.viewpager);
         if (viewPager != null) {
@@ -66,7 +65,7 @@ public class DonateFragment extends BaseFragment {
             adapter.addFragment(new LoveCrowdFundingFragment(), "爱心众筹");
             viewPager.setAdapter(adapter);
         }
-        //设置FloatingActionButton点击事件
+        /*//设置FloatingActionButton点击事件
         FloatingActionButton fab = (FloatingActionButton) mMainView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +73,44 @@ public class DonateFragment extends BaseFragment {
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
         //将TabLayout与ViewPager绑定
         TabLayout tabLayout = (TabLayout) mMainView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        actionBar.setHomeAsUpIndicator(R.drawable.ic_campus);
+                        actionBar.setTitle("共建美好校园");
+                        break;
+                    case 1:
+                        actionBar.setHomeAsUpIndicator(R.drawable.ic_pot);
+                        actionBar.setTitle("传递我们的爱");
+                        break;
+                    case 2:
+                        actionBar.setHomeAsUpIndicator(R.drawable.ic_wrench);
+                        actionBar.setTitle("点滴汇聚财富");
+                        break;
+                    case 3:
+                        actionBar.setHomeAsUpIndicator(R.drawable.ic_heart);
+                        actionBar.setTitle("世界充满爱");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
    /* @Override

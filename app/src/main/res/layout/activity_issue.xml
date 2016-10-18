@@ -5,7 +5,6 @@
                 android:background="@android:color/transparent">
 
     <LinearLayout
-        android:onClick="issue"
         android:id="@+id/ll_collection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="70dp"
         android:gravity="center"
+        android:onClick="issue"
         android:orientation="vertical"
         android:visibility="invisible">
 
@@ -33,13 +33,37 @@
     </LinearLayout>
 
     <LinearLayout
-        android:onClick="collection"
+        android:id="@+id/ll_crowd_funding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/crowd_funding"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="众筹"
+            android:textColor="#FFF"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_issue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:onClick="collection"
         android:orientation="vertical"
         android:visibility="invisible">
 
@@ -52,11 +76,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="募捐"
+            android:text="捐赠"
             android:textColor="#FFF"
             android:textSize="18sp"/>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

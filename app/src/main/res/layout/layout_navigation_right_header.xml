@@ -7,17 +7,19 @@
               android:orientation="vertical"
               android:padding="16dp"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/register_default_head"/>
+        android:background="@drawable/setting"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="XuYisheng"
+        android:text="设置"
         android:textColor="#000"
         android:textSize="20sp"/>
 

@@ -74,6 +74,7 @@ public class CommodityDetailActivity extends BaseActivity {
     //是否展开详情
     private boolean isOpen = false;
     private String[] mSplitImgUrl;
+    private String[] mNewImgUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +87,10 @@ public class CommodityDetailActivity extends BaseActivity {
     private void initData() {
         mCommodity = (Commodity) getIntent().getSerializableExtra("commodity");
         mSplitImgUrl = mCommodity.imgurl.split(";");
+        mNewImgUrl = new String[mSplitImgUrl.length];
+        for (int i = 0; i < mSplitImgUrl.length; i++) {
+            mNewImgUrl[i] = mSplitImgUrl[mSplitImgUrl.length - i - 1];
+        }
 
     }
 
@@ -99,7 +104,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[mSplitImgUrl.length - 1]).centerCrop().into(iv_head);
+        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0]).centerCrop().into(iv_head);
 //        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
 
         //初始化中心布局
@@ -125,12 +130,11 @@ public class CommodityDetailActivity extends BaseActivity {
             tv_goods_description.setText(mCommodity.description);
 //            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
 
-            final String[] splitImgUrl = mCommodity.imgurl.split(";");
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recView_goods_img.setLayoutManager(linearLayoutManager);
-            GalleryAdapter mAdapter = new GalleryAdapter(this, splitImgUrl);
+            GalleryAdapter mAdapter = new GalleryAdapter(this, mNewImgUrl);
             recView_goods_img.setAdapter(mAdapter);
 
             recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
@@ -142,7 +146,7 @@ public class CommodityDetailActivity extends BaseActivity {
                             .setFailureDrawableId(R.drawable.error)
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + splitImgUrl[position], imageOptions);
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
                 }
             });
 
@@ -155,7 +159,7 @@ public class CommodityDetailActivity extends BaseActivity {
                             .setFailureDrawableId(R.drawable.error)
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + splitImgUrl[position], imageOptions);
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
                 }
             });
         }

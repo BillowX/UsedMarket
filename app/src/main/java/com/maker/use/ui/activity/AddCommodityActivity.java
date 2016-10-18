@@ -3,13 +3,16 @@ package com.maker.use.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -84,6 +87,13 @@ public class AddCommodityActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //开启本activity的动画
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());//new Slide()  new Fade()
+            getWindow().setEnterTransition(new Slide());
+            getWindow().setExitTransition(new Slide());
+        }
         super.onCreate(savedInstanceState);
         context = this;
 
@@ -163,6 +173,9 @@ public class AddCommodityActivity extends BaseActivity {
         mCategory = spinner_category.getSelectedItem().toString();
         if (TextUtils.isEmpty(mName) || TextUtils.isEmpty(mPrice) || TextUtils.isEmpty(mNum) || TextUtils.isEmpty(mDescription) || allSelectedPicture.size() < 1) {
             UIUtils.toast("还没填满呢");
+            return false;
+        } else if (allSelectedPicture.size() < 4) {
+            UIUtils.toast("商品图片不能少于4张");
             return false;
         } else {
             return true;
