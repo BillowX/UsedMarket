@@ -49,9 +49,9 @@
 
                 <EditText
                     android:id="@+id/et_username"
-                    android:background="#00ffffff"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="#00ffffff"
                     android:paddingLeft="10dp"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -82,8 +82,8 @@
                 <EditText
                     android:id="@+id/et_password"
                     android:layout_width="fill_parent"
-                    android:background="#00ffffff"
                     android:layout_height="fill_parent"
+                    android:background="#00ffffff"
                     android:inputType="textPassword"
                     android:paddingLeft="10dp"/>
             </android.support.design.widget.TextInputLayout>
@@ -102,6 +102,31 @@
             android:background="#0FA"
             android:onClick="login"
             android:text="登陆"/>
+
+        <!--<LinearLayout
+            android:id="@+id/ll_register"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_login"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginTop="10dp"
+            android:background="#0FA"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="没有账户？"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="注册"
+                android:textColor="@android:color/holo_blue_light"
+                />
+        </LinearLayout>-->
 
         <Button
             android:id="@+id/btn_login_regist"

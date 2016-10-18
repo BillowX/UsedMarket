@@ -126,9 +126,18 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
                     intent.putExtra("username", SpUtil.getUsername());
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
                 } else {
-                    startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+                    Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
 //                    mActivity.finish();
                 }
                 break;

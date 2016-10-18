@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="#FFF"
+              android:orientation="vertical">
+
     <Button
         android:id="@+id/bt_delete"
-        android:drawableTop="@drawable/delete_commodity"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="#FBFCFB"
         android:drawablePadding="5dp"
-        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/delete"
         android:text="删除此商品"
+        android:textSize="15sp"
+        />
+
+    <Button
+        android:id="@+id/bt_alter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FBFCFB"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/alter"
+        android:text="修改此商品"
         android:textSize="15sp"
         />
 

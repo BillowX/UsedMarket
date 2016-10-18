@@ -125,7 +125,7 @@ public class LoveCrowdFundingFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mDatas.size();
+            return 3;
         }
 
         public void addData(int position) {

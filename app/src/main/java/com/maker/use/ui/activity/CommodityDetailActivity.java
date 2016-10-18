@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -18,15 +17,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
-import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.adapter.GalleryAdapter;
 import com.maker.use.ui.view.GalleryView;
-import com.maker.use.utils.ChatUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
@@ -349,12 +345,12 @@ public class CommodityDetailActivity extends BaseActivity {
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
             finish();
         } else {
-            String s = SpUtil.getString(ConstentValue.USER, "");
+            /*String s = SpUtil.getString(ConstentValue.USER, "");
             if (!TextUtils.isEmpty(s)) {
                 Gson gson = new Gson();
                 User user = gson.fromJson(s, User.class);
                 ChatUtils.openChat(UIUtils.getContext(), user.username, mCommodity.username);
-            }
+            }*/
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.maker.use.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -215,7 +216,11 @@ public class AddCommodityActivity extends BaseActivity {
                 if ("商品上传成功".equals(result)) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
                     intent.putExtra("username", SpUtil.getUsername());
-                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AddCommodityActivity.this).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
                     finish();
                 }
             }

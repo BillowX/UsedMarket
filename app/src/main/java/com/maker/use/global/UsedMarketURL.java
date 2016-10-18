@@ -7,7 +7,7 @@ package com.maker.use.global;
 
 public class UsedMarketURL {
     public static String url_heart = "http://119.29.213.119:8080/UsedMarketDir";
-    public static String splash_url = url_heart + "/Splash/splash.png";
+    public static String splash_url = url_heart + "/Splash/splash.jpg";
     public static String VPImgUrl = url_heart + "/VPImg/img.json";
 
 

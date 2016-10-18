@@ -6,12 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -49,10 +50,16 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
-    @ViewInject(R.id.ibt_find)
-    private FloatingActionButton ibt_find;
+    @ViewInject(R.id.bt_find)
+    private Button bt_find;
+    @ViewInject(R.id.iv_head)
+    private ImageView iv_head;
+    @ViewInject(R.id.iv_setting)
+    private ImageView iv_setting;
+
     private ArrayList<Top.img> mImgs;
     private MyXRecyclerView mMyXRecyclerView;
+    private MainActivity mActivity;
 
     @Nullable
     @Override
@@ -66,6 +73,20 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     }
 
     public void initView() {
+        mActivity = (MainActivity) getActivity();
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getDrawerLayout().openDrawer(Gravity.LEFT);
+            }
+        });
+        iv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.getDrawerLayout().openDrawer(Gravity.RIGHT);
+            }
+        });
+
         final MainActivity activity = (MainActivity) getActivity();
         activity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
             @Override
@@ -111,7 +132,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
             }
         });
 
-        ibt_find.setOnClickListener(new View.OnClickListener() {
+        bt_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);

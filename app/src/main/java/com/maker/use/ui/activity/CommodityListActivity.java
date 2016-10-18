@@ -1,28 +1,28 @@
 package com.maker.use.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.maker.use.R;
-import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import java.util.HashMap;
 
@@ -50,6 +50,13 @@ public class CommodityListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //开启本activity的动画
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setExitTransition(new Explode());//new Slide()  new Fade()
+            getWindow().setEnterTransition(new Slide());
+            getWindow().setExitTransition(new Slide());
+        }
         super.onCreate(savedInstanceState);
 
         checkWhereFrom();
@@ -98,9 +105,14 @@ public class CommodityListActivity extends BaseActivity {
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(UIUtils.getContext(), AddCommodityActivity.class));
-
-                    //添加测试代码
+                    Intent intent = new Intent(UIUtils.getContext(), AddCommodityActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(CommodityListActivity.this).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
+                    finish();
+                   /* //添加测试代码
                     x.http().get(new RequestParams(UsedMarketURL.server_heart + "/servlet/InsertTestDataServlet"), new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String result) {
@@ -121,7 +133,7 @@ public class CommodityListActivity extends BaseActivity {
                         public void onFinished() {
 
                         }
-                    });
+                    });*/
                 }
             });
 
@@ -180,7 +192,11 @@ public class CommodityListActivity extends BaseActivity {
                     //说明是在登陆用户全部商品中查找
                     intent.putExtra("all", mAll);
                 }
-                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                } else {
+                    startActivity(intent);
+                }
                 finish();
                 break;
         }

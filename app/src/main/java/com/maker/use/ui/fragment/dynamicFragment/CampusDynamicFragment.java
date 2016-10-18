@@ -112,7 +112,7 @@ public class CampusDynamicFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return 5;
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
