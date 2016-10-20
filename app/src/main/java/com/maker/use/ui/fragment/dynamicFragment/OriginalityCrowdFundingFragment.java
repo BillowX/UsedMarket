@@ -33,7 +33,7 @@ public class OriginalityCrowdFundingFragment extends Fragment {
         initData();
 
         RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_cheese_list, container, false);
+                R.layout.viewpage_list_dynamic, container, false);
         setupRecyclerView(rv);
         return rv;
     }
@@ -89,7 +89,7 @@ public class OriginalityCrowdFundingFragment extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             MyViewHolder holder = new MyViewHolder(mInflater.inflate(
-                    R.layout.list_item_donate_originalitycrowdfunding, parent, false));
+                    R.layout.list_item_dynamic_originalitycrowdfunding, parent, false));
             return holder;
         }
 

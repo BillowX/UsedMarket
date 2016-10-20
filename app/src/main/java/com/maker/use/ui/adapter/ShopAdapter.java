@@ -38,8 +38,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 viewGroup, false);
         ShopAdapter.ViewHolder viewHolder = new ShopAdapter.ViewHolder(view);
 
-        viewHolder.mImg = (ImageView) view
-                .findViewById(R.id.id_index_gallery_item_image);
         return viewHolder;
     }
 
@@ -64,11 +62,14 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImg;
-        TextView mTxt;
+        ImageView iv_img;
+        TextView tv_name;
 
-        public ViewHolder(View arg0) {
-            super(arg0);
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }
     }
 }

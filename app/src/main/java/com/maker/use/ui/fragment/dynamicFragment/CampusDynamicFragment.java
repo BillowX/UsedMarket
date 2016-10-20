@@ -37,13 +37,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 校园动态
+ */
 public class CampusDynamicFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_cheese_list, container, false);
+                R.layout.viewpage_list_dynamic, container, false);
         setupRecyclerView(rv);
         return rv;
     }
@@ -83,7 +86,7 @@ public class CampusDynamicFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_donate_campusdynamic, parent, false);
+                    .inflate(R.layout.list_item_dynamic_campusdynamic, parent, false);
             view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }

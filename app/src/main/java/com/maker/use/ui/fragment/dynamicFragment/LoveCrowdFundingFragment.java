@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 创意众筹页面
+ * 爱心众筹页面
  */
 public class LoveCrowdFundingFragment extends Fragment {
 
@@ -33,7 +33,7 @@ public class LoveCrowdFundingFragment extends Fragment {
         initData();
 
         RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_cheese_list, container, false);
+                R.layout.viewpage_list_dynamic, container, false);
         setupRecyclerView(rv);
         return rv;
     }
@@ -89,7 +89,7 @@ public class LoveCrowdFundingFragment extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             MyViewHolder holder = new MyViewHolder(mInflater.inflate(
-                    R.layout.list_item_donate_lovecrowdfunding, parent, false));
+                    R.layout.list_item_dynamic_lovecrowdfunding, parent, false));
             return holder;
         }
 

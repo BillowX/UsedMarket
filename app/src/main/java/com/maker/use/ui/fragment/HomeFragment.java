@@ -118,6 +118,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         x.view().inject(this, headerView);
         getDataFromServer();
         mMyXRecyclerView.addHeaderView(headerView);
+
         //添加头布局（店铺）
         RecyclerView recyclerView = new RecyclerView(activity);
         recyclerView.setLayoutManager(new GridLayoutManager(activity, 4));

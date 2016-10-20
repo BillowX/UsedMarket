@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
@@ -42,8 +41,6 @@ public class GalleryAdapter extends
                 viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
-        viewHolder.mImg = (ImageView) view
-                .findViewById(R.id.id_index_gallery_item_image);
         return viewHolder;
     }
 
@@ -56,8 +53,6 @@ public class GalleryAdapter extends
                 .setLoadingDrawableId(R.drawable.loading)
                 .build();
         x.image().bind(viewHolder.mImg, UsedMarketURL.server_heart + "//" + mDatas[i], imageOptions);
-
-//        viewHolder.mImg.setImageResource(mDatas.[i]);
 
         if (mOnItemClickLitener != null) {
             viewHolder.itemView.setOnClickListener(new OnClickListener() {
@@ -77,10 +72,12 @@ public class GalleryAdapter extends
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImg;
-        TextView mTxt;
 
         public ViewHolder(View arg0) {
             super(arg0);
+
+            mImg = (ImageView) arg0
+                    .findViewById(R.id.id_index_gallery_item_image);
         }
     }
 
