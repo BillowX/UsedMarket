@@ -17,7 +17,6 @@
 package com.maker.use.ui.fragment.dynamicFragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,10 +30,6 @@ import android.widget.TextView;
 
 import com.maker.use.R;
 import com.maker.use.utils.UIUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * 捐赠动态
@@ -52,34 +47,18 @@ public class DonationsDynamicFragment extends Fragment {
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(UIUtils.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Cheeses.sCheeseStrings, 30)));
+        recyclerView.setAdapter(new MyRecyclerViewAdapter(getActivity()));
     }
 
-    private List<String> getRandomSublist(String[] array, int amount) {
-        ArrayList<String> list = new ArrayList<>(amount);
-        Random random = new Random();
-        while (list.size() < amount) {
-            list.add(array[random.nextInt(array.length)]);
-        }
-        return list;
-    }
-
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
+    public static class MyRecyclerViewAdapter
+            extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
         private final TypedValue mTypedValue = new TypedValue();
         private int mBackground;
-        private List<String> mValues;
 
-        public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
+        public MyRecyclerViewAdapter(Context context) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
-            mValues = items;
-        }
-
-        public String getValueAt(int position) {
-            return mValues.get(position);
         }
 
         @Override
@@ -92,17 +71,10 @@ public class DonationsDynamicFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mBoundString = mValues.get(position);
-            holder.tv_name.setText(mValues.get(position));
-
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
-
-                    context.startActivity(intent);
+                    UIUtils.snackBar(v, "后台维护中，敬请期待哦~");
                 }
             });
 

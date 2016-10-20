@@ -10,6 +10,8 @@ import com.maker.use.utils.SpUtil;
 
 import org.xutils.x;
 
+import io.rong.imkit.RongIM;
+
 /**
  * 自定义Application,进行全局初始化
  * Created by XT on 2016/9/24.
@@ -47,5 +49,6 @@ public class USEApplication extends Application {
 
         SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
 
+        RongIM.init(this);
     }
 }

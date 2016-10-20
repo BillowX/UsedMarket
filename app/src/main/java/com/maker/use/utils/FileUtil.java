@@ -82,7 +82,7 @@ public class FileUtil {
             Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
             Log.i("FileUtil", "bitmap=" + bitmap);
             //压缩图片
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, fout);
 
             try {
                 fout.flush();

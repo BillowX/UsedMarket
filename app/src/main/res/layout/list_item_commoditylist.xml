@@ -31,6 +31,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_user_head"
                 android:layout_width="60dp"
+                android:transitionName="sharp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
@@ -99,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"
-                    android:text="500人收藏"/>
+                    android:text="595人收藏"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -125,8 +126,7 @@
                     android:layout_width="90dp"
                     android:layout_height="100dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher"
-                    android:transitionName="sharp"/>
+                    android:src="@mipmap/ic_launcher"/>
 
                 <ImageView
                     android:id="@+id/iv_pic1"

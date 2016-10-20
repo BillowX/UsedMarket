@@ -36,7 +36,6 @@
 
                 <ImageView
                     android:id="@+id/iv_head"
-                    android:transitionName="sharp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
@@ -89,6 +88,7 @@
                             android:id="@+id/iv_userHeadImg"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
+                            android:transitionName="sharp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             app:srcCompat="@drawable/register_default_head"/>

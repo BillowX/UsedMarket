@@ -163,8 +163,18 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
                 public void onClick(View v) {
                     if (mOnItemClickListener != null) {
                         //注意这里使用getTag方法获取数据
-                        mOnItemClickListener.onItemClick(ivPics[0], (Commodity) itemView.getTag(R.string.delete_commodity));
+                        mOnItemClickListener.onItemClick(iv_user_head, (Commodity) itemView.getTag(R.string.delete_commodity));
                     }
+                }
+            });
+            ll_img.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (mOnItemLongClickListener != null) {
+                        //注意这里使用getTag方法获取数据
+                        mOnItemLongClickListener.onItemLongClick(itemView, (Commodity) itemView.getTag(R.string.delete_commodity), (int) itemView.getTag(R.string.delete_position));
+                    }
+                    return true;
                 }
             });
             itemView.setOnClickListener(this);
@@ -175,7 +185,7 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         public void onClick(View v) {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取数据
-                mOnItemClickListener.onItemClick(ivPics[0], (Commodity) v.getTag(R.string.delete_commodity));
+                mOnItemClickListener.onItemClick(iv_user_head, (Commodity) v.getTag(R.string.delete_commodity));
             }
         }
 

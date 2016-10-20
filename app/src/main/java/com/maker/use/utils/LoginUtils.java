@@ -47,7 +47,7 @@ public class LoginUtils {
                     User user = gson.fromJson(result, User.class);
                     //保存用户信息
                     SpUtil.putString(ConstentValue.USER, result);
-
+                    IMKitUtils.getToken(user);
                     if (!(activity instanceof MainActivity)) {
                         ActivityCollector.finishAll();
                         Intent intent = new Intent(UIUtils.getContext(), MainActivity.class);

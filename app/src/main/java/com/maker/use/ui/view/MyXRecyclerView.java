@@ -1,7 +1,5 @@
 package com.maker.use.ui.view;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -187,9 +185,10 @@ public class MyXRecyclerView extends XRecyclerView implements View.OnClickListen
                                 Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
                                 intent.putExtra("commodity", commodity);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, view, "sharp").toBundle());
-                                else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                                    UIUtils.getContext().startActivity(intent);
+//                                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, view, "sharp").toBundle());
+                                } else {
                                     UIUtils.getContext().startActivity(intent);
                                 }
                             }
