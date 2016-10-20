@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -25,6 +26,8 @@ import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.activity.SearchActivity;
+import com.maker.use.ui.adapter.GalleryAdapter;
+import com.maker.use.ui.adapter.ShopAdapter;
 import com.maker.use.ui.view.MyXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
@@ -35,6 +38,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -50,12 +55,12 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
     private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
-    @ViewInject(R.id.bt_find)
-    private Button bt_find;
+    @ViewInject(R.id.ll_find)
+    private LinearLayout ll_find;
     @ViewInject(R.id.iv_head)
-    private ImageView iv_head;
+    private CircleImageView iv_head;
     @ViewInject(R.id.iv_setting)
-    private ImageView iv_setting;
+    private CircleImageView iv_setting;
 
     private ArrayList<Top.img> mImgs;
     private MyXRecyclerView mMyXRecyclerView;
@@ -107,11 +112,24 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mMyXRecyclerView.setLayoutParams(layoutParams);
         cl_root.addView(mMyXRecyclerView, 0, layoutParams);
-        //添加头布局
+
+        //添加头布局（轮播图)
         final View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, headerView);
         getDataFromServer();
         mMyXRecyclerView.addHeaderView(headerView);
+        //添加头布局（店铺）
+        RecyclerView recyclerView = new RecyclerView(activity);
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, 4));
+        ShopAdapter shopAdapter = new ShopAdapter(activity);
+        recyclerView.setAdapter(shopAdapter);
+        shopAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                UIUtils.snackBar(view, "招商中，敬请期待...");
+            }
+        });
+        mMyXRecyclerView.addHeaderView(recyclerView);
         //添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
         mMyXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -132,7 +150,7 @@ public class HomeFragment extends BaseFragment implements HeaderScrollHelper.Scr
             }
         });
 
-        bt_find.setOnClickListener(new View.OnClickListener() {
+        ll_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);

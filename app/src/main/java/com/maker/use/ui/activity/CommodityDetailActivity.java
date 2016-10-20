@@ -19,11 +19,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
-import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.adapter.GalleryAdapter;
 import com.maker.use.ui.view.GalleryView;
-import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -32,6 +30,8 @@ import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import io.rong.imkit.RongIM;
 
 /**
  * 商品详情页
@@ -49,6 +49,7 @@ public class CommodityDetailActivity extends BaseActivity {
     RelativeLayout rl_detail_toggle;
     @ViewInject(R.id.tv_detail_author)
     TextView tv_detail_author;
+    int index = 0;
     @ViewInject(R.id.iv_userHeadImg)
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)
@@ -143,6 +144,7 @@ public class CommodityDetailActivity extends BaseActivity {
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
                     x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
+                    index = position;
                 }
             });
 
@@ -156,9 +158,22 @@ public class CommodityDetailActivity extends BaseActivity {
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
                     x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
+                    index = position;
                 }
             });
         }
+
+        iv_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UIUtils.getContext(), ImgActivity.class);
+                //开启一个新的栈
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                intent.putExtra("index", index);
+                intent.putExtra("imgUrl", mNewImgUrl);
+                UIUtils.getContext().startActivity(intent);
+            }
+        });
 
         // 放在消息队列中运行, 解决当只有三行描述时也是7行高度的bug
         tv_goods_description.post(new Runnable() {
@@ -341,16 +356,8 @@ public class CommodityDetailActivity extends BaseActivity {
 
     //联系卖家按钮触发
     public void ContactSeller(View view) {
-        if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
-            startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
-            finish();
-        } else {
-            /*String s = SpUtil.getString(ConstentValue.USER, "");
-            if (!TextUtils.isEmpty(s)) {
-                Gson gson = new Gson();
-                User user = gson.fromJson(s, User.class);
-                ChatUtils.openChat(UIUtils.getContext(), user.username, mCommodity.username);
-            }*/
-        }
+        //启动会话界面
+        if (RongIM.getInstance() != null)
+            RongIM.getInstance().startPrivateChat(this, mCommodity.username, "title");
     }
 }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/IMKit_SDK/IMKit_SDK.iml" filepath="$PROJECT_DIR$/IMKit_SDK/IMKit_SDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/USE.iml" filepath="$PROJECT_DIR$/USE.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

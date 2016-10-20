@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.File;
@@ -131,8 +132,21 @@ public class FileUtil {
     }
 
 
-
-
+    /**
+     * 读出图片的kb大小
+     *
+     * @param bitmap
+     * @return
+     */
+    public static int getBitmapSize(Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {    //API 19
+            return bitmap.getAllocationByteCount();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {//API 12
+            return bitmap.getByteCount();
+        }
+        return bitmap.getRowBytes() * bitmap.getHeight();                //earlier version
+    }
 
     public static boolean writeFile(File file, String path) {
         boolean result = true;
@@ -140,7 +154,7 @@ public class FileUtil {
             FileOutputStream fout = new FileOutputStream(file);
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             //压缩图片
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, fout);
 
             try {
                 fout.flush();
@@ -178,4 +192,5 @@ public class FileUtil {
 
         return file;
     }
+
 }

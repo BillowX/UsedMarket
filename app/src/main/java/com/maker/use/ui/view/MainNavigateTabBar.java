@@ -1,7 +1,7 @@
 package com.maker.use.ui.view;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -191,13 +191,13 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
      * @param holder
      */
     private void showFragment(ViewHolder holder) {
-        FragmentTransaction transaction = mFragmentActivity.getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = mFragmentActivity.getSupportFragmentManager().beginTransaction();
         if (isFragmentShown(transaction, holder.tag)) {
             return;
         }
         setCurrSelectedTabByTag(holder.tag);
 
-        Fragment fragment = mFragmentActivity.getFragmentManager().findFragmentByTag(holder.tag);
+        Fragment fragment = mFragmentActivity.getSupportFragmentManager().findFragmentByTag(holder.tag);
         if (fragment == null) {
             fragment = getFragmentInstance(holder.tag);
             transaction.add(mMainContentLayoutId, fragment, holder.tag);
@@ -217,7 +217,7 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
             return false;
         }
 
-        Fragment fragment = mFragmentActivity.getFragmentManager().findFragmentByTag(mCurrentTag);
+        Fragment fragment = mFragmentActivity.getSupportFragmentManager().findFragmentByTag(mCurrentTag);
         if (fragment != null && !fragment.isHidden()) {
             transaction.hide(fragment);
         }
@@ -266,10 +266,10 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
         if (mViewHolderList == null || mViewHolderList.size() == 0) {
             return;
         }
-        FragmentTransaction transaction = mFragmentActivity.getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = mFragmentActivity.getSupportFragmentManager().beginTransaction();
 
         for (ViewHolder holder : mViewHolderList) {
-            Fragment fragment = mFragmentActivity.getFragmentManager().findFragmentByTag(holder.tag);
+            Fragment fragment = mFragmentActivity.getSupportFragmentManager().findFragmentByTag(holder.tag);
             if (fragment != null && !fragment.isHidden()) {
                 transaction.hide(fragment);
             }
