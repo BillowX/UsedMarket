@@ -41,7 +41,7 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="世界上所有的蛇都是食肉的，目前已知有史以来最大的蛇是泰坦蟒，长15米，重1吨以上。现存已知最大的蛇是森蚺，长度可达6米，100千克，最小的是卡拉细盲蛇，仅长11厘米。"
+            android:text="这是校园动态测试页面，快点击进去看看吧。"
             android:textColor="#808080"
             android:textSize="14sp"/>
 

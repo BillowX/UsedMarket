@@ -8,6 +8,7 @@ import com.maker.use.R;
 import io.rong.imlib.model.Conversation;
 
 /**
+ * 聊天页面
  * Created by XISEVEN on 2016/10/17.
  */
 public class ConversationActivity extends FragmentActivity {

@@ -250,7 +250,12 @@ public class UIUtils {
      */
     public static void snackBar(View view, String msg) {
         Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
+                .setAction("知道了", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        
+                    }
+                }).show();
     }
 
     /**

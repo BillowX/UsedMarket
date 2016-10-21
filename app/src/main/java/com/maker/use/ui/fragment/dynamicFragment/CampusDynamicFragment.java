@@ -32,38 +32,40 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.maker.use.R;
+import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.CampusDynamicDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * 校园动态
  */
 public class CampusDynamicFragment extends Fragment {
 
+    List<String> mValues;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView rv = (RecyclerView) inflater.inflate(
                 R.layout.viewpage_list_dynamic, container, false);
+        if (mValues == null) {
+            mValues = new ArrayList<String>();
+            mValues.add(UsedMarketURL.server_heart + "/school.html");
+            mValues.add(UsedMarketURL.server_heart + "/school2.html");
+            mValues.add(UsedMarketURL.server_heart + "/school3.html");
+        }
+
         setupRecyclerView(rv);
+
         return rv;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Cheeses.sCheeseStrings, 30)));
-    }
-
-    private List<String> getRandomSublist(String[] array, int amount) {
-        ArrayList<String> list = new ArrayList<>(amount);
-        Random random = new Random();
-        while (list.size() < amount) {
-            list.add(array[random.nextInt(array.length)]);
-        }
-        return list;
+                mValues));
     }
 
     public static class SimpleStringRecyclerViewAdapter
@@ -79,9 +81,6 @@ public class CampusDynamicFragment extends Fragment {
             mValues = items;
         }
 
-        public String getValueAt(int position) {
-            return mValues.get(position);
-        }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -92,16 +91,16 @@ public class CampusDynamicFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText(mValues.get(position));
+            holder.mTextView.setText("校园动态" + position);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
-                    Intent intent = new Intent(context, CheeseDetailActivity.class);
-                    intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
+                    Intent intent = new Intent(context, CampusDynamicDetailActivity.class);
+                    intent.putExtra("newsUrl", mValues.get(position));
 
                     context.startActivity(intent);
                 }
@@ -115,7 +114,7 @@ public class CampusDynamicFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return 3;
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {

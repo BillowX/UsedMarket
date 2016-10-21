@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_root"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_gravity="bottom"
         android:background="#5fff">
 
@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_alignParentBottom="true"
-            android:background="#4000"
             app:ci_normalRadiusColor="#FFF"
             app:ci_selectedRadiusColor="#FFF"/>
     </RelativeLayout>

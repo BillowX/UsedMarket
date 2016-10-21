@@ -1,6 +1,7 @@
 package com.maker.use.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,7 +11,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.maker.use.R;
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(DynamicFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_dynamic_normal, R.drawable.main_dynamic_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
 //        mNavigateTabBar.setCurrentSelectedTab(3);
-        mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+       mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
                 if (!"HomeFragment".equals(holder.fragmentClass.getSimpleName())) {
@@ -146,6 +146,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        //显示图标颜色
         nv_right.setItemIconTintList(null);
         nv_right.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -155,16 +156,14 @@ public class MainActivity extends BaseActivity {
 //                        item.setIcon()
                         break;
                 }
-                Snackbar.make(nv_right, "Snackbar comes out", Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
+                Snackbar.make(nv_right, "敬请期待", Snackbar.LENGTH_LONG)
+                        .setAction("知道啦", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(
-                                        MainActivity.this,
-                                        "Toast comes out",
-                                        Toast.LENGTH_SHORT).show();
+                                //
                             }
-                        }).show();
+                        }).setActionTextColor(Color.BLUE)
+                        .show();
                 return false;
             }
         });

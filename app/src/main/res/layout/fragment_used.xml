@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ibt_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:src="@drawable/sort"
+
+        app:backgroundTint="#FFC652"
+        app:backgroundTintMode="src_over"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="20dp"
+        app:elevation="10dp"
+        app:fabSize="auto"
+        app:rippleColor="#F18754"
+        />
+</android.support.design.widget.CoordinatorLayout>

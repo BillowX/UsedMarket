@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+
+        toolbar:contentInsetLeft="0dp"
+        toolbar:contentInsetStart="0dp"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="动态详情"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000">
+
+        <ImageButton
+            android:id="@+id/bt_textsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:layout_gravity="right|center"
+            android:src="@drawable/icon_textsize"/>
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <WebView
+            android:id="@+id/wv_news_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/sharp_custom_progress"
+            android:visibility="invisible"/>
+    </FrameLayout>
+
+</LinearLayout>
