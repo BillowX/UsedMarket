@@ -52,6 +52,11 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title="商品详情"
+
+                    app:contentInsetStart="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:titleMarginStart="1dp"
+                    app:titleTextColor="#000"
                     />
 
             </android.support.design.widget.CollapsingToolbarLayout>
