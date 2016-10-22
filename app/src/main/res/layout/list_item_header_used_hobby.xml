@@ -3,17 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginTop="5dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="10dp"
-    android:layout_height="wrap_content">
+    android:layout_marginTop="5dp"
+    android:padding="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,6 +24,7 @@
             android:orientation="horizontal">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_1"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -29,21 +32,26 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_1"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_1"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_1"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
                     android:gravity="center"
                     android:text="#游戏专题"
+                    android:maxLines="1"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_2"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -51,21 +59,26 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_2"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_3"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_2"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
                     android:gravity="center"
                     android:text="#音乐就是生命"
+                    android:maxLines="1"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_3"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -73,14 +86,18 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_3"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_5"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_3"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:gravity="center"
                     android:text="#摄影爱好者"
                     android:textColor="#000"
@@ -95,6 +112,7 @@
             android:orientation="horizontal">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_4"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -102,21 +120,26 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_4"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_2"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_4"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
                     android:gravity="center"
                     android:text="#考研必备"
+                    android:maxLines="1"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_5"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -124,21 +147,26 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_5"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_4"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_5"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="#电子爱好者"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:id="@+id/ll_hobby_6"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
@@ -146,15 +174,19 @@
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_hobby_6"
+                    android:layout_width="@dimen/hobby_item"
+                    android:layout_height="@dimen/hobby_item"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hobby_6"/>
 
                 <TextView
+                    android:id="@+id/tv_hobby_6"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:ellipsize="end"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="#嘻哈一族"
                     android:textColor="#000"
                     android:textSize="12dp"/>
@@ -162,4 +194,29 @@
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
+
+
+    <!--<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <GridView
+                android:id="@+id/gv_hobby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>-->
 
