@@ -10,6 +10,7 @@ import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +26,7 @@ import com.maker.use.utils.UIUtils;
  * 用户详情页
  * Created by XT on 2016/10/6.
  */
-public class UserDetailActivity extends Activity {
+public class UserDetailActivity extends Activity implements View.OnClickListener {
 
     private User mUser;
 
@@ -57,15 +58,30 @@ public class UserDetailActivity extends Activity {
                 finish();
             }
         });
+        LinearLayout ll_user_head = (LinearLayout) findViewById(R.id.ll_user_head);
+        LinearLayout ll_user_name = (LinearLayout) findViewById(R.id.ll_user_name);
+        LinearLayout ll_user_realName = (LinearLayout) findViewById(R.id.ll_user_realName);
+        LinearLayout ll_user_dormitory_num = (LinearLayout) findViewById(R.id.ll_user_dormitory_num);
+        LinearLayout ll_user_phone = (LinearLayout) findViewById(R.id.ll_user_phone);
+        LinearLayout ll_user_birthday = (LinearLayout) findViewById(R.id.ll_user_birthday);
+        LinearLayout ll_user_registration_date = (LinearLayout) findViewById(R.id.ll_user_registration_date);
+        ll_user_head.setOnClickListener(this);
+        ll_user_name.setOnClickListener(this);
+        ll_user_realName.setOnClickListener(this);
+        ll_user_dormitory_num.setOnClickListener(this);
+        ll_user_phone.setOnClickListener(this);
+        ll_user_birthday.setOnClickListener(this);
+        ll_user_registration_date.setOnClickListener(this);
 
-        ImageView iv_person_img = (ImageView) findViewById(R.id.iv_person_img);
-        TextView tv_person_username = (TextView) findViewById(R.id.tv_person_username);
-        TextView tv_person_sex = (TextView) findViewById(R.id.tv_person_sex);
+
+        ImageView iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
+        TextView tv_user_name = (TextView) findViewById(R.id.tv_user_name);
+        TextView tv_user_sex = (TextView) findViewById(R.id.tv_user_sex);
 
         Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + mUser.username + "_head.jpg")
-                .centerCrop().into(iv_person_img);
-        tv_person_username.setText(mUser.username);
-        tv_person_sex.setText(("man".equals(mUser.sex) ? "男" : "女"));
+                .centerCrop().into(iv_user_head);
+        tv_user_name.setText(mUser.username);
+        tv_user_sex.setText(("man".equals(mUser.sex) ? "男" : "女"));
     }
 
     public void logout(View view) {
@@ -77,5 +93,10 @@ public class UserDetailActivity extends Activity {
         startActivity(new Intent(this, MainActivity.class));
         UIUtils.toast("注销成功");
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

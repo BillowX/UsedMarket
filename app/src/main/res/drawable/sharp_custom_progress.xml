@@ -11,8 +11,8 @@
         android:thickness="3dp"
         android:useLevel="false" >
         <gradient
-            android:centerColor="#9f00"
-            android:endColor="#f00"
+            android:centerColor="@color/TranslucentSystemBarColor"
+            android:endColor="#ff68ffff"
             android:startColor="#fff"
             android:type="sweep" />
     </shape>

@@ -1,6 +1,7 @@
 package com.maker.use.ui.fragment.dynamicFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,81 +10,92 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maker.use.R;
+import com.maker.use.ui.activity.OriginalityCrowdFundingDetailActivity;
 import com.maker.use.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * 创意众筹页面
  */
 public class OriginalityCrowdFundingFragment extends Fragment {
 
-    private StaggeredHomeAdapter mStaggeredHomeAdapter;
+    private OriginalityAdapter mAdapter;
     private List<String> mDatas;
+    private RecyclerView mMainView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        initData();
+        mMainView = (RecyclerView) inflater.inflate(R.layout.viewpage_list_dynamic, container, false);
 
-        RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.viewpage_list_dynamic, container, false);
-        setupRecyclerView(rv);
-        return rv;
+        getDataFromServer();
+        initView();
+
+        return mMainView;
     }
 
-    protected void initData() {
+    /**
+     * 从服务器上获取数据
+     */
+    protected void getDataFromServer() {
         mDatas = new ArrayList<String>();
         for (int i = 'A'; i < 'z'; i++) {
             mDatas.add("" + (char) i);
         }
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
-        mStaggeredHomeAdapter = new StaggeredHomeAdapter(getActivity(), mDatas);
+    /**
+     * 初始化RecyclerView
+     */
+    private void initView() {
+        mAdapter = new OriginalityAdapter(getActivity(), mDatas);
+        mMainView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mMainView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new OriginalityAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(UIUtils.getContext(), OriginalityCrowdFundingDetailActivity.class);
+                startActivity(intent);
+            }
 
+            @Override
+            public void onItemLongClick(View view, int position) {
 
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
-                StaggeredGridLayoutManager.VERTICAL));
-        recyclerView.setAdapter(mStaggeredHomeAdapter);
+            }
+        });
     }
 
-    private List<String> getRandomSublist(String[] array, int amount) {
-        ArrayList<String> list = new ArrayList<>(amount);
-        Random random = new Random();
-        while (list.size() < amount) {
-            list.add(array[random.nextInt(array.length)]);
-        }
-        return list;
-    }
-
-    static class StaggeredHomeAdapter extends
-            RecyclerView.Adapter<StaggeredHomeAdapter.MyViewHolder> {
+    /**
+     * 动态众筹的适配器
+     */
+    static class OriginalityAdapter extends
+            RecyclerView.Adapter<OriginalityAdapter.MyViewHolder> {
 
         private List<String> mDatas;
         private LayoutInflater mInflater;
 
         private List<Integer> mHeights;
-        private OnItemClickLitener mOnItemClickLitener;
+        private OnItemClickListener mOnItemClickListener;
 
-        public StaggeredHomeAdapter(Context context, List<String> datas) {
+        public OriginalityAdapter(Context context, List<String> datas) {
             mInflater = LayoutInflater.from(context);
             mDatas = datas;
 
             mHeights = new ArrayList<Integer>();
             for (int i = 0; i < mDatas.size(); i++) {
-                mHeights.add((int) (350 + Math.random() * 120));
+                mHeights.add((int) (250 + Math.random() * 50));
             }
         }
 
-        public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
-            this.mOnItemClickLitener = mOnItemClickLitener;
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            this.mOnItemClickListener = listener;
         }
 
         @Override
@@ -95,19 +107,18 @@ public class OriginalityCrowdFundingFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, final int position) {
+            //设置随机的高度实现瀑布流的效果
             ViewGroup.LayoutParams lp = holder.ll_root.getLayoutParams();
             lp.height = UIUtils.dip2px(mHeights.get(position));
-
             holder.ll_root.setLayoutParams(lp);
-//            holder.tv_title.setText(mDatas.get(position));
 
             // 如果设置了回调，则设置点击事件
-            if (mOnItemClickLitener != null) {
+            if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int pos = holder.getLayoutPosition();
-                        mOnItemClickLitener.onItemClick(holder.itemView, pos);
+                        mOnItemClickListener.onItemClick(holder.itemView, pos);
                     }
                 });
 
@@ -115,12 +126,14 @@ public class OriginalityCrowdFundingFragment extends Fragment {
                     @Override
                     public boolean onLongClick(View v) {
                         int pos = holder.getLayoutPosition();
-                        mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
+                        mOnItemClickListener.onItemLongClick(holder.itemView, pos);
                         removeData(pos);
                         return false;
                     }
                 });
             }
+
+
         }
 
         @Override
@@ -128,32 +141,38 @@ public class OriginalityCrowdFundingFragment extends Fragment {
             return 3;
         }
 
-        public void addData(int position) {
-            mDatas.add(position, "Insert One");
-            mHeights.add((int) (100 + Math.random() * 300));
-            notifyItemInserted(position);
-        }
-
         public void removeData(int position) {
             mDatas.remove(position);
             notifyItemRemoved(position);
         }
 
-        public interface OnItemClickLitener {
+        /**
+         * 单击和长击接口
+         */
+        public interface OnItemClickListener {
             void onItemClick(View view, int position);
 
             void onItemLongClick(View view, int position);
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-
-            TextView tv_title;
             LinearLayout ll_root;
+            ImageView iv_img;
+            TextView tv_target;
+            TextView tv_have;
+            TextView tv_remaining_time;
+            TextView tv_support_number;
+            TextView tv_title;
 
             public MyViewHolder(View view) {
                 super(view);
-                tv_title = (TextView) view.findViewById(R.id.tv_title);
                 ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
+                iv_img = (ImageView) view.findViewById(R.id.iv_img);
+                tv_title = (TextView) view.findViewById(R.id.tv_title);
+                tv_target = (TextView) view.findViewById(R.id.tv_target);
+                tv_have = (TextView) view.findViewById(R.id.tv_have);
+                tv_remaining_time = (TextView) view.findViewById(R.id.tv_remaining_time);
+                tv_support_number = (TextView) view.findViewById(R.id.tv_support_number);
 
             }
         }
