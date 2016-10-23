@@ -2,15 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginBottom="2dp"
+              android:layout_marginTop="2dp"
               android:background="@drawable/selector_commoditylist_item_bg"
               android:orientation="vertical"
-              android:padding="10dp">
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+    >
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         android:ellipsize="end"
         android:text="芜湖壹加壹向暴雨灾区捐赠抗洪物资"
         android:textColor="#000"
@@ -21,11 +25,11 @@
                   android:layout_width="match_parent"
                   android:layout_height="120dp"
                   android:orientation="horizontal"
-                  android:paddingBottom="3dp"
-                  android:paddingTop="3dp">
+                  android:paddingBottom="1dp"
+                  android:paddingTop="1dp">
 
         <ImageView
-            android:id="@+id/iv_pic0"
+            android:id="@+id/iv_img0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -35,7 +39,7 @@
             android:src="@mipmap/jiuzai1"/>
 
         <ImageView
-            android:id="@+id/iv_pic1"
+            android:id="@+id/iv_img1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="3dp"
@@ -44,7 +48,7 @@
             android:src="@mipmap/jiuzai2"/>
 
         <ImageView
-            android:id="@+id/iv_pic2"
+            android:id="@+id/iv_img2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="3dp"
@@ -63,11 +67,10 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:padding="5dp">
+            >
 
             <TextView
                 android:id="@+id/tv_description"
@@ -83,39 +86,4 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/bt_forward"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="#FFF"
-            android:text="赞"
-            android:textColor="#000"/>
-
-        <Button
-            android:id="@+id/bt_comment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="#FFF"
-            android:text="留言"
-            android:textColor="#000"/>
-
-        <Button
-            android:id="@+id/bt_praise"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFF"
-            android:text="支持"
-            android:textColor="#000"/>
-    </LinearLayout>
 </LinearLayout>

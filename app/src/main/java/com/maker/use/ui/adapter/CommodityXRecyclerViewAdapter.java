@@ -23,16 +23,17 @@ import java.util.List;
 
 
 /**
- * Created by XISEVEN on 2016/9/27.
+ * 商品列表适配器
+ * Created by XT on 2016/10/22.
  */
 
-public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerViewAdapter.MyViewHolder> {
+public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<CommodityXRecyclerViewAdapter.MyViewHolder> {
 
     List<Commodity> CommodityList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     private OnRecyclerViewItemLongClickListener mOnItemLongClickListener;
 
-    public MyXRecyclerViewAdapter(List<Commodity> list) {
+    public CommodityXRecyclerViewAdapter(List<Commodity> list) {
         this.CommodityList = list;
     }
 
@@ -133,7 +134,6 @@ public class MyXRecyclerViewAdapter extends RecyclerView.Adapter<MyXRecyclerView
         TextView tv_description;
         TextView tv_price;
         ImageView iv_user_head;
-        LinearLayout ll_root;
 
         public MyViewHolder(final View itemView) {
             super(itemView);

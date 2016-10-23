@@ -16,30 +16,25 @@
 
 package com.maker.use.ui.fragment.dynamicFragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.ui.activity.CampusDynamicDetailActivity;
+import com.maker.use.ui.adapter.CampusDynamicXRecyclerViewAdapter;
+import com.maker.use.ui.view.myXRecyclerView.CampusDynamicXRecyclerView;
+import com.maker.use.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 校园动态
+ * 校园动态界面
  */
 public class CampusDynamicFragment extends Fragment {
 
@@ -48,8 +43,10 @@ public class CampusDynamicFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView rv = (RecyclerView) inflater.inflate(
+        CoordinatorLayout cl_root = (CoordinatorLayout) inflater.inflate(
                 R.layout.viewpage_list_dynamic, container, false);
+        CampusDynamicXRecyclerView xRecyclerView = new CampusDynamicXRecyclerView(UIUtils.getContext(), cl_root);
+        cl_root.addView(xRecyclerView,0);
         if (mValues == null) {
             mValues = new ArrayList<String>();
             mValues.add(UsedMarketURL.server_heart + "/school.html");
@@ -57,85 +54,14 @@ public class CampusDynamicFragment extends Fragment {
             mValues.add(UsedMarketURL.server_heart + "/school3.html");
         }
 
-        setupRecyclerView(rv);
+        setupRecyclerView(xRecyclerView);
 
-        return rv;
+        return cl_root;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
+    private void setupRecyclerView(CampusDynamicXRecyclerView xRecyclerView) {
+        xRecyclerView.setAdapter(new CampusDynamicXRecyclerViewAdapter(getActivity(),
                 mValues));
     }
-
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
-
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
-        private List<String> mValues;
-
-        public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-            mValues = items;
-        }
-
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_dynamic_campusdynamic, parent, false);
-            view.setBackgroundResource(mBackground);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText("校园动态" + position);
-
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, CampusDynamicDetailActivity.class);
-                    intent.putExtra("newsUrl", mValues.get(position));
-
-                    context.startActivity(intent);
-                }
-            });
-
-            Glide.with(holder.mImageView.getContext())
-                    .load(Cheeses.getRandomCheeseDrawable())
-                    .fitCenter()
-                    .into(holder.mImageView);
-        }
-
-        @Override
-        public int getItemCount() {
-            return 3;
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final ImageView mImageView;
-            public final TextView mTextView;
-            public String mBoundString;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTextView.getText();
-            }
-        }
-    }
-
 
 }

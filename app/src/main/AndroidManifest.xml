@@ -89,6 +89,9 @@
         <activity
             android:name=".ui.activity.OriginalityCrowdFundingDetailActivity"/>
 
+        <activity
+            android:name=".ui.activity.LoveCrowdFundingDetailActivity"/>
+
         <!--会话界面-->
         <activity
             android:name=".ui.activity.ConversationActivity"

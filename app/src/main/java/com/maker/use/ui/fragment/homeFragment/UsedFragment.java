@@ -22,7 +22,7 @@ import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.fragment.BaseFragment;
-import com.maker.use.ui.view.MyXRecyclerView;
+import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -84,7 +84,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     @ViewInject(R.id.ci)
     private CircleIndicator ci;
     private ArrayList<Top.img> mImgs;
-    private MyXRecyclerView mMyXRecyclerView;
+    private CommodityXRecyclerView mCommodityXRecyclerView;
     private MainActivity mActivity;
     private View mMainView;
     private String[] mTitleArray = {"#游戏专题","#考研必备","#音乐就是生命","#电子爱好者","#摄影艺术家","#嘻哈一族"};
@@ -122,24 +122,24 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         map.put("all", "all");
-        mMyXRecyclerView = new MyXRecyclerView(mActivity, map, cl_root);
+        mCommodityXRecyclerView = new CommodityXRecyclerView(mActivity, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mMyXRecyclerView.setLayoutParams(layoutParams);
-        cl_root.addView(mMyXRecyclerView, 0, layoutParams);
+        mCommodityXRecyclerView.setLayoutParams(layoutParams);
+        cl_root.addView(mCommodityXRecyclerView, 0, layoutParams);
 
         //添加头布局（轮播图)
         final View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_home_page, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, headerView);
         getDataFromServer();
-        mMyXRecyclerView.addHeaderView(headerView);
+        mCommodityXRecyclerView.addHeaderView(headerView);
 
         //添加头布局（店铺）
         View hobbyView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_used_hobby, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, hobbyView);
         initHobbyView();
-        mMyXRecyclerView.addHeaderView(hobbyView);
+        mCommodityXRecyclerView.addHeaderView(hobbyView);
         //添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
-        mMyXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mCommodityXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -148,7 +148,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                View newView = mMyXRecyclerView.getChildAt(1);
+                View newView = mCommodityXRecyclerView.getChildAt(1);
 
                 if (newView != null && newView != headerView) {
                     pagerHeader.setAutoLoop(false, 0);
@@ -225,7 +225,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
     @Override
     public View getScrollableView() {
-        return mMyXRecyclerView;
+        return mCommodityXRecyclerView;
     }
 
     @Override

@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.maker.use.R;
-import com.maker.use.ui.view.MyXRecyclerView;
+import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ContentView;
@@ -42,7 +42,7 @@ public class CommodityListActivity extends BaseActivity {
     @ViewInject(R.id.cl_root)
     CoordinatorLayout cl_root;
 
-    private MyXRecyclerView mMyXRecyclerView;
+    private CommodityXRecyclerView mCommodityXRecyclerView;
     private String mUsername;
     private String mCategory;
     private String mQuery;
@@ -158,10 +158,10 @@ public class CommodityListActivity extends BaseActivity {
             map.put("query", mQuery);
         }
 
-        mMyXRecyclerView = new MyXRecyclerView(this, map, cl_root);
+        mCommodityXRecyclerView = new CommodityXRecyclerView(this, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mMyXRecyclerView.setLayoutParams(layoutParams);
-        rl_root.addView(mMyXRecyclerView, 0, layoutParams);
+        mCommodityXRecyclerView.setLayoutParams(layoutParams);
+        rl_root.addView(mCommodityXRecyclerView, 0, layoutParams);
 
 
         //设置ToolBar

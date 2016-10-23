@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="科大讯飞 阿尔法蛋机器人"
+                    android:text="请您支持一下他的电影NEEMKOMOK（母亲 ）"
                     android:textColor="#000"
                     android:textSize="18sp"/>
 
@@ -245,7 +245,7 @@
                     android:layout_weight="1"
                     android:background="#2FD6A2"
                     android:paddingRight="1dp"
-                    android:text="留言评论"
+                    android:text="留言祝福"
                     android:textSize="15sp"
                     app:elevation="22dp"/>
 
@@ -259,7 +259,7 @@
                     android:layout_weight="1"
                     android:background="#FF6B6E"
                     android:paddingRight="1dp"
-                    android:text="支持￥1899"
+                    android:text="支持TA"
                     android:textSize="15sp"
                     app:elevation="22dp"/>
 
@@ -286,7 +286,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="作品介绍"
+                    android:text="求助简介"
                     android:textColor="#000"
                     android:textSize="20sp"/>
 
@@ -301,7 +301,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="阿尔法蛋针对学龄前儿童内置了围绕8大智能和全脑思维12个领域的可视化教育内容，覆盖包含语言、音乐、视觉、常识、逻辑、数学等12个方面，通过孩子与阿尔法蛋之间的互动，学习知识、开发智力、发展多方面才能，从科学的角度，在潜移默化中传递知识、培养兴趣、锻炼能力，可以让孩子更聪明～"
+                        android:text="李季夫，初高中就读于天津新华中学，后考入北京电影学院录音系2008级，在校期间获得国家励志奖学金，北京市优秀毕业生。本科毕业作品《拾荒少年》，获得49届台湾金马奖最佳短片。
+毕业后我来到了中影集团后期制作分公司，担任声音剪辑师的工作，2011至2015年间，参与制作的电影包括《一代宗师》《失孤》《白发魔女之通天帝国》《一步之遥》《爸爸去哪1，2》《绝地逃亡》等。并获得了美国声音剪辑师协会MPSE Golden Reel 2013最佳对白剪辑奖。
+在工作期间，我逐渐意识到了自己专业技术的不足和创作意识上的欠缺，萌生了留学美国的想法。 2015年年初，我顺利拿到了American Film Institute （美国电影学院）电影后期专业的录取通知书，开启了我北美留学的征途。
+微信：Charlie007 （感谢您的支持）"
                         android:textColor="#9e9e9e"
                         android:textSize="14sp"/>
 

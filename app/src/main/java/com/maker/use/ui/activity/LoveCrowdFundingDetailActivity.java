@@ -10,9 +10,9 @@ import android.view.View;
 
 import com.maker.use.R;
 import com.maker.use.ui.adapter.FragmentViewPagerAdapter;
-import com.maker.use.ui.fragment.originalityCrowdFundingDetailFragment.CommentFragment;
-import com.maker.use.ui.fragment.originalityCrowdFundingDetailFragment.HomepageFragment;
-import com.maker.use.ui.fragment.originalityCrowdFundingDetailFragment.SupporterFragment;
+import com.maker.use.ui.fragment.loveCrowdFundingFragment.CommentFragment;
+import com.maker.use.ui.fragment.loveCrowdFundingFragment.HomepageFragment;
+import com.maker.use.ui.fragment.loveCrowdFundingFragment.SupporterFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -21,8 +21,8 @@ import org.xutils.view.annotation.ViewInject;
  * 创意众筹详情页
  * Created by XT on 2016/10/22.
  */
-@ContentView(R.layout.activity_originality_crowd_funding_detail)
-public class OriginalityCrowdFundingDetailActivity extends BaseActivity {
+@ContentView(R.layout.activity_love_crow_funding_detail)
+public class LoveCrowdFundingDetailActivity extends BaseActivity {
 
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
@@ -51,7 +51,7 @@ public class OriginalityCrowdFundingDetailActivity extends BaseActivity {
         //初始化viewpager
         if (vp_crowd_funding != null) {
             FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(this.getSupportFragmentManager());
-            adapter.addFragment(new HomepageFragment(), "作品主页");
+            adapter.addFragment(new HomepageFragment(), "主页");
             adapter.addFragment(new CommentFragment(), "留言评论");
             adapter.addFragment(new SupporterFragment(), "支持者");
             vp_crowd_funding.setAdapter(adapter);

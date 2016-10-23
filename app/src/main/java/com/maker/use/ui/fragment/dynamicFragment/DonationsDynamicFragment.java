@@ -16,19 +16,17 @@
 
 package com.maker.use.ui.fragment.dynamicFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.maker.use.R;
+import com.maker.use.ui.adapter.DonationsDynamicXRecyclerViewAdapter;
+import com.maker.use.ui.view.myXRecyclerView.CampusDynamicXRecyclerView;
 import com.maker.use.utils.UIUtils;
 
 /**
@@ -39,69 +37,16 @@ public class DonationsDynamicFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView rv = (RecyclerView) inflater.inflate(
+        CoordinatorLayout cl_root = (CoordinatorLayout) inflater.inflate(
                 R.layout.viewpage_list_dynamic, container, false);
-        setupRecyclerView(rv);
-        return rv;
+        CampusDynamicXRecyclerView xRecyclerView = new CampusDynamicXRecyclerView(UIUtils.getContext(), cl_root);
+        cl_root.addView(xRecyclerView, 0);
+        setupXRecyclerView(xRecyclerView);
+        return cl_root;
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(UIUtils.getContext()));
-        recyclerView.setAdapter(new MyRecyclerViewAdapter(getActivity()));
+    private void setupXRecyclerView(CampusDynamicXRecyclerView xRecyclerView) {
+        xRecyclerView.setAdapter(new DonationsDynamicXRecyclerViewAdapter(getActivity()));
     }
-
-    public static class MyRecyclerViewAdapter
-            extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
-
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
-
-        public MyRecyclerViewAdapter(Context context) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_dynamic_donationsdynamic, parent, false);
-            view.setBackgroundResource(mBackground);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UIUtils.snackBar(v, "后台维护中，敬请期待哦~");
-                }
-            });
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 5;
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView tv_name;
-            public String mBoundString;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                tv_name = (TextView) view.findViewById(R.id.tv_name);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '";
-            }
-        }
-    }
-
 
 }
