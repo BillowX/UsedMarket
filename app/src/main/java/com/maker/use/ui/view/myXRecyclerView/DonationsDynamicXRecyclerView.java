@@ -2,15 +2,12 @@ package com.maker.use.ui.view.myXRecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -32,6 +29,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
 import com.maker.use.ui.adapter.CommodityXRecyclerViewAdapter;
 import com.maker.use.ui.adapter.EmptyAdapter;
+import com.maker.use.ui.view.DividerLine;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -284,83 +282,4 @@ public class DonationsDynamicXRecyclerView extends XRecyclerView implements View
             mPopupWindow.dismiss();
         }
     }
-
-    class DividerLine extends ItemDecoration {
-        public static final int HORIZONTAL = LinearLayoutManager.HORIZONTAL;
-
-        public static final int VERTICAL = LinearLayoutManager.VERTICAL;
-
-        // 画笔
-        private Paint paint;
-
-        // 布局方向
-        private int orientation;
-        // 分割线颜色
-        private int color;
-        // 分割线尺寸
-        private int size;
-
-        public DividerLine() {
-            this(VERTICAL);
-        }
-
-        public DividerLine(int orientation) {
-            this.orientation = orientation;
-
-            paint = new Paint();
-        }
-
-        @Override
-        public void onDrawOver(Canvas c, RecyclerView parent, State state) {
-            super.onDrawOver(c, parent, state);
-
-            if (orientation == VERTICAL) {
-                drawHorizontal(c, parent);
-            } else {
-                drawVertical(c, parent);
-            }
-        }
-
-        public void setColor(int color) {
-            this.color = color;
-            paint.setColor(color);
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        // 绘制垂直分割线
-        protected void drawVertical(Canvas c, RecyclerView parent) {
-            final int top = parent.getPaddingTop();
-            final int bottom = parent.getHeight() - parent.getPaddingBottom();
-
-            final int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final LayoutParams params = (LayoutParams) child.getLayoutParams();
-                final int left = child.getRight() + params.rightMargin;
-                final int right = left + size;
-
-                c.drawRect(left, top, right, bottom, paint);
-            }
-        }
-
-        // 绘制水平分割线
-        protected void drawHorizontal(Canvas c, RecyclerView parent) {
-            final int left = parent.getPaddingLeft();
-            final int right = parent.getWidth() - parent.getPaddingRight();
-
-            final int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = parent.getChildAt(i);
-                final LayoutParams params = (LayoutParams) child.getLayoutParams();
-                final int top = child.getBottom() + params.bottomMargin;
-                final int bottom = top + size;
-
-                c.drawRect(left, top, right, bottom, paint);
-            }
-        }
-    }
-
 }

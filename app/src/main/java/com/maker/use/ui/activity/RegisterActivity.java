@@ -1,16 +1,9 @@
 package com.maker.use.ui.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,11 +16,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.maker.use.R;
-import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.UIUtils;
 import com.maker.use.utils.UploadUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -36,8 +29,10 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.ArrayList;
 
-import static com.maker.use.global.ConstentValue.CHOICE_HEAD_DIALOG;
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * 注册页面
@@ -45,6 +40,8 @@ import static com.maker.use.global.ConstentValue.CHOICE_HEAD_DIALOG;
  */
 @ContentView(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
+    //启动actviity的请求码
+    private static final int REQUEST_IMAGE = 2;
     @ViewInject(R.id.bt_register)
     Button bt_register;
     @ViewInject(R.id.bt_editHead)
@@ -61,12 +58,12 @@ public class RegisterActivity extends BaseActivity {
     RadioButton rb_woman;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
-
     private Uri fileUri = null;
     private String headPath;
     private File mHeadFile;
     private String mUsername;
     private String mPassword;
+    private ArrayList<String> selectedPicture;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,8 +95,12 @@ public class RegisterActivity extends BaseActivity {
                     UIUtils.toast("先输入用户名，才能编辑头像！");
                     return;
                 }
-
-                showDialog(ConstentValue.CHOICE_HEAD_DIALOG);
+                MultiImageSelector.create(UIUtils.getContext())
+                        .showCamera(true) // 是否显示相机. 默认为显示
+                        .count(1) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
+                        .single() // 单选模式
+                        .start(RegisterActivity.this, REQUEST_IMAGE);
+//                showDialog(ConstentValue.CHOICE_HEAD_DIALOG);
             }
         });
 
@@ -173,7 +174,7 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
-    @Override
+    /*@Override
     protected Dialog onCreateDialog(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         switch (id) {
@@ -185,7 +186,7 @@ public class RegisterActivity extends BaseActivity {
                                 if (which == 0) {
                                     //跳转到图片浏览器的应用，选取要发送的图片
                                     Intent i = new Intent();
-                                    i.setType("image/*");
+                                    i.setType("image*//*");
                                     i.putExtra("return-data", true);
                                     i.setAction(Intent.ACTION_GET_CONTENT);
                                     startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
@@ -203,10 +204,20 @@ public class RegisterActivity extends BaseActivity {
             break;
         }
         return builder.create();
-    }
+    }*/
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                selectedPicture = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                String str = selectedPicture.get(0);
+                ImageLoader.getInstance().displayImage("file://" + str, iv_head);
+                mHeadFile = FileUtil.createImgFile(mUsername + "_head");
+                boolean writeFile = FileUtil.writeFile(mHeadFile, str);
+            }
+        }
+
+        /*if (resultCode != RESULT_OK) {
             return;
         }
 
@@ -228,7 +239,7 @@ public class RegisterActivity extends BaseActivity {
             if (bitmap != null) {
                 iv_head.setImageBitmap(bitmap);
             }
-        }
+        }*/
     }
 
 }

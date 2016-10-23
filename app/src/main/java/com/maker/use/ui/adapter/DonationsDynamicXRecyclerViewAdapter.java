@@ -71,9 +71,5 @@ public class DonationsDynamicXRecyclerViewAdapter extends RecyclerView.Adapter<D
             iv_img2 = (ImageView) view.findViewById(R.id.iv_img2);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '";
-        }
     }
 }

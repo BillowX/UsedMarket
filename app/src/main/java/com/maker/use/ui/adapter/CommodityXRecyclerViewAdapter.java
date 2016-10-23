@@ -17,7 +17,6 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 import java.util.List;
 
@@ -58,13 +57,15 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
                 .setIgnoreGif(false)
                 .setFailureDrawableId(R.drawable.error)
                 .setLoadingDrawableId(R.drawable.loading)
+                .setSize(0, 0)//设置图片大小
                 .build();
 
         String[] splitImgUrl = CommodityList.get(position).imgurl.split(";");
 
         for (int i = 0; i < 9; i++) {
             if (i < splitImgUrl.length) {
-                x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
+//                x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
+                Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + splitImgUrl[i]).centerCrop().into(holder.ivPics[i]);
             } else {
                 holder.ivPics[i].setVisibility(View.GONE);
             }
@@ -88,7 +89,8 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
     public void add(List<Commodity> list) {
         if (CommodityList != null) {
             CommodityList.addAll(list);
-            notifyItemInserted(CommodityList.size());
+            notifyDataSetChanged();
+//            notifyItemInserted(CommodityList.size());
         }
     }
 

@@ -84,19 +84,19 @@ public class DynamicFragment extends BaseFragment {
                 switch (position) {
                     case 0:
                         actionBar.setHomeAsUpIndicator(R.drawable.ic_campus);
-                        actionBar.setTitle("共建美好校园");
+                        actionBar.setTitle("既然青春留不住");
                         break;
                     case 1:
                         actionBar.setHomeAsUpIndicator(R.drawable.ic_pot);
-                        actionBar.setTitle("传递我们的爱");
+                        actionBar.setTitle("让世界多一些微笑");
                         break;
                     case 2:
                         actionBar.setHomeAsUpIndicator(R.drawable.ic_wrench);
-                        actionBar.setTitle("点滴汇聚财富");
+                        actionBar.setTitle("让创想成为产品");
                         break;
                     case 3:
                         actionBar.setHomeAsUpIndicator(R.drawable.ic_heart);
-                        actionBar.setTitle("世界充满爱");
+                        actionBar.setTitle("用爱心温暖这个世界");
                         break;
                 }
             }

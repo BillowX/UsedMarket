@@ -8,11 +8,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
+import com.maker.use.utils.UIUtils;
 
 public class GalleryAdapter extends
         RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
@@ -46,13 +45,15 @@ public class GalleryAdapter extends
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ImageOptions imageOptions = new ImageOptions.Builder()
+        /*ImageOptions imageOptions = new ImageOptions.Builder()
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setIgnoreGif(false)
                 .setFailureDrawableId(R.drawable.error)
                 .setLoadingDrawableId(R.drawable.loading)
+                .setSize(0,0)
                 .build();
-        x.image().bind(viewHolder.mImg, UsedMarketURL.server_heart + "//" + mDatas[i], imageOptions);
+        x.image().bind(viewHolder.mImg, UsedMarketURL.server_heart + "//" + mDatas[i], imageOptions);*/
+        Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + mDatas[i]).centerCrop().into(viewHolder.mImg);
 
         if (mOnItemClickLitener != null) {
             viewHolder.itemView.setOnClickListener(new OnClickListener() {

@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
@@ -45,8 +46,9 @@ public class CampusDynamicFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         CoordinatorLayout cl_root = (CoordinatorLayout) inflater.inflate(
                 R.layout.viewpage_list_dynamic, container, false);
+        RelativeLayout rl_root = (RelativeLayout) cl_root.findViewById(R.id.rl_root);
         CampusDynamicXRecyclerView xRecyclerView = new CampusDynamicXRecyclerView(UIUtils.getContext(), cl_root);
-        cl_root.addView(xRecyclerView,0);
+        rl_root.addView(xRecyclerView,0);
         if (mValues == null) {
             mValues = new ArrayList<String>();
             mValues.add(UsedMarketURL.server_heart + "/school.html");

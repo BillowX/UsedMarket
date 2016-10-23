@@ -7,6 +7,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.maker.use.R;
 import com.maker.use.ui.activity.OriginalityCrowdFundingDetailActivity;
@@ -30,8 +31,9 @@ public class OriginalityCrowdFundingFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         CoordinatorLayout cl_root = (CoordinatorLayout) inflater.inflate(R.layout.viewpage_list_dynamic, container, false);
+        RelativeLayout rl_root = (RelativeLayout) cl_root.findViewById(R.id.rl_root);
         CrowdFundingXRecyclerView xRecyclerView = new CrowdFundingXRecyclerView(UIUtils.getContext(), cl_root);
-        cl_root.addView(xRecyclerView, 0);
+        rl_root.addView(xRecyclerView, 0);
         getDataFromServer();
         setupXRecyclerView(xRecyclerView);
 

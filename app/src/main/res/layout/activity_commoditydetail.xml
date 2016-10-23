@@ -64,11 +64,12 @@
             android:background="#FFF"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="10dp">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cv_user_info"
@@ -88,9 +89,9 @@
                             android:id="@+id/iv_userHeadImg"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:transitionName="sharp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:transitionName="sharp"
                             app:srcCompat="@drawable/register_default_head"/>
                         <!--<ImageView
                             android:id="@+id/iv_userHeadImg"
@@ -146,7 +147,6 @@
                     android:id="@+id/cd_commodity_ifo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/cv_user_info"
                     android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
                     >
@@ -201,7 +201,6 @@
                     android:id="@+id/cv_commodity_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/cd_commodity_ifo"
                     android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
                     >
@@ -268,7 +267,6 @@
                     android:id="@+id/cd_commodity_img"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/cv_commodity_detail"
                     android:layout_margin="2dp"
                     app:cardCornerRadius="5dp"
                     >
@@ -285,7 +283,7 @@
                             android:layout_height="200dp"
                             android:paddingBottom="10dp"
                             android:paddingTop="10dp"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="centerCrop"/>
 
                         <com.maker.use.ui.view.GalleryView
                             android:id="@+id/recView_goods_img"
@@ -297,7 +295,11 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-            </RelativeLayout>
+                <include
+                    layout="@layout/layout_comment"
+                    />
+
+            </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 

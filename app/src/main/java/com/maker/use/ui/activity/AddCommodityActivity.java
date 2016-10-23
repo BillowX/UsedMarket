@@ -27,10 +27,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -100,18 +97,6 @@ public class AddCommodityActivity extends BaseActivity {
 
         //设置在activity启动的时候输入法默认是不开启的
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .threadPriority(Thread.NORM_PRIORITY - 2)//设置当前线程的优先级
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())//使用MD5对UIL进行加密命名
-                .diskCacheSize(100 * 1024 * 1024)//50 Mb sd卡(本地)缓存的最大值
-                .diskCacheFileCount(300)// 可以缓存的文件数量
-                .tasksProcessingOrder(QueueProcessingType.LIFO)//后进先出
-                .build();
-
-        //初始化操作
-        ImageLoader.getInstance().init(config);
 
         initData();
         initView();

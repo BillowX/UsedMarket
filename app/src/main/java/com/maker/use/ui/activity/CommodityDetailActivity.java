@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -19,9 +20,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.adapter.CommentAdapter;
 import com.maker.use.ui.adapter.GalleryAdapter;
+import com.maker.use.ui.view.DividerLine;
 import com.maker.use.ui.view.GalleryView;
+import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -50,6 +55,8 @@ public class CommodityDetailActivity extends BaseActivity {
     @ViewInject(R.id.tv_detail_author)
     TextView tv_detail_author;
     int index = 0;
+    @ViewInject(R.id.ll_message_list)
+    LinearLayout ll_message_list;
     @ViewInject(R.id.iv_userHeadImg)
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)
@@ -102,23 +109,11 @@ public class CommodityDetailActivity extends BaseActivity {
             }
         });
         Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0]).centerCrop().into(iv_head);
-//        x.image().bind(iv_head, UsedMarketURL.server_heart + "//" + mCommodity.imgurl);
 
         //初始化中心布局
         if (mCommodity != null) {
-            //用户头像
-            /*ImageOptions imageOptions = new ImageOptions.Builder()
-                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                    .setRadius(DensityUtil.dip2px(radius))
-                    .setIgnoreGif(false)
-                    .setCrop(true)//是否对图片进行裁剪
-                    .setFailureDrawableId(R.drawable.register_default_head)
-                    .setLoadingDrawableId(R.drawable.register_default_head)
-                    .build();
-            x.image().bind(iv_userHeadimg, UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg", imageOptions);*/
             Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg")
                     .centerCrop().into(iv_userHeadimg);
-
 
             tv_userName.setText(mCommodity.username);
             tv_goods_price.setText("¥ " + mCommodity.price);
@@ -127,7 +122,22 @@ public class CommodityDetailActivity extends BaseActivity {
             tv_goods_description.setText(mCommodity.description);
 //            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
 
+            //留言区
+            RecyclerView recyclerView = new RecyclerView(UIUtils.getContext());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
+            //如果没有留言，则显示EmptyAdapter
+//            recyclerView.setAdapter(new EmptyAdapter());
+            recyclerView.setAdapter(new CommentAdapter(UIUtils.getContext()));
+            //设置条目之间的分割线
+            DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
+            dividerLine.setSize(1);
+            dividerLine.setColor(0xFFDDDDDD);
+            recyclerView.addItemDecoration(dividerLine);
+            ll_message_list.addView(recyclerView);
 
+            //设置画廊效果
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recView_goods_img.setLayoutManager(linearLayoutManager);
@@ -137,13 +147,14 @@ public class CommodityDetailActivity extends BaseActivity {
             recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
                 @Override
                 public void onChange(View view, int position) {
-                    ImageOptions imageOptions = new ImageOptions.Builder()
+                    /*ImageOptions imageOptions = new ImageOptions.Builder()
                             .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                             .setIgnoreGif(false)
                             .setFailureDrawableId(R.drawable.error)
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);*/
+                    Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position]).centerCrop().into(iv_img);
                     index = position;
                 }
             });
@@ -356,8 +367,13 @@ public class CommodityDetailActivity extends BaseActivity {
 
     //联系卖家按钮触发
     public void ContactSeller(View view) {
-        //启动会话界面
-        if (RongIM.getInstance() != null)
-            RongIM.getInstance().startPrivateChat(this, mCommodity.username, "title");
+        if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+            //启动会话界面
+            if (RongIM.getInstance() != null)
+                RongIM.getInstance().startPrivateChat(this, mCommodity.username, "title");
+        } else {
+            startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+        }
+
     }
 }
