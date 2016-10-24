@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Activity管理器
  * Created by XT on 2016/10/6.
  */
 

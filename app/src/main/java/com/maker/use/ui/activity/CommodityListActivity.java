@@ -167,6 +167,13 @@ public class CommodityListActivity extends BaseActivity {
         //设置ToolBar
         //取代原本的actionbar
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     //如果有Menu,创建完后,系统会自动添加到ToolBar上
