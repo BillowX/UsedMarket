@@ -136,13 +136,13 @@ public class TimeUtil {
     private static final String ONE_YEAR_AGO = "年前";
 
     public static String format(String str) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        /*SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
             date = format.parse("2016-10-26 18:35:35");
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         long delta = new Date().getTime() - Long.parseLong(str);
         if (delta < 1L * ONE_MINUTE) {
             long seconds = toSeconds(delta);
