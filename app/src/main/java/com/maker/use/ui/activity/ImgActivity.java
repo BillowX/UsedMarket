@@ -11,8 +11,9 @@ import android.widget.ImageView;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
+
+import lib.lhh.fiv.library.FrescoZoomImageView;
 
 
 /**
@@ -57,7 +58,10 @@ public class ImgActivity extends Activity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            ImageView imageView = new ImageView(UIUtils.getContext());
+//            ImageView imageView = new ImageView(UIUtils.getContext());
+            FrescoZoomImageView frescoZoomImageView = new FrescoZoomImageView(UIUtils.getContext());
+            frescoZoomImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            frescoZoomImageView.loadView(UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""),R.drawable.loading);
             /*//设置ImageView的填充类型
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageOptions imageOptions = new ImageOptions.Builder()
@@ -67,15 +71,15 @@ public class ImgActivity extends Activity {
                     .setLoadingDrawableId(R.drawable.loading)
                     .build();
             x.image().bind(imageView, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);*/
-            GlideUtils.setImg(ImgActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
+//            GlideUtils.setImg(ImgActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), imageView);
+            frescoZoomImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
                 }
             });
-            container.addView(imageView);
-            return imageView;
+            container.addView(frescoZoomImageView);
+            return frescoZoomImageView;
         }
 
         @Override
