@@ -20,6 +20,8 @@ public class GlideUtils {
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.loading)//加载中图片
                 .crossFade()//渐现效果
+                .thumbnail(0.1f)//先加载缩略图 然后在加载全图
+                .animate(R.anim.img_alpha_in)//设置加载动画
                 .error(R.drawable.error)//错误图片
                 .into(imageView);
     }
@@ -28,6 +30,8 @@ public class GlideUtils {
         Glide.with(context).load(url)
                 .centerCrop()
                 .crossFade()//渐现效果
+                .animate(R.anim.img_alpha_in)//设置加载动画
+                .thumbnail(0.1f)//先加载缩略图 然后在加载全图
                 .into(imageView);
     }
 }

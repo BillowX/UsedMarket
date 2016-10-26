@@ -2,6 +2,9 @@ package com.maker.use.manager;
 
 import android.app.Activity;
 
+import com.bumptech.glide.Glide;
+import com.maker.use.utils.UIUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class ActivityCollector {
                 activity.finish();
             }
         }
+        Glide.get(UIUtils.getContext()).clearMemory();//清理内存缓存  可以在UI主线程中进行
     }
 
 }
