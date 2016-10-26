@@ -92,6 +92,11 @@
         <activity
             android:name=".ui.activity.LoveCrowdFundingDetailActivity"/>
 
+        <activity
+            android:name=".ui.activity.ShopDetailActivity"
+            android:theme="@style/ColorTranslucentTheme"
+            ></activity>
+
         <!--会话界面-->
         <activity
             android:name=".ui.activity.ConversationActivity"

@@ -3,7 +3,6 @@ package com.maker.use.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 
@@ -95,13 +94,12 @@ public class SpUtil {
     }
 
     /**
-     * 获取本地sp存储的用户名
+     * 获取本地sp存储的用户ID
      *
      * @return
      */
-    public static String getUsername() {
-        Gson gson = new Gson();
-        User user = gson.fromJson(SpUtil.getString(ConstentValue.USER, ""), User.class);
-        return user.username;
+    public static String getUserId() {
+        User user = GsonUtils.getGson().fromJson(SpUtil.getString(ConstentValue.USER, ""), User.class);
+        return user.getUserId();
     }
 }

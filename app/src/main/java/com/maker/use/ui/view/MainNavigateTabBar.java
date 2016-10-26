@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User:Shine
  * Date:2015-10-29
  * Description:
  */

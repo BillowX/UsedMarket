@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
@@ -26,15 +25,14 @@ import com.maker.use.ui.adapter.CommentAdapter;
 import com.maker.use.ui.adapter.GalleryAdapter;
 import com.maker.use.ui.view.DividerLine;
 import com.maker.use.ui.view.GalleryView;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 
-import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import io.rong.imkit.RongIM;
 
@@ -61,10 +59,12 @@ public class CommodityDetailActivity extends BaseActivity {
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)
     private TextView tv_userName;
-    @ViewInject(R.id.tv_goods_price)
-    private TextView tv_goods_price;
     @ViewInject(R.id.tv_goods_time)
     private TextView tv_goods_time;
+    @ViewInject(R.id.tv_good_num)
+    private TextView tv_good_num;
+    @ViewInject(R.id.tv_goods_price)
+    private TextView tv_goods_price;
     @ViewInject(R.id.tv_goods_name)
     private TextView tv_goods_name;
     @ViewInject(R.id.iv_img)
@@ -90,7 +90,7 @@ public class CommodityDetailActivity extends BaseActivity {
 
     private void initData() {
         mCommodity = (Commodity) getIntent().getSerializableExtra("commodity");
-        mSplitImgUrl = mCommodity.imgurl.split(";");
+        mSplitImgUrl = mCommodity.images.split(";");
         mNewImgUrl = new String[mSplitImgUrl.length];
         for (int i = 0; i < mSplitImgUrl.length; i++) {
             mNewImgUrl[i] = mSplitImgUrl[mSplitImgUrl.length - i - 1];
@@ -108,17 +108,27 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0]).centerCrop().into(iv_head);
+
+        GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_", ""), iv_head);
+       /* Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_","")).centerCrop().into(iv_head);*/
 
         //初始化中心布局
         if (mCommodity != null) {
-            Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + mCommodity.username + "_head.jpg")
-                    .centerCrop().into(iv_userHeadimg);
-
+            //发布者信息
+            /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + mCommodity.headPortrait)
+                    .centerCrop()
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .into(iv_userHeadimg);*/
+            GlideUtils.setImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
             tv_userName.setText(mCommodity.username);
+            tv_goods_time.setText(mCommodity.launchDate);
+            //商品信息
+            tv_goods_name.setText(mCommodity.commodityName);
+            tv_good_num.setText(mCommodity.amount);
             tv_goods_price.setText("¥ " + mCommodity.price);
-//            tv_goods_time.setText(mCommodity.time);
-            tv_goods_name.setText(mCommodity.name);
+
+
             tv_goods_description.setText(mCommodity.description);
 //            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
 
@@ -154,7 +164,12 @@ public class CommodityDetailActivity extends BaseActivity {
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
                     x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);*/
-                    Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position]).centerCrop().into(iv_img);
+                    /*Glide.with(CommodityDetailActivity.this).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""))
+                            .centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.error)
+                            .into(iv_img);*/
+                    GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
                     index = position;
                 }
             });
@@ -162,13 +177,19 @@ public class CommodityDetailActivity extends BaseActivity {
             mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ImageOptions imageOptions = new ImageOptions.Builder()
+                    /*ImageOptions imageOptions = new ImageOptions.Builder()
                             .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                             .setIgnoreGif(false)
                             .setFailureDrawableId(R.drawable.error)
                             .setLoadingDrawableId(R.drawable.loading)
                             .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
+                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);*/
+                    /*Glide.with(CommodityDetailActivity.this).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""))
+                            .centerCrop()
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.error)
+                            .into(iv_img);*/
+                    GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
                     index = position;
                 }
             });

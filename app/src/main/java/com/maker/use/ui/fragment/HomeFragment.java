@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.maker.use.R;
@@ -23,8 +24,6 @@ import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -45,9 +44,9 @@ public class HomeFragment extends BaseFragment {
     @ViewInject(R.id.ll_find)
     private LinearLayout ll_find;
     @ViewInject(R.id.iv_head)
-    private CircleImageView iv_head;
+    private ImageView iv_head;
     @ViewInject(R.id.iv_setting)
-    private CircleImageView iv_setting;
+    private ImageView iv_setting;
 
     private MainActivity mActivity;
     private View mMainView;

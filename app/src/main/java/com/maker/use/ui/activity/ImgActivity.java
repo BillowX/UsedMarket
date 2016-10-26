@@ -16,6 +16,7 @@ import com.maker.use.utils.UIUtils;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+
 /**
  * 应用截图界面
  * Created by XT on 2016/9/17.
@@ -59,13 +60,15 @@ public class ImgActivity extends Activity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(UIUtils.getContext());
+            //设置ImageView的填充类型
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageOptions imageOptions = new ImageOptions.Builder()
-                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setImageScaleType(ImageView.ScaleType.FIT_XY)
                     .setIgnoreGif(false)
                     .setFailureDrawableId(R.drawable.error)
                     .setLoadingDrawableId(R.drawable.loading)
                     .build();
-            x.image().bind(imageView, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);
+            x.image().bind(imageView, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

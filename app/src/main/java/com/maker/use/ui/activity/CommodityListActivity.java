@@ -43,7 +43,7 @@ public class CommodityListActivity extends BaseActivity {
     CoordinatorLayout cl_root;
 
     private CommodityXRecyclerView mCommodityXRecyclerView;
-    private String mUsername;
+    private String mUserId;
     private String mCategory;
     private String mQuery;
     private String mAll;
@@ -64,7 +64,7 @@ public class CommodityListActivity extends BaseActivity {
     }
 
     private void checkWhereFrom() {
-        mUsername = getIntent().getStringExtra("username");
+        mUserId = getIntent().getStringExtra("userId");
         mCategory = getIntent().getStringExtra("category");
         mQuery = getIntent().getStringExtra("query");
         mAll = getIntent().getStringExtra("all");
@@ -73,8 +73,8 @@ public class CommodityListActivity extends BaseActivity {
     private void initView() {
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
-        if (!TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mQuery)) {
-            map.put("username", mUsername);
+        if (!TextUtils.isEmpty(mUserId) && TextUtils.isEmpty(mQuery)) {
+            map.put("userId", mUserId);
             //toolbar设置标题必须在setSupportActionBar才能生效
             toolbar.setTitle("我的发布");
             fab_add.setVisibility(View.VISIBLE);
@@ -141,10 +141,10 @@ public class CommodityListActivity extends BaseActivity {
             map.put("category", mCategory);
             toolbar.setTitle(mCategory);
             fab_add.setVisibility(View.GONE);
-        } else if (!TextUtils.isEmpty(mUsername) && !TextUtils.isEmpty(mQuery)) {
+        } else if (!TextUtils.isEmpty(mUserId) && !TextUtils.isEmpty(mQuery)) {
             toolbar.setTitle("在“我的发布”中搜索“" + mQuery + "”");
             fab_add.setVisibility(View.GONE);
-            map.put("username", mUsername);
+            map.put("userId", mUserId);
             map.put("query", mQuery);
         } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
             toolbar.setTitle("在“" + mCategory + "”中搜索“" + mQuery + "”");
@@ -189,9 +189,9 @@ public class CommodityListActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_search:
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
-                if (!TextUtils.isEmpty(mUsername)) {
+                if (!TextUtils.isEmpty(mUserId)) {
                     //说明是在登陆用户发布的商品中查找
-                    intent.putExtra("username", mUsername);
+                    intent.putExtra("username", mUserId);
                 } else if (!TextUtils.isEmpty(mCategory)) {
                     //说明是在登陆用户发布的商品中查找
                     intent.putExtra("category", mCategory);

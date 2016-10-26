@@ -10,13 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
-
-import org.xutils.image.ImageOptions;
 
 import java.util.List;
 
@@ -47,33 +45,41 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + CommodityList.get(position).username + "_head.jpg")
-                .centerCrop().into(holder.iv_user_head);
+        //发布者头像
+        /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + CommodityList.get(position).headPortrait)
+                .centerCrop()
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.error)
+                .into(holder.iv_user_head);*/
+        GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
+        //发布者用户名
         holder.tv_username.setText(CommodityList.get(position).username);
-
-        ImageOptions imageOptions = new ImageOptions.Builder()
+        //商品
+        holder.tv_name.setText(CommodityList.get(position).commodityName);
+        holder.tv_description.setText(CommodityList.get(position).description);
+        holder.tv_price.setText("￥ " + CommodityList.get(position).price);
+        //商品图片
+        String[] splitImgUrl = CommodityList.get(position).images.split(";");
+        /*ImageOptions imageOptions = new ImageOptions.Builder()
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setIgnoreGif(false)
                 .setFailureDrawableId(R.drawable.error)
                 .setLoadingDrawableId(R.drawable.loading)
                 .setSize(0, 0)//设置图片大小
-                .build();
-
-        String[] splitImgUrl = CommodityList.get(position).imgurl.split(";");
-
+                .build();*/
         for (int i = 0; i < 9; i++) {
             if (i < splitImgUrl.length) {
 //                x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
-                Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + splitImgUrl[i]).centerCrop().into(holder.ivPics[i]);
+                /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + splitImgUrl[i])
+                        .centerCrop()
+                        .placeholder(R.drawable.loading)
+                        .error(R.drawable.error)
+                        .into(holder.ivPics[i]);*/
+                GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.server_heart + "//" + splitImgUrl[i], holder.ivPics[i]);
             } else {
                 holder.ivPics[i].setVisibility(View.GONE);
             }
         }
-
-        holder.tv_name.setText(CommodityList.get(position).name);
-        holder.tv_description.setText(CommodityList.get(position).description);
-        holder.tv_price.setText(String.valueOf(CommodityList.get(position).price));
 
         //将数据保存在itemView的Tag中，以便点击时进行获取
         holder.itemView.setTag(R.string.delete_commodity, CommodityList.get(position));

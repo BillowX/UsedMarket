@@ -1,7 +1,6 @@
 package com.maker.use.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.maker.use.R;
+import com.maker.use.domain.User;
+import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
+import com.maker.use.utils.MD5;
 import com.maker.use.utils.UIUtils;
-import com.maker.use.utils.UploadUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.xutils.common.Callback;
@@ -40,30 +41,35 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
  */
 @ContentView(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
-    //启动actviity的请求码
-    private static final int REQUEST_IMAGE = 2;
+
+    @ViewInject(R.id.toolbar)
+    Toolbar toolbar;
     @ViewInject(R.id.bt_register)
     Button bt_register;
     @ViewInject(R.id.bt_editHead)
     Button bt_editHead;
     @ViewInject(R.id.iv_head)
     ImageView iv_head;
+    //输入框
     @ViewInject(R.id.et_username)
     EditText et_username;
     @ViewInject(R.id.et_password)
     EditText et_password;
+    @ViewInject(R.id.et_affirm_password)
+    EditText et_affirm_password;
+    @ViewInject(R.id.et_phone)
+    EditText et_phone;
+    @ViewInject(R.id.et_shippingAddress)
+    EditText et_shippingAddress;
+    //单选按钮
     @ViewInject(R.id.rb_man)
     RadioButton rb_man;
     @ViewInject(R.id.rb_woman)
     RadioButton rb_woman;
-    @ViewInject(R.id.toolbar)
-    Toolbar toolbar;
-    private Uri fileUri = null;
-    private String headPath;
+
     private File mHeadFile;
-    private String mUsername;
-    private String mPassword;
     private ArrayList<String> selectedPicture;
+    private User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,159 +93,138 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
+        //用户选择头像
         bt_editHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUsername = et_username.getText().toString().trim();
-                if (TextUtils.isEmpty(mUsername)) {
-                    UIUtils.toast("先输入用户名，才能编辑头像！");
-                    return;
-                }
                 MultiImageSelector.create(UIUtils.getContext())
                         .showCamera(true) // 是否显示相机. 默认为显示
-                        .count(1) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
                         .single() // 单选模式
-                        .start(RegisterActivity.this, REQUEST_IMAGE);
-//                showDialog(ConstentValue.CHOICE_HEAD_DIALOG);
+                        .start(RegisterActivity.this, ConstentValue.REQUEST_IMAGE);
             }
         });
-
+        //用户点击注册
         bt_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //昵称、密码这两项时必填的，检查这两项
-                mUsername = et_username.getText().toString().trim();
-                mPassword = et_password.getText().toString().trim();
-                if (TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mPassword)) {
-                    UIUtils.toast("昵称和密码不能为空！");
+                if (!checkFormData(v)) {
                     return;
                 }
-                if (TextUtils.isEmpty(mUsername)) {
-                    UIUtils.toast("昵称不能为空！");
-                    return;
+                if (user != null) {
+                    UploadServer();
                 }
-                if (TextUtils.isEmpty(mPassword)) {
-                    UIUtils.toast("密码不能为空！");
-                    return;
-                }
-                if (mHeadFile == null) {
-                    UIUtils.toast("头像不能为空！");
-                    return;
-                }
-
-                String sex = "woman";
-                if (rb_man.isChecked())
-                    sex = "man";
-                final String finalSex = sex;
-                UIUtils.progressDialog(RegisterActivity.this);
-                RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/RegisterServlet");    // 网址
-                params.addBodyParameter("username", mUsername);    // 参数1（post方式用addBodyParameter）
-                params.addBodyParameter("password", mPassword);    // 参数2（post方式用addBodyParameter）
-                params.addBodyParameter("sex", finalSex);    // 参数3（post方式用addBodyParameter）
-                x.http().post(params, new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(final String result) {
-                        UIUtils.runOnMainThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                UIUtils.toast(result);
-                            }
-                        });
-                        if ("注册成功".equals(result)) {
-                            //保存用户头像
-                            UploadUtils.uploadHead(RegisterActivity.this, mHeadFile);
-
-//                            UIUtils.getContext().startActivity((new Intent(UIUtils.getContext(), LoginActivity.class)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        UIUtils.toast("网络出错啦~");
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        UIUtils.closeProgressDialog();
-                    }
-                });
             }
         });
 
     }
 
-    /*@Override
-    protected Dialog onCreateDialog(int id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (id) {
-            case CHOICE_HEAD_DIALOG: {
-                builder.setTitle("选择头像来源")
-                        .setItems(new String[]{"相册", "拍照"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    //跳转到图片浏览器的应用，选取要发送的图片
-                                    Intent i = new Intent();
-                                    i.setType("image*//*");
-                                    i.putExtra("return-data", true);
-                                    i.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(i, Activity.DEFAULT_KEYS_SHORTCUT);
-                                } else if (which == 1) { //拍照
-                                    Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
-                                    mHeadFile = FileUtil.createHeadFile(mUsername + "_head");
+    /**
+     * 检查用户填写的表单数据
+     */
+    private boolean checkFormData(View view) {
+        //昵称、密码这两项时必填的，检查这两项
+        String username = et_username.getText().toString().trim();
+        String password = et_password.getText().toString().trim();
+        String affirmPassword = et_affirm_password.getText().toString().trim();
+        String phone = et_phone.getText().toString().trim();
+        String shippingAddress = et_shippingAddress.getText().toString().trim();
 
-                                    fileUri = Uri.fromFile(mHeadFile);
-                                    it.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                                    startActivityForResult(it, Activity.DEFAULT_KEYS_DIALER);
-                                }
-                            }
-                        });
-            }
-            break;
+        if (TextUtils.isEmpty(username)) {
+            UIUtils.snackBar(view, "请输入昵称");
+            return false;
         }
-        return builder.create();
-    }*/
+        if (TextUtils.isEmpty(password)) {
+            UIUtils.snackBar(view, "请输入密码");
+            return false;
+        }
+        if (TextUtils.isEmpty(affirmPassword)) {
+            UIUtils.snackBar(view, "请输入确认密码");
+            return false;
+        }
+        if (TextUtils.isEmpty(phone)) {
+            UIUtils.snackBar(view, "请输入您的电话号码");
+            return false;
+        }
+        if (mHeadFile == null) {
+            UIUtils.snackBar(view, "给自己选个头像吧");
+            return false;
+        }
+        if (!password.equals(affirmPassword)) {
+            UIUtils.snackBar(view, "两次密码不一致哦");
+            return false;
+        }
+
+        int sex = 0;
+        if (rb_man.isChecked()) {
+            sex = 1;
+        }
+
+        user = new User();
+        user.setSex(sex);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setPhone(phone);
+        if (!TextUtils.isEmpty(shippingAddress)) {
+            user.setShippingAddress(shippingAddress);
+        }
+        return true;
+    }
+
+    /**
+     * 上传到服务器
+     */
+    private void UploadServer() {
+        UIUtils.progressDialog(RegisterActivity.this);
+        RequestParams params = new RequestParams(UsedMarketURL.REGISTER);
+        params.addBodyParameter("headPortrait", mHeadFile);
+        params.addBodyParameter("username", user.getUsername());
+        params.addBodyParameter("password", MD5.md5(user.getPassword()));
+        params.addBodyParameter("sex", user.getSex() + "");
+        params.addBodyParameter("phone", user.getPhone());
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(final String result) {
+                UIUtils.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UIUtils.toast(result);
+                    }
+                });
+                if ("注册成功".equals(result)) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.toast("网络出错啦~");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                UIUtils.closeProgressDialog();
+            }
+        });
+
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE) {
+        if (requestCode == ConstentValue.REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 selectedPicture = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 String str = selectedPicture.get(0);
+                //显示在ImageView上
                 ImageLoader.getInstance().displayImage("file://" + str, iv_head);
-                mHeadFile = FileUtil.createImgFile(mUsername + "_head");
-                boolean writeFile = FileUtil.writeFile(mHeadFile, str);
+                //创建文件
+                mHeadFile = FileUtil.createImgFile("head");
+                FileUtil.writeFile(mHeadFile, str);
             }
         }
-
-        /*if (resultCode != RESULT_OK) {
-            return;
-        }
-
-        //通过“图片浏览器”获得自己的头像图片
-        if (requestCode == Activity.DEFAULT_KEYS_SHORTCUT) {
-            Uri uri = data.getData();
-            mHeadFile = FileUtil.createHeadFile(mUsername + "_head");
-            headPath = mHeadFile.getAbsolutePath();
-            boolean result = FileUtil.writeFile(getContentResolver(), mHeadFile, uri);
-            Bitmap bitmap = BitmapFactory.decodeFile(mHeadFile.getAbsolutePath());
-            if (bitmap != null) {
-                iv_head.setImageBitmap(bitmap);
-            }
-        }
-        //通过手机的拍照功能，获得自己的头像图片
-        else if (requestCode == Activity.DEFAULT_KEYS_DIALER) {
-            headPath = fileUri.getPath();
-            Bitmap bitmap = BitmapFactory.decodeFile(headPath);
-            if (bitmap != null) {
-                iv_head.setImageBitmap(bitmap);
-            }
-        }*/
     }
 
 }

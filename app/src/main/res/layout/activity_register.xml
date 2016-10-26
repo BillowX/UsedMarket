@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/TranslucentSystemBarColor"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
-              android:background="@color/TranslucentSystemBarColor"
               android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -17,8 +17,8 @@
         android:logo="@null"
         android:theme="@style/Theme.ToolBar"
 
-        toolbar:contentInsetStart="0dp"
         toolbar:contentInsetLeft="0dp"
+        toolbar:contentInsetStart="0dp"
         toolbar:navigationIcon="@drawable/toolbar_back"
         toolbar:title="用户注册"
         toolbar:titleMarginStart="1dp"
@@ -50,7 +50,116 @@
                     android:layout_marginTop="20.0dip"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.design.widget.TextInputLayout
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="*用户名"
+
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/FloatingStyle"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_username"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:paddingLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="*密码"
+
+                        app:counterEnabled="true"
+                        app:counterMaxLength="16"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/FloatingStyle"
+                        app:passwordToggleEnabled="true"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:inputType="textPassword"
+                            android:paddingLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="*确认密码"
+
+                        app:counterEnabled="true"
+                        app:counterMaxLength="16"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/FloatingStyle"
+                        app:passwordToggleEnabled="true"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_affirm_password"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:inputType="textPassword"
+                            android:paddingLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="*手机号码"
+
+                        app:counterEnabled="true"
+                        app:counterMaxLength="11"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/FloatingStyle"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_phone"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:paddingLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="收货地址"
+
+                        app:counterEnabled="true"
+                        app:counterMaxLength="100"
+                        app:errorEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/FloatingStyle"
+                        >
+
+                        <EditText
+                            android:id="@+id/et_shippingAddress"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:paddingLeft="10dp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--<LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="50.0dip"
                         android:gravity="center_vertical"
@@ -85,15 +194,9 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1.0px"
-                        android:background="#ACCC"/>
+                        android:background="#ACCC"/>-->
 
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1.0px"
-                        android:background="#ACCC"/>
-
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="50.0dip"
                         android:gravity="center_vertical"
@@ -123,9 +226,9 @@
                             android:paddingLeft="10.0dip"
                             android:textColor="#ff545454"
                             android:textSize="15.0sp"/>
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <View
+                    <!--<View
                         android:layout_width="fill_parent"
                         android:layout_height="1.0px"
                         android:background="#ACCC"/>
@@ -142,12 +245,49 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:paddingLeft="5.0dip"
+                            android:text="*密    码:"
+                            android:textColor="@android:color/black"
+                            android:textSize="15.0sp"/>
+
+                        <EditText
+                            android:id="@+id/et_affirm_password"
+                            android:layout_width="1px"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="15.0dip"
+                            android:layout_weight="3"
+                            android:background="@android:color/white"
+                            android:hint="请再次确认密码"
+                            android:inputType="textPassword"
+                            android:maxLength="20"
+                            android:paddingLeft="10.0dip"
+                            android:textColor="#ff545454"
+                            android:textSize="15.0sp"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0px"
+                        android:background="#ACCC"/>-->
+
+                    <!--<LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50.0dip"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="1px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:paddingLeft="5.0dip"
                             android:text="*手机号:"
                             android:textColor="@android:color/black"
                             android:textSize="15.0sp"/>
 
                         <EditText
-                            android:id="@+id/phone"
+                            android:id="@+id/et_phone"
                             android:layout_width="1px"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10.0dip"
@@ -160,41 +300,37 @@
                             android:paddingLeft="10.0dip"
                             android:textColor="#ff545454"
                             android:textSize="15.0sp"/>
-                    </LinearLayout>
+                    </LinearLayout>-->
 
-                    <View
+                    <!--<View
                         android:layout_width="fill_parent"
                         android:layout_height="1.0px"
-                        android:background="#ACCC"/>
+                        android:background="#ACCC"/>-->
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="50.0dip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:padding="10dp"
                     android:orientation="horizontal"
                     >
 
                     <TextView
-                        android:layout_width="1px"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.08"
-                        android:gravity="right"
-                        android:paddingLeft="5.0dip"
-                        android:text="*性    别:"
+                        android:text="*性别:"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@android:color/black"
-                        android:textSize="15.0sp"/>
+                        android:textSize="15sp"/>
 
                     <RadioGroup
-                        android:layout_width="1px"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10.0dip"
-                        android:layout_marginRight="15.0dip"
-                        android:layout_weight="3"
                         android:orientation="horizontal"
-                        android:paddingLeft="10.0dip"
-                        android:textSize="15.0sp"
+                        android:textSize="15sp"
                         >
 
                         <RadioButton
@@ -269,12 +405,13 @@
 
                 <Button
                     android:id="@+id/bt_register"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20.0dip"
-                    android:layout_marginRight="20.0dip"
-                    android:layout_marginTop="20.0dip"
-                    android:text="注 册"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_marginTop="10.0dip"
+                    android:text="确认注册"
+                    android:background="#398EFF"
                     android:textColor="#ff000000"
                     android:textSize="15.0sp"/>
 

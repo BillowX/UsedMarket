@@ -204,7 +204,7 @@ public class CrowdFundingXRecyclerView extends XRecyclerView implements View.OnC
                 mPopupWindow.dismiss();
                 UIUtils.progressDialog(context);
                 RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
-                params1.addQueryStringParameter("id", String.valueOf(commodity.id));
+                params1.addQueryStringParameter("id", String.valueOf(commodity.commodityId));
                 x.http().get(params1, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

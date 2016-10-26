@@ -242,6 +242,7 @@
                 android:id="@+id/bt_change_password"
                 android:layout_width="match_parent"
                 android:textColor="#000"
+                android:onClick="changePassword"
                 android:layout_height="wrap_content"
                 android:text="修改密码"
                 />

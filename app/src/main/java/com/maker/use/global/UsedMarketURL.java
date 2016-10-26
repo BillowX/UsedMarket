@@ -13,4 +13,21 @@ public class UsedMarketURL {
 
     //后台项目地址
     public static String server_heart = "http://119.29.213.119:8080/UsedMarket";
+
+    //注册
+    public static String REGISTER = server_heart + "/UserInfo/insert";
+    //登陆
+    public static String LOGIN = server_heart + "/UserInfo/login";
+    //修改密码
+    public static String CHANGE_PASSWORD = server_heart + "/UserInfo/editPassword";
+    //头像地址
+    public static String HEAD = server_heart + "/";
+
+    //上传商品
+    public static String UPLOAD_COMMODITY = server_heart + "/Commodity/upload";
+    //删除商品
+    public static String DELETE_COMMODITY = server_heart + "/Commodity/delete";
+    //查询商品
+    public static String SEARCH_COMMODITY = server_heart + "/Commodity/search";
+
 }

@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.maker.use.R;
 import com.maker.use.utils.LoginUtils;
+import com.maker.use.utils.MD5;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ContentView;
@@ -51,10 +52,10 @@ public class LoginActivity extends BaseActivity {
         String username = et_username.getText().toString();
         String password = et_password.getText().toString();
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-            UIUtils.toast("用户名或密码不能为空！");
+            UIUtils.snackBar(view, "用户名或密码不能为空！");
             return;
         }
-        LoginUtils.login(username, password,this);
+        LoginUtils.login(username, MD5.md5(password), this);
     }
 
 
@@ -65,6 +66,5 @@ public class LoginActivity extends BaseActivity {
         } else {
             startActivity(intent);
         }
-//        finish();
     }
 }

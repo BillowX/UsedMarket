@@ -26,9 +26,9 @@ import io.rong.imlib.model.UserInfo;
 
 public class IMKitUtils {
 
-    private static String token;
     private static final String RY_APP_KEY = "6tnym1brnmkc7";
     private static final String RY_APP_SECRET = "Xc51aOwNi5SM";
+    private static String token;
 
     private static RequestParams addHeader(RequestParams params) {
         Random r = new Random();
@@ -37,8 +37,8 @@ public class IMKitUtils {
         params.addHeader("App-Key", RY_APP_KEY);
         params.addHeader("Nonce", Nonce);
         params.addHeader("Timestamp", Timestamp);
-//        params.addHeader("Signature", MD5.encryptToSHA(RY_APP_SECRET + Nonce + Timestamp));
-        params.addHeader("Signature", MD5.SHA1(RY_APP_SECRET + Nonce + Timestamp));
+//        params.addHeader("Signature", MD5_test.encryptToSHA(RY_APP_SECRET + Nonce + Timestamp));
+        params.addHeader("Signature", MD5_test.SHA1(RY_APP_SECRET + Nonce + Timestamp));
         return params;
     }
 
@@ -47,9 +47,9 @@ public class IMKitUtils {
                 "https://api.cn.ronghub.com/user/getToken.json");
         addHeader(params);
 
-        params.addBodyParameter("userId", user.username);
-        params.addBodyParameter("name", user.username);
-        params.addBodyParameter("portraitUri", UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg");
+        params.addBodyParameter("userId", user.getUserId());
+        params.addBodyParameter("name", user.getUsername());
+        params.addBodyParameter("portraitUri", UsedMarketURL.HEAD + user.getHeadPortrait());
 
         x.http().post(params, new Callback.CommonCallback<String>() {
 
@@ -85,6 +85,23 @@ public class IMKitUtils {
     }
 
     /**
+     * 获得当前进程的名字
+     *
+     * @param context context
+     * @return 进程号
+     */
+    private static String getCurProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 建立与融云服务器的连接
      *
      * @param token
@@ -104,13 +121,6 @@ public class IMKitUtils {
                 @Override
                 public void onTokenIncorrect() {
                     Log.d("token_connect", "--onTokenIncorrect");
-//                    String s = SpUtil.getString(ConstentValue.USER, "");
-//                    if (!TextUtils.isEmpty(s)) {
-//                        Gson gson = new Gson();
-//                        User user = gson.fromJson(s, User.class);
-//                        connect(getToken(user));
-//                    }
-
                 }
 
                 /**
@@ -138,22 +148,5 @@ public class IMKitUtils {
                 }
             });
         }
-    }
-
-    /**
-     * 获得当前进程的名字
-     *
-     * @param context context
-     * @return 进程号
-     */
-    private static String getCurProcessName(Context context) {
-        int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                return appProcess.processName;
-            }
-        }
-        return null;
     }
 }

@@ -80,6 +80,7 @@ public class CampusDynamicXRecyclerView extends XRecyclerView implements View.On
         setLayoutManager(layoutManager);
         setRefreshProgressStyle(ProgressStyle.BallPulse);
         setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
+        setArrowImageView(R.drawable.iconfont_downgrey);
         //设置Item增加、移除动画
         setItemAnimator(new DefaultItemAnimator());
         //设置条目之间的分割线
@@ -155,6 +156,7 @@ public class CampusDynamicXRecyclerView extends XRecyclerView implements View.On
 //                        mAdapter.notifyDataSetChanged();
                     }
                     refreshComplete();
+
                 }
                 //加载更多逻辑
                 else {
@@ -211,7 +213,7 @@ public class CampusDynamicXRecyclerView extends XRecyclerView implements View.On
                 mPopupWindow.dismiss();
                 UIUtils.progressDialog(context);
                 RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
-                params1.addQueryStringParameter("id", String.valueOf(commodity.id));
+                params1.addQueryStringParameter("id", String.valueOf(commodity.commodityId));
                 x.http().get(params1, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

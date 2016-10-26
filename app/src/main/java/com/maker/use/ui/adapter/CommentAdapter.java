@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.maker.use.R;
 
 /**
+ * 评论列表适配器
  * Created by XT on 2016/10/23.
  */
 

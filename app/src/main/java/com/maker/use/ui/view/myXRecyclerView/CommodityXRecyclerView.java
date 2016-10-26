@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -20,7 +21,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -30,6 +30,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
 import com.maker.use.ui.adapter.CommodityXRecyclerViewAdapter;
 import com.maker.use.ui.adapter.EmptyAdapter;
+import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -56,7 +57,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
     private List<Commodity> mCommodityList;
     private CommodityXRecyclerViewAdapter mAdapter;
     private String mAll;
-    private String mUsername;
+    private String mUserId;
     private String mCategory;
     private PopupWindow mPopupWindow;
     private String mQuery;
@@ -84,7 +85,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
 
     private void checkWhereFrom() {
         mAll = map.get("all");
-        mUsername = map.get("username");
+        mUserId = map.get("userId");
         mCategory = map.get("category");
         mQuery = map.get("query");
     }
@@ -130,41 +131,45 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
         if (!isRefresh) {
             UIUtils.progressDialog(context);
         }
-        final RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/FindCommodityServlet");
+        final RequestParams params = new RequestParams(UsedMarketURL.SEARCH_COMMODITY);
 
         //根据whereFrom判断请求参数
         if (!TextUtils.isEmpty(mAll) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("all", mAll);
-        } else if (!TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("username", mUsername);
+            params.addQueryStringParameter("type", "all");
+        } else if (!TextUtils.isEmpty(mUserId) && TextUtils.isEmpty(mQuery)) {
+            params.addQueryStringParameter("type", "t_commodity.user_id");
+            params.addQueryStringParameter("queryValue", mUserId);
         } else if (!TextUtils.isEmpty(mCategory) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("category", mCategory);
-        } else if (!TextUtils.isEmpty(mUsername) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("username", mUsername);
-            params.addQueryStringParameter("query", mQuery);
+            params.addQueryStringParameter("type", "category");
+            params.addQueryStringParameter("queryValue", mCategory);
+        } else if (!TextUtils.isEmpty(mUserId) && !TextUtils.isEmpty(mQuery)) {
+            params.addQueryStringParameter("type", "t_commodity.user_id");
+            params.addQueryStringParameter("queryValue", mUserId);
+            params.addQueryStringParameter("indistinctField", mQuery);
         } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("category", mCategory);
-            params.addQueryStringParameter("query", mQuery);
+            params.addQueryStringParameter("type", "category");
+            params.addQueryStringParameter("queryValue", mCategory);
+            params.addQueryStringParameter("indistinctField", mQuery);
         } else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("all", mAll);
-            params.addQueryStringParameter("query", mQuery);
+            params.addQueryStringParameter("type", "all");
+            params.addQueryStringParameter("indistinctField", mQuery);
         }
 
         params.addQueryStringParameter("index", index);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
-                final Gson gson = new Gson();
+                Log.e("commodity",result);
                 //刷新逻辑
                 if (mCommodityList == null) {
-                    mCommodityList = gson.fromJson(result, new TypeToken<List<Commodity>>() {
-                    }.getType());
+                    mCommodityList = GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {}.getType());
 
                     //如果没有数据，则显示一个空白样式的图片
                     if (mCommodityList.size() < 1) {
                         EmptyAdapter emptyAdapter = new EmptyAdapter();
                         setAdapter(emptyAdapter);
                     } else {
+                        Log.e("commodity",mCommodityList.get(0).toString());
                         //设置适配器
                         mAdapter = new CommodityXRecyclerViewAdapter(mCommodityList);
                         //设置条目点击监听
@@ -174,7 +179,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                                 Intent intent = new Intent(UIUtils.getContext(), CommodityDetailActivity.class);
                                 intent.putExtra("commodity", commodity);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     UIUtils.getContext().startActivity(intent);
 //                                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, view, "sharp").toBundle());
                                 } else {
@@ -183,7 +188,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                             }
                         });
                         //只有在用户发布界面才能有长按删除操作
-                        if (!TextUtils.isEmpty(mUsername)) {
+                        if (!TextUtils.isEmpty(mUserId)) {
                             //设置条目长按监听
                             mAdapter.setOnItemLongClickListener(new CommodityXRecyclerViewAdapter.OnRecyclerViewItemLongClickListener() {
                                 @Override
@@ -194,7 +199,6 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                         }
 
                         setAdapter(mAdapter);
-//                        mAdapter.notifyDataSetChanged();
                     }
                     refreshComplete();
                 }
@@ -203,14 +207,13 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                     UIUtils.getHandler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<Commodity> newData = (List<Commodity>) gson.fromJson(result, new TypeToken<List<Commodity>>() {}.getType());
+                            List<Commodity> newData = (List<Commodity>) GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
+                            }.getType());
                             if (newData.size() >= 1) {
                                 mAdapter.add(newData);
-//                                mCommodityList.addAll(newData);
                             } else {
                                 UIUtils.snackBar(cl_root, "没有更多咯");
                             }
-//                            mAdapter.notifyDataSetChanged();
                             loadMoreComplete();
                         }
                     }, 3000);
@@ -251,8 +254,8 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
             public void onClick(View v) {
                 mPopupWindow.dismiss();
                 UIUtils.progressDialog(context);
-                RequestParams params1 = new RequestParams(UsedMarketURL.server_heart + "/servlet/DeleteCommodityServlet");
-                params1.addQueryStringParameter("id", String.valueOf(commodity.id));
+                RequestParams params1 = new RequestParams(UsedMarketURL.DELETE_COMMODITY);
+                params1.addQueryStringParameter("commodityId", commodity.commodityId);
                 x.http().get(params1, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 /**
- * User:Shine
  * Date:2015-11-20
  * Description:
  */

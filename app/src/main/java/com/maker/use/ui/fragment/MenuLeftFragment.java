@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
@@ -22,16 +21,13 @@ import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.activity.UserDetailActivity;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
-import org.xutils.common.util.DensityUtil;
-import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import static android.R.attr.radius;
 
 
 /**
@@ -71,22 +67,12 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
             public void onLogin(User user) {
                 mUser = user;
                 //用户名
-                tv_username.setText("你好，" + user.username);
-                //用户头像
-                ImageOptions imageOptions = new ImageOptions.Builder()
-                        .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                        .setRadius(DensityUtil.dip2px(radius))
-                        .setIgnoreGif(false)
-                        .setCrop(true)//是否对图片进行裁剪
-                        .setFailureDrawableId(R.drawable.register_default_head)
-                        .setLoadingDrawableId(R.drawable.register_default_head)
-                        .build();
-//                x.image().bind(iv_icon, UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg",imageOptions);
-                Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "/head/" + user.username + "_head.jpg")
-                        .centerCrop().into(iv_icon);
-
+                tv_username.setText("你好，" + user.getUsername());
+                //头像
+                /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + user.getHeadPortrait()).centerCrop().into(iv_icon);*/
+                GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.HEAD + mUser.getHeadPortrait(), iv_icon);
                 //用户性别
-                if ("man".equals(user.sex)) {
+                if (user.getSex() == 1) {
                     iv_sex.setImageResource(R.drawable.sex_man);
                 } else {
                     iv_sex.setImageResource(R.drawable.sex_woman);
@@ -119,13 +105,12 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                     } else {
                         startActivity(intent);
                     }
-//                    mActivity.finish();
                 }
                 break;
             case R.id.rl_issue:
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                    intent.putExtra("username", SpUtil.getUsername());
+                    intent.putExtra("userId", SpUtil.getUserId());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
                     } else {
@@ -138,7 +123,6 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                     } else {
                         startActivity(intent);
                     }
-//                    mActivity.finish();
                 }
                 break;
         }

@@ -207,7 +207,7 @@ public class FileUtil {
      */
     private static Bitmap imageZoom(Bitmap bitmap) {
         //图片允许最大空间   单位：KB
-        double maxSize = 70.00;
+        double maxSize = 500.00;
         //将bitmap放至数组中，意在bitmap的大小（与实际读取的原文件要大）
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

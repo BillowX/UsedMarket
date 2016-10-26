@@ -33,7 +33,7 @@ public class SupporterFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mMainView = inflater.inflate(R.layout.fragment_originality_supporter, null);
+        mMainView = inflater.inflate(R.layout.layout_supporter, null);
         x.view().inject(this, mMainView);
         initView();
         return mMainView;

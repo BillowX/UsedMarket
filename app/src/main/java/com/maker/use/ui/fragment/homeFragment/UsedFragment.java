@@ -23,6 +23,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.common.Callback;
@@ -270,7 +271,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            x.image().bind(imageView, UsedMarketURL.url_heart + mImgs.get(position).imgUrl);
+            GlideUtils.setImg(mActivity,UsedMarketURL.url_heart + mImgs.get(position).imgUrl,imageView);
+//            x.image().bind(imageView, UsedMarketURL.url_heart + mImgs.get(position).imgUrl);
             container.addView(imageView);
             return imageView;
         }

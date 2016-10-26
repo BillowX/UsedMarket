@@ -154,12 +154,11 @@
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="fill_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_et"
-                android:gravity="left|top"
                 android:hint="写下你的商品描述..."
                 android:inputType="textMultiLine"
-                android:maxLength="300"
+                android:maxLength="100"
                 android:padding="5dp"
                 android:paddingTop="20dp"
                 android:textColorHint="#808080"
@@ -182,25 +181,19 @@
                 android:layout_height="10dp"
                 android:background="#00000000"/>
 
-            <GridView
-                android:id="@+id/gv_img"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_img"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:horizontalSpacing="2dp"
-                android:numColumns="9"
-                android:transcriptMode="alwaysScroll"
-                android:scrollbars="vertical"
-                android:verticalSpacing="5dp">
-            </GridView>
+                android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bg_submit"
+                android:onClick="uploadServer"
                 android:text="提交"
-                android:onClick="upload"
                 android:textColor="#FFFFFF"
                 android:textSize="23sp"/>
         </LinearLayout>

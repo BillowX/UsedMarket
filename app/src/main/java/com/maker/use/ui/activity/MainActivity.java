@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
@@ -21,6 +20,7 @@ import com.maker.use.ui.fragment.DynamicFragment;
 import com.maker.use.ui.fragment.HomeFragment;
 import com.maker.use.ui.fragment.MessageFragment;
 import com.maker.use.ui.view.MainNavigateTabBar;
+import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
@@ -55,21 +55,15 @@ public class MainActivity extends BaseActivity {
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             String s = SpUtil.getString(ConstentValue.USER, "");
             if (!TextUtils.isEmpty(s)) {
-                /*String[] results = s.split(",");
-                User user = new User();
-                user.id = Integer.parseInt(results[0]);
-                user.username = results[1];
-                user.password = results[2];
-                user.sex = results[3];*/
-                Gson gson = new Gson();
-                User user = gson.fromJson(s, User.class);
-                LoginUtils.login(user.username, user.password, this);
+                User user = GsonUtils.getGson().fromJson(s, User.class);
+                LoginUtils.login(user.getUsername(), user.getPassword(), this);
             }
         }
 
         //在登陆页面登陆后返回的登陆操作
         if ("login".equals(getIntent().getStringExtra("info"))) {
-//            dl_root.openDrawer(Gravity.LEFT);
+            /*dl_root.openDrawer(Gravity.LEFT);
+            dl_root.invalidate();*/
         }
 
     }
@@ -82,7 +76,7 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(DynamicFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_dynamic_normal, R.drawable.main_dynamic_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
 //        mNavigateTabBar.setCurrentSelectedTab(3);
-       mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+        mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
                 if (!"HomeFragment".equals(holder.fragmentClass.getSimpleName())) {

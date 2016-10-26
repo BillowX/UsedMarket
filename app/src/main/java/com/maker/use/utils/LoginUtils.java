@@ -3,7 +3,6 @@ package com.maker.use.utils;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.google.gson.Gson;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
@@ -27,27 +26,28 @@ public class LoginUtils {
      * 传入用户名和密码进行验证登陆
      *
      * @param username
-     * @param password
+     * @param password  MD5加密过的密码
      */
     public static void login(String username, String password, final Activity activity) {
-        UIUtils.closeProgressDialog();
         UIUtils.progressDialog(activity);
-        //使用XUtils框架请求网络
-        RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/LoginServlet");    // 网址
-        params.addQueryStringParameter("username", username); // 参数1
-        params.addQueryStringParameter("password", password); // 参数2
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(UsedMarketURL.LOGIN);
+        params.addBodyParameter("username", username);
+        params.addBodyParameter("password", password);
+//        params.addQueryStringParameter("username", username);
+//        params.addQueryStringParameter("password", MD5.md5(password));
+
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
                 //更新登陆状态
                 SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
-                if (!"登陆失败！".equals(result)) {
-
-                    Gson gson = new Gson();
-                    User user = gson.fromJson(result, User.class);
+                if (!"登陆失败".equals(result)) {
+                    User user = GsonUtils.getGson().fromJson(result, User.class);
                     //保存用户信息
                     SpUtil.putString(ConstentValue.USER, result);
+                    //在融云注册该用户
                     IMKitUtils.getToken(user);
+
                     if (!(activity instanceof MainActivity)) {
                         ActivityCollector.finishAll();
                         Intent intent = new Intent(UIUtils.getContext(), MainActivity.class);
