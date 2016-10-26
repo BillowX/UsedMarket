@@ -32,7 +32,7 @@ public class ConversationActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        mTargetId = getIntent().getData().getQueryParameter("targetId");
+        mTargetId = getIntent().getData().getQueryParameter("title");
         try {
             getActionBar().setTitle(mTargetId);
         } catch (NullPointerException e) {

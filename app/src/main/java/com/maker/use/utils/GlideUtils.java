@@ -34,4 +34,8 @@ public class GlideUtils {
                 .thumbnail(0.1f)//先加载缩略图 然后在加载全图
                 .into(imageView);
     }
+
+    public static void clearMemory() {
+        Glide.get(UIUtils.getContext()).clearMemory();//清理内存缓存  可以在UI主线程中进行
+    }
 }

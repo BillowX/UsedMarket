@@ -14,6 +14,7 @@ import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.TimeUtil;
 import com.maker.use.utils.UIUtils;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
         GlideUtils.setCircleImageViewImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
         //发布者用户名
         holder.tv_username.setText(CommodityList.get(position).username);
+        holder.tv_time.setText(TimeUtil.format(CommodityList.get(position).launchDate));
         //商品
         holder.tv_name.setText(CommodityList.get(position).commodityName);
         holder.tv_description.setText(CommodityList.get(position).description);
@@ -141,6 +143,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
         TextView tv_name;
         TextView tv_description;
         TextView tv_price;
+        TextView tv_time;
         ImageView iv_user_head;
 
         public MyViewHolder(final View itemView) {
@@ -163,6 +166,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
             tv_description = (TextView) itemView.findViewById(R.id.tv_description);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
+            tv_time = (TextView) itemView.findViewById(R.id.tv_time);
 
             ll_img = (LinearLayout) itemView.findViewById(R.id.ll_img);
 

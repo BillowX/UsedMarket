@@ -29,6 +29,7 @@ public class IMKitUtils {
     private static final String RY_APP_KEY = "6tnym1brnmkc7";
     private static final String RY_APP_SECRET = "Xc51aOwNi5SM";
     private static String token;
+    private static User mUser;
 
     private static RequestParams addHeader(RequestParams params) {
         Random r = new Random();
@@ -43,8 +44,8 @@ public class IMKitUtils {
     }
 
     public static String getToken(User user) {
-        RequestParams params = new RequestParams(
-                "https://api.cn.ronghub.com/user/getToken.json");
+        mUser = user;
+        RequestParams params = new RequestParams("https://api.cn.ronghub.com/user/getToken.json");
         addHeader(params);
 
         params.addBodyParameter("userId", user.getUserId());
@@ -132,7 +133,7 @@ public class IMKitUtils {
 
                     Log.d("token_connect", "--onSuccess" + userid);
                     if (RongIM.getInstance() != null) {
-                        RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid, userid, Uri.parse(UsedMarketURL.server_heart + "/head/" + userid + "_head.jpg")));
+                        RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid, mUser.getUsername(), Uri.parse(UsedMarketURL.HEAD + mUser.getHeadPortrait())));
                     }
                     RongIM.getInstance().setMessageAttachedUserInfo(true);
                 }

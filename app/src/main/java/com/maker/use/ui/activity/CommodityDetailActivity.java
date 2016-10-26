@@ -27,6 +27,7 @@ import com.maker.use.ui.view.DividerLine;
 import com.maker.use.ui.view.GalleryView;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.SpUtil;
+import com.maker.use.utils.TimeUtil;
 import com.maker.use.utils.UIUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -122,7 +123,7 @@ public class CommodityDetailActivity extends BaseActivity {
                     .into(iv_userHeadimg);*/
             GlideUtils.setCircleImageViewImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
             tv_userName.setText(mCommodity.username);
-            tv_goods_time.setText(mCommodity.launchDate);
+            tv_goods_time.setText(TimeUtil.format(mCommodity.launchDate));
             //商品信息
             tv_goods_name.setText(mCommodity.commodityName);
             tv_good_num.setText(mCommodity.amount);
@@ -204,6 +205,9 @@ public class CommodityDetailActivity extends BaseActivity {
                 intent.putExtra("index", index);
                 intent.putExtra("imgUrl", mNewImgUrl);
                 UIUtils.getContext().startActivity(intent);
+                /*new ImageViewer.Builder(CommodityDetailActivity.this, mNewImgUrl)
+                        .setStartPosition(index)
+                        .show();*/
             }
         });
 
@@ -391,7 +395,7 @@ public class CommodityDetailActivity extends BaseActivity {
         if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             //启动会话界面
             if (RongIM.getInstance() != null)
-                RongIM.getInstance().startPrivateChat(this, mCommodity.username, "title");
+                RongIM.getInstance().startPrivateChat(this, mCommodity.userId, mCommodity.username);
         } else {
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         }

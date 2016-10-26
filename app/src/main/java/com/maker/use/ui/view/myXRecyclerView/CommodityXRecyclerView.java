@@ -10,7 +10,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -30,6 +29,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
 import com.maker.use.ui.adapter.CommodityXRecyclerViewAdapter;
 import com.maker.use.ui.adapter.EmptyAdapter;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.UIUtils;
 
@@ -107,6 +107,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                     public void run() {
                         mCommodityList.clear();
                         mCommodityList = null;
+                        GlideUtils.clearMemory();
                         get10DataFromService("0");
                     }
                 }, 3000);
@@ -159,17 +160,16 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
-                Log.e("commodity",result);
                 //刷新逻辑
                 if (mCommodityList == null) {
-                    mCommodityList = GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {}.getType());
+                    mCommodityList = GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
+                    }.getType());
 
                     //如果没有数据，则显示一个空白样式的图片
                     if (mCommodityList.size() < 1) {
                         EmptyAdapter emptyAdapter = new EmptyAdapter();
                         setAdapter(emptyAdapter);
                     } else {
-                        Log.e("commodity",mCommodityList.get(0).toString());
                         //设置适配器
                         mAdapter = new CommodityXRecyclerViewAdapter(mCommodityList);
                         //设置条目点击监听

@@ -11,10 +11,8 @@ import android.widget.ImageView;
 
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
-
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 
 /**
@@ -60,7 +58,7 @@ public class ImgActivity extends Activity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(UIUtils.getContext());
-            //设置ImageView的填充类型
+            /*//设置ImageView的填充类型
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageOptions imageOptions = new ImageOptions.Builder()
                     .setImageScaleType(ImageView.ScaleType.FIT_XY)
@@ -68,7 +66,8 @@ public class ImgActivity extends Activity {
                     .setFailureDrawableId(R.drawable.error)
                     .setLoadingDrawableId(R.drawable.loading)
                     .build();
-            x.image().bind(imageView, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);
+            x.image().bind(imageView, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);*/
+            GlideUtils.setImg(ImgActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
