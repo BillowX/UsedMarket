@@ -19,9 +19,9 @@ import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.MD5;
 import com.maker.use.utils.UIUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -219,7 +219,8 @@ public class RegisterActivity extends BaseActivity {
                 selectedPicture = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 String str = selectedPicture.get(0);
                 //显示在ImageView上
-                ImageLoader.getInstance().displayImage("file://" + str, iv_head);
+//                ImageLoader.getInstance().displayImage("file://" + str, iv_head);
+                GlideUtils.setImg(RegisterActivity.this, "file://" + str, iv_head);
                 //创建文件
                 mHeadFile = FileUtil.createImgFile("head");
                 FileUtil.writeFile(mHeadFile, str);

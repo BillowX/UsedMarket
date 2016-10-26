@@ -90,7 +90,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
 
         //头像
 //        Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + mUser.getHeadPortrait().replace("_","")).centerCrop().into(iv_user_head);
-        GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.HEAD + mUser.getHeadPortrait().replace("_", ""), iv_user_head);
+        GlideUtils.setImg(this, UsedMarketURL.HEAD + mUser.getHeadPortrait().replace("_", ""), iv_user_head);
         //用户名
         tv_user_name.setText(mUser.getUsername());
         //性别

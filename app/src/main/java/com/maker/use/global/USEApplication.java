@@ -7,10 +7,6 @@ import android.os.Message;
 import android.os.Process;
 
 import com.maker.use.utils.SpUtil;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.xutils.x;
 
@@ -56,7 +52,7 @@ public class USEApplication extends Application {
         //融云初始化
         RongIM.init(this);
 
-        //初始化ImageLoader
+        /*//初始化ImageLoader
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .threadPriority(Thread.NORM_PRIORITY - 2)//设置当前线程的优先级
                 .denyCacheImageMultipleSizesInMemory()
@@ -65,6 +61,6 @@ public class USEApplication extends Application {
                 .diskCacheFileCount(300)// 可以缓存的文件数量
                 .tasksProcessingOrder(QueueProcessingType.LIFO)//后进先出
                 .build();
-        ImageLoader.getInstance().init(config);
+        ImageLoader.getInstance().init(config);*/
     }
 }

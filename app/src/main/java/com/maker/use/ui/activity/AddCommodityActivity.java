@@ -27,9 +27,9 @@ import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.FileUtil;
+import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -284,7 +284,8 @@ public class AddCommodityActivity extends BaseActivity {
                     holder.iv_img.setVisibility(View.GONE);
                 }
             } else {
-                ImageLoader.getInstance().displayImage("file://" + allSelectedPicture.get(position), holder.iv_img);
+                GlideUtils.setImg(AddCommodityActivity.this,"file://" + allSelectedPicture.get(position),holder.iv_img);
+//                ImageLoader.getInstance().displayImage("file://" + allSelectedPicture.get(position), holder.iv_img);
                 holder.bt_delete.setVisibility(View.VISIBLE);
                 holder.bt_delete.setOnClickListener(new View.OnClickListener() {
                     @Override

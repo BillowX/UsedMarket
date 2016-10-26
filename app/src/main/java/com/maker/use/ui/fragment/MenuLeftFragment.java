@@ -70,7 +70,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                 tv_username.setText("你好，" + user.getUsername());
                 //头像
                 /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + user.getHeadPortrait()).centerCrop().into(iv_icon);*/
-                GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.HEAD + mUser.getHeadPortrait(), iv_icon);
+                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + mUser.getHeadPortrait(), iv_icon);
                 //用户性别
                 if (user.getSex() == 1) {
                     iv_sex.setImageResource(R.drawable.sex_man);

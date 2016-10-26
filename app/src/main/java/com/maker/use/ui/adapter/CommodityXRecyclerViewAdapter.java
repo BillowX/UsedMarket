@@ -51,7 +51,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.error)
                 .into(holder.iv_user_head);*/
-        GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
+        GlideUtils.setCircleImageViewImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
         //发布者用户名
         holder.tv_username.setText(CommodityList.get(position).username);
         //商品

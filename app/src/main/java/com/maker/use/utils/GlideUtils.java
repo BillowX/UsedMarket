@@ -23,4 +23,11 @@ public class GlideUtils {
                 .error(R.drawable.error)//错误图片
                 .into(imageView);
     }
+
+    public static void setCircleImageViewImg(Context context, String url, ImageView imageView) {
+        Glide.with(context).load(url)
+                .centerCrop()
+                .crossFade()//渐现效果
+                .into(imageView);
+    }
 }

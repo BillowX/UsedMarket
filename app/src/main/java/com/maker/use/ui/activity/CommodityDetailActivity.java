@@ -120,7 +120,7 @@ public class CommodityDetailActivity extends BaseActivity {
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.error)
                     .into(iv_userHeadimg);*/
-            GlideUtils.setImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
+            GlideUtils.setCircleImageViewImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
             tv_userName.setText(mCommodity.username);
             tv_goods_time.setText(mCommodity.launchDate);
             //商品信息
