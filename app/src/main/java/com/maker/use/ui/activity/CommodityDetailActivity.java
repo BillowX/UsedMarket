@@ -111,16 +111,10 @@ public class CommodityDetailActivity extends BaseActivity {
         });
 
         GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_", ""), iv_head);
-       /* Glide.with(this).load(UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_","")).centerCrop().into(iv_head);*/
 
         //初始化中心布局
         if (mCommodity != null) {
             //发布者信息
-            /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + mCommodity.headPortrait)
-                    .centerCrop()
-                    .placeholder(R.drawable.loading)
-                    .error(R.drawable.error)
-                    .into(iv_userHeadimg);*/
             GlideUtils.setCircleImageViewImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
             tv_userName.setText(mCommodity.username);
             tv_goods_time.setText(TimeUtil.format(mCommodity.launchDate));
@@ -131,7 +125,6 @@ public class CommodityDetailActivity extends BaseActivity {
 
 
             tv_goods_description.setText(mCommodity.description);
-//            x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + commodity.imgurl);
 
             //留言区
             RecyclerView recyclerView = new RecyclerView(UIUtils.getContext());
@@ -148,7 +141,7 @@ public class CommodityDetailActivity extends BaseActivity {
             recyclerView.addItemDecoration(dividerLine);
             ll_message_list.addView(recyclerView);
 
-            //设置画廊效果
+            //设置画廊效果的商品图片查看器
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recView_goods_img.setLayoutManager(linearLayoutManager);
@@ -158,18 +151,6 @@ public class CommodityDetailActivity extends BaseActivity {
             recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
                 @Override
                 public void onChange(View view, int position) {
-                    /*ImageOptions imageOptions = new ImageOptions.Builder()
-                            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                            .setIgnoreGif(false)
-                            .setFailureDrawableId(R.drawable.error)
-                            .setLoadingDrawableId(R.drawable.loading)
-                            .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position], imageOptions);*/
-                    /*Glide.with(CommodityDetailActivity.this).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""))
-                            .centerCrop()
-                            .placeholder(R.drawable.loading)
-                            .error(R.drawable.error)
-                            .into(iv_img);*/
                     GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
                     index = position;
                 }
@@ -178,18 +159,6 @@ public class CommodityDetailActivity extends BaseActivity {
             mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    /*ImageOptions imageOptions = new ImageOptions.Builder()
-                            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                            .setIgnoreGif(false)
-                            .setFailureDrawableId(R.drawable.error)
-                            .setLoadingDrawableId(R.drawable.loading)
-                            .build();
-                    x.image().bind(iv_img, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_",""), imageOptions);*/
-                    /*Glide.with(CommodityDetailActivity.this).load(UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""))
-                            .centerCrop()
-                            .placeholder(R.drawable.loading)
-                            .error(R.drawable.error)
-                            .into(iv_img);*/
                     GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
                     index = position;
                 }
@@ -205,9 +174,6 @@ public class CommodityDetailActivity extends BaseActivity {
                 intent.putExtra("index", index);
                 intent.putExtra("imgUrl", mNewImgUrl);
                 UIUtils.getContext().startActivity(intent);
-                /*new ImageViewer.Builder(CommodityDetailActivity.this, mNewImgUrl)
-                        .setStartPosition(index)
-                        .show();*/
             }
         });
 

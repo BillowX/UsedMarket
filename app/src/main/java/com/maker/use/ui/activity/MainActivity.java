@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity {
     private MainNavigateTabBar mNavigateTabBar;
 
     private onFragmentChangeListener mOnFragmentChangeListener;
+    private User mUser;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +53,17 @@ public class MainActivity extends BaseActivity {
 
     private void initUserData() {
         //在刚打开应用时，检查是否登陆过，如果有的话提取保存的用户信息进行登陆验证
+        //在登陆页面登录过来，也会走这个，就是也用保存的用户信息进行验证
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             String s = SpUtil.getString(ConstentValue.USER, "");
             if (!TextUtils.isEmpty(s)) {
-                User user = GsonUtils.getGson().fromJson(s, User.class);
-                LoginUtils.login(user.getUsername(), user.getPassword(), this);
+                mUser = GsonUtils.getGson().fromJson(s, User.class);
+                LoginUtils.login(mUser.getUsername(), mUser.getPassword(), this);
             }
         }
 
         //在登陆页面登陆后返回的登陆操作
+        //在注销页注销后返回的操作
         if ("login".equals(getIntent().getStringExtra("info"))) {
             /*dl_root.openDrawer(Gravity.LEFT);
             dl_root.invalidate();*/
@@ -75,7 +78,6 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, tabTags[2]));
         mNavigateTabBar.addTab(DynamicFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_dynamic_normal, R.drawable.main_dynamic_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
-//        mNavigateTabBar.setCurrentSelectedTab(3);
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
@@ -198,4 +200,6 @@ public class MainActivity extends BaseActivity {
 
         public void onFragmentIsHomeFragment();
     }
+
+
 }

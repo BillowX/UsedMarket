@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,6 +185,7 @@ public class AddCommodityActivity extends BaseActivity {
         params.addBodyParameter("amount", mCommodity.amount);
         params.addBodyParameter("category", mCommodity.category);
         params.addBodyParameter("description", mCommodity.description);
+
         for (int i = 0; i < allSelectedPicture.size(); i++) {
             File imgFile = FileUtil.createImgFile("commodity_" + i);
             boolean writeFile = FileUtil.writeFile(imgFile, allSelectedPicture.get(i));
@@ -192,6 +194,7 @@ public class AddCommodityActivity extends BaseActivity {
                 UIUtils.toast("文件" + i + "克隆失败啦~");
                 continue;
             }
+            Log.e("addcommodity",i+"  success");
             params.addBodyParameter("images", imgFile);
         }
         x.http().post(params, new Callback.CommonCallback<String>() {

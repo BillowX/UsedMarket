@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.maker.use.utils.SpUtil;
 
 import org.xutils.x;
@@ -52,8 +51,8 @@ public class USEApplication extends Application {
 
         //融云初始化
         RongIM.init(this);
-
-        Fresco.initialize(this);
+        //手指放大缩放图片
+        /*Fresco.initialize(this);*/
         /*//初始化ImageLoader
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .threadPriority(Thread.NORM_PRIORITY - 2)//设置当前线程的优先级

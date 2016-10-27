@@ -175,7 +175,9 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
         //更新登陆状态
         SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
         ActivityCollector.finishAll();
-        startActivity(new Intent(this, MainActivity.class));
+        //跳转到主界面
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         UIUtils.toast("注销成功");
         finish();
     }

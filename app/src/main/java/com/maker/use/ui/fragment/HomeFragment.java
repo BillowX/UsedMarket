@@ -15,15 +15,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.maker.use.R;
+import com.maker.use.domain.User;
+import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.activity.SearchActivity;
 import com.maker.use.ui.adapter.FragmentViewPagerAdapter;
 import com.maker.use.ui.fragment.homeFragment.ShopFragment;
 import com.maker.use.ui.fragment.homeFragment.UsedFragment;
+import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.UIUtils;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -37,14 +43,10 @@ public class HomeFragment extends BaseFragment {
     ViewPager vp_home;
     @ViewInject(R.id.tl_home)
     TabLayout tl_home;
-    /*@ViewInject(R.id.pagerHeader)
-    private LoopViewPager pagerHeader;
-    @ViewInject(R.id.ci)
-    private CircleIndicator ci;*/
     @ViewInject(R.id.ll_find)
     private LinearLayout ll_find;
     @ViewInject(R.id.iv_head)
-    private ImageView iv_head;
+    private CircleImageView iv_head;
     @ViewInject(R.id.iv_setting)
     private ImageView iv_setting;
 
@@ -64,6 +66,15 @@ public class HomeFragment extends BaseFragment {
 
     public void initView() {
         mActivity = (MainActivity) getActivity();
+        //设置登陆状态监听，来设置头像图片
+        LoginUtils.setOnLoginStatusChangeListener(new LoginUtils.onLoginStatusChangeListener() {
+            @Override
+            public void onLogin(User user) {
+                //头像
+                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + user.getHeadPortrait(), iv_head);
+            }
+        });
+
         //给toolbar上的两个侧边栏开关按钮设置监听
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
