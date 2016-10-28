@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity {
         mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, tabTags[2]));
         mNavigateTabBar.addTab(DynamicFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_dynamic_normal, R.drawable.main_dynamic_selected, tabTags[3]));
         mNavigateTabBar.addTab(MessageFragment.class, new MainNavigateTabBar.TabParam(R.drawable.main_message_normal, R.drawable.main_message_selected, tabTags[4]));
-        mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
+       /* mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
                 if (!"HomeFragment".equals(holder.fragmentClass.getSimpleName())) {
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
                     mOnFragmentChangeListener.onFragmentIsHomeFragment();
                 }
             }
-        });
+        });*/
 
         //侧边栏监听
         dl_root.setDrawerListener(new DrawerLayout.DrawerListener() {

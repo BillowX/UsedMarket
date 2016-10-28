@@ -17,6 +17,45 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="16.32px"
+                android:layout_height="0.81px"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8.16px"
+                android:layout_toLeftOf="@+id/recomment_master_tv"
+                android:background="#7D7D7D"/>
+
+            <TextView
+                android:id="@+id/recomment_master_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="推荐专题"
+                android:textColor="#7D7D7D"
+                android:textSize="18sp"/>
+
+            <View
+                android:layout_width="16.32px"
+                android:layout_height="0.81px"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8.16px"
+                android:layout_toRightOf="@+id/recomment_master_tv"
+                android:background="#7D7D7D"/>
+
+        </RelativeLayout>
+
+       <!-- <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#E0E0E0"/>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -44,8 +83,8 @@
                     android:layout_height="20dp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:text="#游戏专题"
                     android:maxLines="1"
+                    android:text="#游戏专题"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
@@ -71,8 +110,8 @@
                     android:layout_height="20dp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:text="#音乐就是生命"
                     android:maxLines="1"
+                    android:text="#音乐就是生命"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>
@@ -97,8 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:text="#摄影爱好者"
                     android:textColor="#000"
                     android:textSize="12dp"/>
@@ -132,8 +171,8 @@
                     android:layout_height="20dp"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:text="#考研必备"
                     android:maxLines="1"
+                    android:text="#考研必备"
                     android:textColor="#000"
                     android:textSize="12dp"/>
             </LinearLayout>

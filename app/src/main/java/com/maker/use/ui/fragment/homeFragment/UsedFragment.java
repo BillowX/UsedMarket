@@ -1,11 +1,9 @@
 package com.maker.use.ui.fragment.homeFragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +14,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lzy.widget.HeaderScrollHelper;
-import com.lzy.widget.loop.LoopViewPager;
-import com.lzy.widget.tab.CircleIndicator;
 import com.maker.use.R;
 import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.fragment.BaseFragment;
+import com.maker.use.ui.view.carouselView.FlyBanner;
 import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
@@ -83,15 +80,19 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     ImageView iv_hobby_6;
     @ViewInject(R.id.tv_hobby_6)
     TextView tv_hobby_6;
-    @ViewInject(R.id.pagerHeader)
+    @ViewInject(R.id.marquee_view)
+    MarqueeView marquee_view;
+    /*@ViewInject(R.id.pagerHeader)
     private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
-    private CircleIndicator ci;
+    private CircleIndicator ci;*/
+    @ViewInject(R.id.fly_banner)
+    FlyBanner fly_banner;
     private ArrayList<Top.img> mImgs;
     private CommodityXRecyclerView mCommodityXRecyclerView;
     private MainActivity mActivity;
     private View mMainView;
-    private String[] mTitleArray = {"#游戏专题","#考研必备","#音乐就是生命","#电子爱好者","#摄影艺术家","#嘻哈一族"};
+    private String[] mTitleArray = {"#游戏专题", "#考研必备", "#音乐就是生命", "#电子爱好者", "#摄影艺术家", "#嘻哈一族"};
     private int[] mImgArray = {
             R.mipmap.hobby_1, R.mipmap.hobby_2,
             R.mipmap.hobby_3, R.mipmap.hobby_4,
@@ -111,7 +112,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     public void initView() {
         mActivity = (MainActivity) getActivity();
 
-        mActivity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
+        /*mActivity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
             @Override
             public void onFragmentChange() {
                 pagerHeader.setAutoLoop(false, 0);
@@ -121,7 +122,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
             public void onFragmentIsHomeFragment() {
                 pagerHeader.setAutoLoop(true, 3000);
             }
-        });
+        });*/
 
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
@@ -137,34 +138,19 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         getDataFromServer();
         mCommodityXRecyclerView.addHeaderView(headerView);
 
+        //添加头布局（轮播消息）
+        View marqueeView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_used_marquee, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        x.view().inject(this, marqueeView);
+        initMarqueeView();
+        mCommodityXRecyclerView.addHeaderView(marqueeView);
+
         //添加头布局（兴趣）
         View hobbyView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_used_hobby, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, hobbyView);
         initHobbyView();
         mCommodityXRecyclerView.addHeaderView(hobbyView);
 
-        //跑马灯
-        List<String> info = new ArrayList<>();
-        info.add("1. 大家好，我是孙福生。");
-        info.add("2. 欢迎大家关注我哦！");
-        info.add("3. GitHub帐号：sfsheng0322");
-        info.add("4. 新浪微博：孙福生微博");
-        info.add("5. 个人博客：sunfusheng.com");
-        info.add("6. 微信公众号：孙福生");
-        MarqueeView marqueeView = new MarqueeView(UIUtils.getContext(), null);
-        marqueeView.setBackgroundColor(Color.YELLOW);
-        marqueeView.startWithList(info);
-        String notice = "心中有阳光，脚底有力量！心中有阳光，脚底有力量！心中有阳光，脚底有力量！";
-        marqueeView.startWithText(notice);
-        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, TextView textView) {
-                UIUtils.toast("哈哈");
-            }
-        });
-        mCommodityXRecyclerView.addHeaderView(marqueeView);
-
-        //添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
+        /*//添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
         mCommodityXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -182,7 +168,18 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
                     pagerHeader.setAutoLoop(true, 3000);
                 }
             }
-        });
+        });*/
+    }
+
+    private void initMarqueeView() {
+        List<String> info = new ArrayList<>();
+        info.add("1. 大家好，我是孙福生。");
+        info.add("2. 欢迎大家关注我哦！");
+        info.add("3. GitHub帐号：sfsheng0322");
+        info.add("4. 新浪微博：孙福生微博");
+        info.add("5. 个人博客：sunfusheng.com");
+        info.add("6. 微信公众号：孙福生");
+        marquee_view.startWithList(info);
     }
 
     private void initHobbyView() {
@@ -245,8 +242,19 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         Gson gson = new Gson();
         Top top = gson.fromJson(result, Top.class);
         mImgs = top.imgs;
-        pagerHeader.setAdapter(new HeaderAdapter());
-        ci.setViewPager(pagerHeader);
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < mImgs.size(); i++) {
+            list.add(UsedMarketURL.url_heart + mImgs.get(i).imgUrl);
+        }
+        fly_banner.setImagesUrl(list);
+        fly_banner.setOnItemClickListener(new FlyBanner.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+//                fly_banner.get(position);  //  根据这个来进行跳转
+            }
+        });
+       /* pagerHeader.setAdapter(new HeaderAdapter());
+        ci.setViewPager(pagerHeader);*/
     }
 
     @Override
@@ -254,7 +262,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         return mCommodityXRecyclerView;
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         super.onStop();
         pagerHeader.setAutoLoop(false, 0);
@@ -264,7 +272,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     public void onResume() {
         super.onResume();
         pagerHeader.setAutoLoop(true, 3000);
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -296,7 +304,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            GlideUtils.setImg(mActivity,UsedMarketURL.url_heart + mImgs.get(position).imgUrl,imageView);
+            GlideUtils.setImg(mActivity, UsedMarketURL.url_heart + mImgs.get(position).imgUrl, imageView);
 //            x.image().bind(imageView, UsedMarketURL.url_heart + mImgs.get(position).imgUrl);
             container.addView(imageView);
             return imageView;

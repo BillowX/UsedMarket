@@ -23,6 +23,7 @@
             android:theme="@style/Theme.ToolBar"
             toolbar:titleTextColor="#000"/>
 
+        <include layout="@layout/layout_sort"/>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/rl_root"
@@ -31,19 +32,6 @@
                         android:layout_weight="1"
                         android:background="#FFF">
 
-            <!--<ImageButton
-                android:id="@+id/fab_add"
-                android:layout_width="@dimen/fab_size"
-                android:layout_height="@dimen/fab_size"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom|right"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:elevation="1dp"
-                android:src="@drawable/list_add"
-                android:stateListAnimator="@drawable/anim"
-                />-->
         </RelativeLayout>
     </LinearLayout>
 

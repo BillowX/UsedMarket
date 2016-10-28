@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="8.16px">
+
+    <ImageView
+        android:id="@+id/marquee_img"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4.08px"
+        android:background="@drawable/call_list_voice"/>
+
+    <com.sunfusheng.marqueeview.MarqueeView
+        android:id="@+id/marquee_view"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8.16px"
+        android:layout_toRightOf="@+id/marquee_img"
+        app:mvAnimDuration="1000"
+        app:mvInterval="3000"
+        app:mvSingleLine="true"
+        app:mvTextColor="#959595"
+        app:mvTextSize="12sp"/>
+
+</RelativeLayout>

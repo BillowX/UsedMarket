@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Slide;
 import android.view.View;
@@ -14,9 +13,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allen.supertextviewlibrary.SuperTextView;
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
@@ -60,43 +59,29 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
     }
 
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
-        LinearLayout ll_user_head = (LinearLayout) findViewById(R.id.ll_user_head);
-        LinearLayout ll_user_name = (LinearLayout) findViewById(R.id.ll_user_name);
-        LinearLayout ll_user_realName = (LinearLayout) findViewById(R.id.ll_user_realName);
-        LinearLayout ll_user_dormitory_num = (LinearLayout) findViewById(R.id.ll_user_dormitory_num);
-        LinearLayout ll_user_phone = (LinearLayout) findViewById(R.id.ll_user_phone);
-        LinearLayout ll_user_birthday = (LinearLayout) findViewById(R.id.ll_user_birthday);
-        LinearLayout ll_user_registration_date = (LinearLayout) findViewById(R.id.ll_user_registration_date);
-        ll_user_head.setOnClickListener(this);
-        ll_user_name.setOnClickListener(this);
-        ll_user_realName.setOnClickListener(this);
-        ll_user_dormitory_num.setOnClickListener(this);
-        ll_user_phone.setOnClickListener(this);
-        ll_user_birthday.setOnClickListener(this);
-        ll_user_registration_date.setOnClickListener(this);
+        });*/
 
 
         ImageView iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
         TextView tv_user_name = (TextView) findViewById(R.id.tv_user_name);
-        TextView tv_user_sex = (TextView) findViewById(R.id.tv_user_sex);
-        TextView tv_user_phone = (TextView) findViewById(R.id.tv_user_phone);
+        SuperTextView stv_user_phone = (SuperTextView) findViewById(R.id.stv_user_phone);
+        SuperTextView stv_user_age = (SuperTextView) findViewById(R.id.stv_user_age);
+        SuperTextView stv_user_blood = (SuperTextView) findViewById(R.id.stv_user_blood);
+        SuperTextView stv_user_constellation = (SuperTextView) findViewById(R.id.stv_user_constellation);
+        SuperTextView stv_user_shippingAddress = (SuperTextView) findViewById(R.id.stv_user_shippingAddress);
 
         //头像
 //        Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + mUser.getHeadPortrait().replace("_","")).centerCrop().into(iv_user_head);
         GlideUtils.setImg(this, UsedMarketURL.HEAD + mUser.getHeadPortrait().replace("_", ""), iv_user_head);
         //用户名
         tv_user_name.setText(mUser.getUsername());
-        //性别
-        tv_user_sex.setText(1 == mUser.getSex() ? "男" : "女");
-        //电话
-        tv_user_phone.setText(mUser.getPhone());
+        stv_user_phone.setRightString(mUser.getPhone());
     }
 
     //修改密码
