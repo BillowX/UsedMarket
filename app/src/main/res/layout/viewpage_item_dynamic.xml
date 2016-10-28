@@ -5,10 +5,10 @@
     android:id="@+id/refresh_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:overlay="false"
-    app:wave_color="@color/material_green"
-    app:wave_height_type="higher"
+    app:overlay="true"
     app:wave_show="true"
+    app:wave_color="#00000000"
+    app:wave_height_type="normal"
     >
     <!--在这里我们可以添加ListView OR GridView OR RecycleView OR ScrollView OR 更多
     <...ListView or GridView or RecyclerView or ScrollView and more...>-->

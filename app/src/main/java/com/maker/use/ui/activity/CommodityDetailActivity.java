@@ -17,14 +17,15 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.NineGridView;
+import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.adapter.CommentAdapter;
-import com.maker.use.ui.adapter.GalleryAdapter;
 import com.maker.use.ui.view.DividerLine;
-import com.maker.use.ui.view.GalleryView;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.TimeUtil;
@@ -34,6 +35,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
 
 import io.rong.imkit.RongIM;
 
@@ -68,12 +71,15 @@ public class CommodityDetailActivity extends BaseActivity {
     private TextView tv_goods_price;
     @ViewInject(R.id.tv_goods_name)
     private TextView tv_goods_name;
-    @ViewInject(R.id.iv_img)
+    /*@ViewInject(R.id.iv_img)
     private ImageView iv_img;
     @ViewInject(R.id.recView_goods_img)
-    private GalleryView recView_goods_img;
+    private GalleryView recView_goods_img;*/
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
+    @ViewInject(R.id.nineGrid)
+    NineGridView nineGrid;
+
     private Commodity mCommodity;
     private LinearLayout.LayoutParams mParams;
     //是否展开详情
@@ -141,7 +147,16 @@ public class CommodityDetailActivity extends BaseActivity {
             recyclerView.addItemDecoration(dividerLine);
             ll_message_list.addView(recyclerView);
 
-            //设置画廊效果的商品图片查看器
+            ArrayList<ImageInfo> imageInfo = new ArrayList<>();  //获取到图片地址集合
+            for (int i = 0; i < mNewImgUrl.length; i++) {
+                //ImageInfo 是他的实体类,用于image的地址
+                ImageInfo info = new ImageInfo();
+                info.setThumbnailUrl(UsedMarketURL.server_heart + "//" + mNewImgUrl[i]);
+                info.setBigImageUrl(UsedMarketURL.server_heart + "//" + mNewImgUrl[i].replace("_", ""));
+                imageInfo.add(info);
+            }
+            nineGrid.setAdapter(new NineGridViewClickAdapter(this, imageInfo));
+            /*//设置画廊效果的商品图片查看器
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recView_goods_img.setLayoutManager(linearLayoutManager);
@@ -162,10 +177,10 @@ public class CommodityDetailActivity extends BaseActivity {
                     GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
                     index = position;
                 }
-            });
+            });*/
         }
 
-        iv_img.setOnClickListener(new View.OnClickListener() {
+        /*iv_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), ImgActivity.class);
@@ -175,7 +190,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 intent.putExtra("imgUrl", mNewImgUrl);
                 UIUtils.getContext().startActivity(intent);
             }
-        });
+        });*/
 
         // 放在消息队列中运行, 解决当只有三行描述时也是7行高度的bug
         tv_goods_description.post(new Runnable() {

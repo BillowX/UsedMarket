@@ -3,19 +3,20 @@ package com.maker.use.ui.fragment.homeFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.maker.use.R;
 import com.maker.use.ui.adapter.ShopXRecyclerViewAdapter;
 import com.maker.use.ui.fragment.BaseFragment;
-import com.maker.use.ui.view.myXRecyclerView.ShopXRecyclerView;
-
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
+import com.maker.use.ui.view.DividerLine;
+import com.maker.use.utils.UIUtils;
 
 
 /**
@@ -25,34 +26,76 @@ import org.xutils.x;
 
 public class ShopFragment extends BaseFragment {
 
-    private View mMainView;
-    @ViewInject(R.id.cl_shop_root)
-    private CoordinatorLayout cl_shop_root;
+    /**
+     * 在上拉刷新的时候，判断，是否处于上拉刷新，如果是的话，就禁止在一次刷新，保障在数据加载完成之前
+     * 避免重复和多次加载
+     */
+    private boolean isLoadMore = true;
+
     private Activity mActivity;
+    private View mRootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mMainView = inflater.inflate(R.layout.fragment_shop, cl_shop_root);
-        x.view().inject(this, mMainView);
-        initData();
+        mRootView = inflater.inflate(R.layout.fragment_shop, container, false);
         initView();
-        return mMainView;
-    }
-
-    private void initData() {
+        return mRootView;
     }
 
     private void initView() {
         mActivity = getActivity();
-        ShopXRecyclerView shopXRecyclerView = new ShopXRecyclerView(mActivity, cl_shop_root);
+
+        MaterialRefreshLayout refresh_root = (MaterialRefreshLayout) mRootView.findViewById(R.id.refresh_root);
+        RecyclerView rv_dynamic = (RecyclerView) mRootView.findViewById(R.id.rv_dynamic);
+
+        //设置RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_dynamic.setLayoutManager(layoutManager);
+        //下面可以自己设置默认动画
+        rv_dynamic.setItemAnimator(new DefaultItemAnimator());
+        //设置条目之间的分割线
+        DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
+        dividerLine.setSize(1);
+        dividerLine.setColor(0xFFDDDDDD);
+        rv_dynamic.addItemDecoration(dividerLine);
+        //设置适配器
         ShopXRecyclerViewAdapter adapter = new ShopXRecyclerViewAdapter(mActivity);
-        shopXRecyclerView.setAdapter(adapter);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        shopXRecyclerView.setLayoutParams(layoutParams);
-        cl_shop_root.addView(shopXRecyclerView, 0, layoutParams);
+        rv_dynamic.setAdapter(adapter);
 
 
+        //设置MaterialRefreshLayout
+        refresh_root.setLoadMore(isLoadMore);
+        refresh_root.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
+                //下拉刷新...
+                UIUtils.getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UIUtils.toast("刷新完成");
+                        // 结束下拉刷新...
+                        materialRefreshLayout.finishRefresh();
+                    }
+                }, 3000);
+
+
+            }
+
+            @Override
+            public void onRefreshLoadMore(final MaterialRefreshLayout materialRefreshLayout) {
+                //上拉加载更多...
+                UIUtils.getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UIUtils.toast("加载完成");
+                        // 结束上拉加载更多...
+                        materialRefreshLayout.finishRefreshLoadMore();
+                    }
+                }, 3000);
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.maker.use.ui.fragment.homeFragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +26,7 @@ import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
+import com.sunfusheng.marqueeview.MarqueeView;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -33,6 +35,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 二手界面
@@ -134,11 +137,33 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         getDataFromServer();
         mCommodityXRecyclerView.addHeaderView(headerView);
 
-        //添加头布局（店铺）
+        //添加头布局（兴趣）
         View hobbyView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_header_used_hobby, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         x.view().inject(this, hobbyView);
         initHobbyView();
         mCommodityXRecyclerView.addHeaderView(hobbyView);
+
+        //跑马灯
+        List<String> info = new ArrayList<>();
+        info.add("1. 大家好，我是孙福生。");
+        info.add("2. 欢迎大家关注我哦！");
+        info.add("3. GitHub帐号：sfsheng0322");
+        info.add("4. 新浪微博：孙福生微博");
+        info.add("5. 个人博客：sunfusheng.com");
+        info.add("6. 微信公众号：孙福生");
+        MarqueeView marqueeView = new MarqueeView(UIUtils.getContext(), null);
+        marqueeView.setBackgroundColor(Color.YELLOW);
+        marqueeView.startWithList(info);
+        String notice = "心中有阳光，脚底有力量！心中有阳光，脚底有力量！心中有阳光，脚底有力量！";
+        marqueeView.startWithText(notice);
+        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                UIUtils.toast("哈哈");
+            }
+        });
+        mCommodityXRecyclerView.addHeaderView(marqueeView);
+
         //添加监听，在用户滑动到下面时停止图片轮播，节省ui刷新
         mCommodityXRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

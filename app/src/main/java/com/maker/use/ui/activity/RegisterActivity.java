@@ -184,14 +184,12 @@ public class RegisterActivity extends BaseActivity {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
-                UIUtils.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        UIUtils.toast(result);
-                    }
-                });
+
                 if ("注册成功".equals(result)) {
+                    UIUtils.toast("注册成功");
                     finish();
+                }else{
+                    UIUtils.toast("用户名已存在");
                 }
             }
 
