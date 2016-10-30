@@ -22,10 +22,10 @@
             android:icon="@drawable/about"
             android:title="关于我们"/>
     </group>
-    <item android:title="Version">
+    <item android:title="版本信息">
         <menu>
             <item
-                android:title="UserMarket 1.0"/>
+                android:title="广商微淘 1.0"/>
             <item
                 android:id="@+id/recommend"
                 android:icon="@drawable/recommend"

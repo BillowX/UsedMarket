@@ -173,12 +173,12 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
     private void initMarqueeView() {
         List<String> info = new ArrayList<>();
-        info.add("1. 大家好，我是孙福生。");
-        info.add("2. 欢迎大家关注我哦！");
-        info.add("3. GitHub帐号：sfsheng0322");
-        info.add("4. 新浪微博：孙福生微博");
-        info.add("5. 个人博客：sunfusheng.com");
-        info.add("6. 微信公众号：孙福生");
+        info.add("1. 大家好,这里是校园微淘二手专区。");
+        info.add("2. 欢迎大家在这里淘宝哦！");
+        info.add("3. 定期关注商铺动态消息，有福利哦");
+        info.add("4. 低价高买，资源复用");
+        info.add("5. 请勿发布虚假商品");
+        info.add("6. 共同维护平台诚信与安全");
         marquee_view.startWithList(info);
     }
 

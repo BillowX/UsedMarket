@@ -4,28 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewParent;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.demievil.library.RefreshLayout;
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
 import com.maker.use.R;
+import com.maker.use.domain.Comment;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.ui.adapter.CommentAdapter;
-import com.maker.use.ui.view.DividerLine;
+import com.maker.use.ui.adapter.CommentListViewAdapter;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.TimeUtil;
@@ -42,10 +47,9 @@ import io.rong.imkit.RongIM;
 
 /**
  * 商品详情页
- * Created by XISEVEN on 2016/10/9.
  */
 @ContentView(R.layout.activity_commoditydetail)
-public class CommodityDetailActivity extends BaseActivity {
+public class CommodityDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener, View.OnClickListener {
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
     @ViewInject(R.id.iv_head)
@@ -56,9 +60,18 @@ public class CommodityDetailActivity extends BaseActivity {
     RelativeLayout rl_detail_toggle;
     @ViewInject(R.id.tv_detail_author)
     TextView tv_detail_author;
+    @ViewInject(R.id.lv_comment)
+    ListView lv_comment;
     int index = 0;
-    @ViewInject(R.id.ll_message_list)
-    LinearLayout ll_message_list;
+    @ViewInject(R.id.nineGrid)
+    NineGridView nineGrid;
+    @ViewInject(R.id.refresh_root)
+    RefreshLayout refresh_root;
+    @ViewInject(R.id.tv_sent_reply)
+    TextView tv_sent_reply;
+    @ViewInject(R.id.et_reply)
+    EditText et_reply;
+    InputMethodManager imm;//键盘管理器
     @ViewInject(R.id.iv_userHeadImg)
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)
@@ -77,19 +90,21 @@ public class CommodityDetailActivity extends BaseActivity {
     private GalleryView recView_goods_img;*/
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
-    @ViewInject(R.id.nineGrid)
-    NineGridView nineGrid;
-
     private Commodity mCommodity;
     private LinearLayout.LayoutParams mParams;
     //是否展开详情
     private boolean isOpen = false;
     private String[] mSplitImgUrl;
     private String[] mNewImgUrl;
+    private ArrayList<Comment> mCommentDataList;
+    private CommentListViewAdapter mCommentAdapter;
+    private TextView tv_more;
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
 
         initData();
         initView();
@@ -115,7 +130,6 @@ public class CommodityDetailActivity extends BaseActivity {
                 finish();
             }
         });
-
         GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_", ""), iv_head);
 
         //初始化中心布局
@@ -129,24 +143,9 @@ public class CommodityDetailActivity extends BaseActivity {
             tv_good_num.setText(mCommodity.amount);
             tv_goods_price.setText("¥ " + mCommodity.price);
 
-
             tv_goods_description.setText(mCommodity.description);
 
-            //留言区
-            RecyclerView recyclerView = new RecyclerView(UIUtils.getContext());
-            LinearLayoutManager layoutManager = new LinearLayoutManager(UIUtils.getContext());
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(layoutManager);
-            //如果没有留言，则显示EmptyAdapter
-//            recyclerView.setAdapter(new EmptyAdapter());
-            recyclerView.setAdapter(new CommentAdapter(UIUtils.getContext()));
-            //设置条目之间的分割线
-            DividerLine dividerLine = new DividerLine(DividerLine.VERTICAL);
-            dividerLine.setSize(1);
-            dividerLine.setColor(0xFFDDDDDD);
-            recyclerView.addItemDecoration(dividerLine);
-            ll_message_list.addView(recyclerView);
-
+            //设置商品列表宫格
             ArrayList<ImageInfo> imageInfo = new ArrayList<>();  //获取到图片地址集合
             for (int i = 0; i < mNewImgUrl.length; i++) {
                 //ImageInfo 是他的实体类,用于image的地址
@@ -156,41 +155,7 @@ public class CommodityDetailActivity extends BaseActivity {
                 imageInfo.add(info);
             }
             nineGrid.setAdapter(new NineGridViewClickAdapter(this, imageInfo));
-            /*//设置画廊效果的商品图片查看器
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recView_goods_img.setLayoutManager(linearLayoutManager);
-            GalleryAdapter mAdapter = new GalleryAdapter(this, mNewImgUrl);
-            recView_goods_img.setAdapter(mAdapter);
-
-            recView_goods_img.setOnItemScrollChangeListener(new GalleryView.OnItemScrollChangeListener() {
-                @Override
-                public void onChange(View view, int position) {
-                    GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
-                    index = position;
-                }
-            });
-
-            mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    GlideUtils.setImg(CommodityDetailActivity.this, UsedMarketURL.server_heart + "//" + mNewImgUrl[position].replace("_", ""), iv_img);
-                    index = position;
-                }
-            });*/
         }
-
-        /*iv_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UIUtils.getContext(), ImgActivity.class);
-                //开启一个新的栈
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                intent.putExtra("index", index);
-                intent.putExtra("imgUrl", mNewImgUrl);
-                UIUtils.getContext().startActivity(intent);
-            }
-        });*/
 
         // 放在消息队列中运行, 解决当只有三行描述时也是7行高度的bug
         tv_goods_description.post(new Runnable() {
@@ -211,6 +176,57 @@ public class CommodityDetailActivity extends BaseActivity {
                 toggle();
             }
         });
+
+        //设置刷新布局和留言布局
+        refresh_root.setOnRefreshListener(this);
+        refresh_root.setOnLoadListener(this);
+        refresh_root.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_dark);
+        View footerLayout = getLayoutInflater().inflate(R.layout.list_item_more, null);
+        tv_more = (TextView) footerLayout.findViewById(R.id.text_more);
+        tv_more.setOnClickListener(this);
+        pb = (ProgressBar) footerLayout.findViewById(R.id.load_progress_bar);
+        lv_comment.addFooterView(footerLayout);
+        refresh_root.setChildView(lv_comment);
+        tv_sent_reply.setOnClickListener(this);
+
+        //在服务器上获取改物品的评论列表
+        getCommentDataFromServer(0);
+    }
+
+    /**
+     * 根据商品ID在服务器上获取改物品的评论列表
+     *
+     * @param limit 分页位置
+     */
+    private void getCommentDataFromServer(int limit) {
+        if (limit == 0) {
+            mCommentDataList = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                Comment comment = new Comment();
+                comment.setPcontent("评论" + i);
+                mCommentDataList.add(comment);
+            }
+            mCommentAdapter = new CommentListViewAdapter(UIUtils.getContext(), mCommentDataList);
+            lv_comment.setAdapter(mCommentAdapter);
+        } else if (limit == -1) {
+            for (int i = 0; i < 3; i++) {
+                Comment comment = new Comment();
+                comment.setPcontent("刷新出来的评论" + i);
+                mCommentDataList.add(0, comment);
+                mCommentAdapter.notifyDataSetChanged();
+            }
+        } else if (limit == 1) {
+            for (int i = 0; i < 3; i++) {
+                Comment comment = new Comment();
+                comment.setPcontent("加载更多出来的评论" + i);
+                mCommentDataList.add(mCommentDataList.size(), comment);
+                mCommentAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 
     @Override
@@ -381,5 +397,50 @@ public class CommodityDetailActivity extends BaseActivity {
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        getCommentDataFromServer(-1);
+        refresh_root.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoad() {
+//        getCommentDataFromServer(1);
+        refresh_root.setLoading(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.text_more:
+                getCommentDataFromServer(1);
+                refresh_root.setLoading(false);
+                break;
+            case R.id.tv_sent_reply:
+                sentReply();
+                break;
+        }
+    }
+
+    /**
+     * 发布评论
+     */
+    private void sentReply() {
+        String content = et_reply.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            UIUtils.toast("评论还没写呢");
+            return;
+        }
+        Comment comment = new Comment();
+        comment.setPcontent(content);
+        mCommentDataList.add(mCommentDataList.size(), comment);
+        mCommentAdapter.notifyDataSetChanged();
+        UIUtils.toast("评论成功");
+        et_reply.setText("");
+        if (imm.isActive()) {//关闭键盘
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

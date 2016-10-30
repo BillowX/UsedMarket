@@ -1,27 +1,33 @@
 package com.maker.use.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Slide;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 
 import com.maker.use.R;
 import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.ImageCompressUtils;
 import com.maker.use.utils.MD5;
 import com.maker.use.utils.UIUtils;
+import com.squareup.picasso.Picasso;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -34,6 +40,7 @@ import java.util.ArrayList;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * 注册页面
@@ -67,9 +74,13 @@ public class RegisterActivity extends BaseActivity {
     @ViewInject(R.id.rb_woman)
     RadioButton rb_woman;
 
+    PopupWindow popupWindow;
+    ImageView popImageView;
     private File mHeadFile;
     private ArrayList<String> selectedPicture;
     private User user;
+    private PhotoViewAttacher mAttacher;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         initView();
+        initialPopups();
     }
 
     private void initView() {
@@ -188,7 +200,7 @@ public class RegisterActivity extends BaseActivity {
                 if ("注册成功".equals(result)) {
                     UIUtils.toast("注册成功");
                     finish();
-                }else{
+                } else {
                     UIUtils.toast("用户名已存在");
                 }
             }
@@ -215,14 +227,66 @@ public class RegisterActivity extends BaseActivity {
         if (requestCode == ConstentValue.REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 selectedPicture = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                String str = selectedPicture.get(0);
+                final String str = selectedPicture.get(0);
                 //显示在ImageView上
 //                ImageLoader.getInstance().displayImage("file://" + str, iv_head);
                 GlideUtils.setImg(RegisterActivity.this, "file://" + str, iv_head);
+                iv_head.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Picasso.with(RegisterActivity.this).load("file://" + str).into(popImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                mAttacher = new PhotoViewAttacher(popImageView);
+                                popImageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (popupWindow != null && popupWindow.isShowing()) {
+                                            popupWindow.dismiss();
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+//                        GlideUtils.setImg(RegisterActivity.this, "file://" + str, popImageView);
+                        popupWindow.showAtLocation(LayoutInflater.from(RegisterActivity.this).inflate(R.layout.activity_register, null)
+                                , Gravity.CENTER, 0, 0);
+                    }
+                });
+
                 //创建文件
-                mHeadFile = FileUtil.createImgFile("head");
-                FileUtil.writeFile(mHeadFile, str);
+                /*mHeadFile = FileUtil.createImgFile("head");
+                FileUtil.writeFile(mHeadFile, str);*/
+
+                //新的压缩图片方法（图片很清晰）
+                mHeadFile = ImageCompressUtils.getFile(RegisterActivity.this, str);
             }
+        }
+    }
+
+    /**
+     * 初始化popupwindow
+     */
+    private void initialPopups() {
+        popImageView = new ImageView(this);
+        // popImageView.setPadding(50, 50, 50, 50);
+        popupWindow = new PopupWindow(popImageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0000000));
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (popupWindow.isShowing()) {
+            //如果是popupWindow，则关闭它
+            popupWindow.dismiss();
+        } else {
+            finish();
         }
     }
 

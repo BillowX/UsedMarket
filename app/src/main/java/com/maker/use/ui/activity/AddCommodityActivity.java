@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,8 @@ import com.maker.use.R;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.utils.FileUtil;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.ImageCompressUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
 
@@ -187,7 +186,7 @@ public class AddCommodityActivity extends BaseActivity {
         params.addBodyParameter("description", mCommodity.description);
 
         for (int i = 0; i < allSelectedPicture.size(); i++) {
-            File imgFile = FileUtil.createImgFile("commodity_" + i);
+            /*File imgFile = FileUtil.createImgFile("commodity_" + i);
             boolean writeFile = FileUtil.writeFile(imgFile, allSelectedPicture.get(i));
             if (!writeFile) {
                 UIUtils.closeProgressDialog();
@@ -195,6 +194,10 @@ public class AddCommodityActivity extends BaseActivity {
                 continue;
             }
             Log.e("addcommodity",i+"  success");
+            params.addBodyParameter("images", imgFile);*/
+
+            //新的压缩图片方法（图片很清晰）
+            File imgFile = ImageCompressUtils.getFile(AddCommodityActivity.this, allSelectedPicture.get(i));
             params.addBodyParameter("images", imgFile);
         }
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -287,7 +290,7 @@ public class AddCommodityActivity extends BaseActivity {
                     holder.iv_img.setVisibility(View.GONE);
                 }
             } else {
-                GlideUtils.setImg(AddCommodityActivity.this,"file://" + allSelectedPicture.get(position),holder.iv_img);
+                GlideUtils.setImg(AddCommodityActivity.this, "file://" + allSelectedPicture.get(position), holder.iv_img);
 //                ImageLoader.getInstance().displayImage("file://" + allSelectedPicture.get(position), holder.iv_img);
                 holder.bt_delete.setVisibility(View.VISIBLE);
                 holder.bt_delete.setOnClickListener(new View.OnClickListener() {

@@ -70,16 +70,15 @@
         <activity
             android:name=".ui.activity.SearchActivity"
             android:theme="@style/ColorTranslucentTheme"/>
+
+        <activity
+            android:name=".ui.activity.ShowImageActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            />
         '
-
-
         <activity
             android:name=".ui.activity.AddCommodityActivity"
             android:theme="@style/ColorTranslucentTheme"/>
-
-        <activity
-            android:name=".ui.activity.ImgActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
             android:name=".ui.activity.CampusDynamicDetailActivity"

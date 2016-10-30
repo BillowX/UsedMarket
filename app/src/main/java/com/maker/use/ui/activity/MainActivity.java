@@ -3,12 +3,14 @@ package com.maker.use.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -42,6 +44,7 @@ public class MainActivity extends BaseActivity {
 
     private onFragmentChangeListener mOnFragmentChangeListener;
     private User mUser;
+    private long newTime;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,8 +190,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
-        super.onBackPressed();
+        if (dl_root.isDrawerOpen(Gravity.LEFT) || dl_root.isDrawerOpen(Gravity.RIGHT)) {
+            dl_root.closeDrawers();
+        } else {
+            if (System.currentTimeMillis() - newTime > 2000) {
+                newTime = System.currentTimeMillis();
+                UIUtils.toast("再按一次返回键退出程序");
+            } else {
+                SpUtil.putBoolean(ConstentValue.IS_LOGIN, false);
+                android.os.Process.killProcess(Process.myPid());
+                finish();
+            }
+        }
     }
 
     public void setOnFragmentChangeListener(onFragmentChangeListener listener) {
