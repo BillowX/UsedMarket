@@ -20,7 +20,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.maker.use.R;
 import com.maker.use.domain.Commodity;
@@ -30,6 +32,7 @@ import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.ImageCompressUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
+import com.maker.use.utils.map.LocationActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -67,6 +70,10 @@ public class AddCommodityActivity extends BaseActivity {
     Toolbar toolbar;
     @ViewInject(R.id.rv_img)
     RecyclerView rv_img;
+    @ViewInject(R.id.rl_location)
+    RelativeLayout rl_location;
+    @ViewInject(R.id.tv_location)
+    TextView tv_location;
 
     //存放所有选择的照片
     private ArrayList<String> allSelectedPicture = new ArrayList<String>();
@@ -78,6 +85,8 @@ public class AddCommodityActivity extends BaseActivity {
 
     private Commodity mCommodity;
     private PhotoAlbumAdapter mAdapter;
+    private String location;
+    private boolean HAVE_LOCATION = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +119,14 @@ public class AddCommodityActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        rl_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(AddCommodityActivity.this, LocationActivity.class);
+                startActivityForResult(it, 99);
             }
         });
 
@@ -184,7 +201,11 @@ public class AddCommodityActivity extends BaseActivity {
         params.addBodyParameter("amount", mCommodity.amount);
         params.addBodyParameter("category", mCommodity.category);
         params.addBodyParameter("description", mCommodity.description);
-
+        if (HAVE_LOCATION) {
+            params.addBodyParameter("location", location);
+        } else {
+            params.addBodyParameter("location", "");
+        }
         for (int i = 0; i < allSelectedPicture.size(); i++) {
             /*File imgFile = FileUtil.createImgFile("commodity_" + i);
             boolean writeFile = FileUtil.writeFile(imgFile, allSelectedPicture.get(i));
@@ -247,6 +268,23 @@ public class AddCommodityActivity extends BaseActivity {
     @SuppressWarnings("unchecked")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 99) {
+            if (data == null) {
+                return;
+            } else {
+                location = data.getStringExtra("location");
+                if (location.equals("地点")) {
+                    HAVE_LOCATION = false;
+                    tv_location.setText(location);
+                } else {
+                    HAVE_LOCATION = true;
+                    tv_location.setText(location);
+                }
+
+            }
+        }
+
         if (requestCode == ConstentValue.REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 selectedPicture = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);

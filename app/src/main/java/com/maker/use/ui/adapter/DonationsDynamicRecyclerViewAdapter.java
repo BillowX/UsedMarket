@@ -19,12 +19,12 @@ import com.maker.use.utils.UIUtils;
  * Created by XT on 2016/10/22.
  */
 
-public class DonationsDynamicXRecyclerViewAdapter extends RecyclerView.Adapter<DonationsDynamicXRecyclerViewAdapter.ViewHolder> {
+public class DonationsDynamicRecyclerViewAdapter extends RecyclerView.Adapter<DonationsDynamicRecyclerViewAdapter.ViewHolder> {
 
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
 
-    public DonationsDynamicXRecyclerViewAdapter(Context context) {
+    public DonationsDynamicRecyclerViewAdapter(Context context) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
     }

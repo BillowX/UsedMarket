@@ -31,7 +31,7 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.maker.use.R;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.ui.adapter.CampusDynamicXRecyclerViewAdapter;
+import com.maker.use.ui.adapter.CampusDynamicRecyclerViewAdapter;
 import com.maker.use.ui.view.DividerLine;
 import com.maker.use.utils.UIUtils;
 
@@ -90,7 +90,7 @@ public class CampusDynamicFragment extends Fragment {
         dividerLine.setColor(0xFFDDDDDD);
         rv_dynamic.addItemDecoration(dividerLine);
         //设置适配器
-        CampusDynamicXRecyclerViewAdapter adapter = new CampusDynamicXRecyclerViewAdapter(mActivity, mValues);
+        CampusDynamicRecyclerViewAdapter adapter = new CampusDynamicRecyclerViewAdapter(mActivity, mValues);
         rv_dynamic.setAdapter(adapter);
 
 

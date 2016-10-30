@@ -14,6 +14,7 @@ import com.maker.use.domain.Comment;
 import java.util.ArrayList;
 
 /**
+ *  评论列表适配器
  * Created by jzh on 2015/9/28.
  */
 public class CommentListViewAdapter extends BaseAdapter {
@@ -50,8 +51,8 @@ public class CommentListViewAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.listview_pinglun_item, null);
-            holder.iv_icon = (ImageView) convertView.findViewById(R.id.listview_pinglun_item_imageview_icon);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_comment, null);
+            holder.iv_icon = (ImageView) convertView.findViewById(R.id.civ_user_head);
             holder.tv_name = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_name);
             holder.tv_location = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_location);
             holder.tv_time = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_time);

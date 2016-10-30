@@ -160,6 +160,12 @@ public class IssueActivity extends Activity {
 
     public void collection(View view) {
 //        startActivity(new Intent(UIUtils.getContext(), Test_UploadImgActivity.class));
+        Intent intent = new Intent(UIUtils.getContext(), AddCommodityActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
         finish();
     }
 

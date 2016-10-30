@@ -19,12 +19,12 @@ import com.maker.use.utils.UIUtils;
  * Created by XT on 2016/10/22.
  */
 
-public class ShopXRecyclerViewAdapter extends RecyclerView.Adapter<ShopXRecyclerViewAdapter.MyViewHolder> {
+public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.MyViewHolder> {
 
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
 
-    public ShopXRecyclerViewAdapter(Context context) {
+    public ShopRecyclerViewAdapter(Context context) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
 
@@ -35,7 +35,7 @@ public class ShopXRecyclerViewAdapter extends RecyclerView.Adapter<ShopXRecycler
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_shop, parent, false);
         view.setBackgroundResource(mBackground);
-        return new ShopXRecyclerViewAdapter.MyViewHolder(view);
+        return new ShopRecyclerViewAdapter.MyViewHolder(view);
     }
 
     @Override

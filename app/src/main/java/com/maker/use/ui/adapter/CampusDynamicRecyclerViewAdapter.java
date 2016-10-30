@@ -23,13 +23,13 @@ import java.util.List;
  * Created by XT on 2016/10/22.
  */
 
-public class CampusDynamicXRecyclerViewAdapter extends RecyclerView.Adapter<CampusDynamicXRecyclerViewAdapter.MyViewHolder> {
+public class CampusDynamicRecyclerViewAdapter extends RecyclerView.Adapter<CampusDynamicRecyclerViewAdapter.MyViewHolder> {
 
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
     private List<String> mValues;
 
-    public CampusDynamicXRecyclerViewAdapter(Context context, List<String> items) {
+    public CampusDynamicRecyclerViewAdapter(Context context, List<String> items) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
 
@@ -41,7 +41,7 @@ public class CampusDynamicXRecyclerViewAdapter extends RecyclerView.Adapter<Camp
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dynamic_campusdynamic, parent, false);
         view.setBackgroundResource(mBackground);
-        return new CampusDynamicXRecyclerViewAdapter.MyViewHolder(view);
+        return new CampusDynamicRecyclerViewAdapter.MyViewHolder(view);
     }
 
     @Override

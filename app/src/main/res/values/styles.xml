@@ -62,7 +62,12 @@
         <item name="android:windowExitAnimation">@anim/menu_fadeout</item>
     </style>
 
-
+    <!-- 横线 -->
+    <style name="view_lines_vertical">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#cccccc</item>
+    </style>
 
 
 

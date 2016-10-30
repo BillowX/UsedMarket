@@ -63,7 +63,8 @@ dependencies {
     compile 'cn.qqtheme.framework:FilePicker:latest.release'
     compile 'cn.qqtheme.framework:ColorPicker:latest.release'
     /*//开源的图片查看库，可以实现图片的浏览，手势放大缩小等操作（在融云库有，就不添加构建了）
-    compile 'com.commit451:PhotoView:1.2.4'*/
+            compile 'com.commit451:PhotoView:1.2.4'*/
     //封装的SwipeRefreshLayout，可以加载更多
     compile 'com.demievil.library:refreshlayout:1.0.0@aar'
+    compile files('libs/nineoldandroids-2.4.0.jar')
 }

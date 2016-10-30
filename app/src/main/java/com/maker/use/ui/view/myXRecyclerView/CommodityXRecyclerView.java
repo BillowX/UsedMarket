@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,14 +102,10 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
             @Override
             public void onRefresh() {
                 refreshTime++;
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        mCommodityList.clear();
-                        mCommodityList = null;
-                        GlideUtils.clearMemory();
-                        get10DataFromService("0");
-                    }
-                }, 3000);
+                mCommodityList.clear();
+                mCommodityList = null;
+                GlideUtils.clearMemory();
+                get10DataFromService("0");
             }
 
             @Override
@@ -162,6 +157,8 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
             public void onSuccess(final String result) {
                 //刷新逻辑
                 if (mCommodityList == null) {
+                    //开启加载更多功能
+                    setLoadingMoreEnabled(true);
                     mCommodityList = GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
                     }.getType());
 
@@ -204,19 +201,16 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                 }
                 //加载更多逻辑
                 else {
-                    UIUtils.getHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            List<Commodity> newData = (List<Commodity>) GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
-                            }.getType());
-                            if (newData.size() >= 1) {
-                                mAdapter.add(newData);
-                            } else {
-                                UIUtils.snackBar(cl_root, "没有更多咯");
-                            }
-                            loadMoreComplete();
-                        }
-                    }, 3000);
+                    List<Commodity> newData = (List<Commodity>) GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
+                    }.getType());
+                    if (newData.size() >= 1) {
+                        mAdapter.add(newData);
+                    } else {
+                        UIUtils.snackBar(cl_root, "没有更多咯");
+                        //禁用加载更多
+                        setLoadingMoreEnabled(false);
+                    }
+                    loadMoreComplete();
                 }
             }
 
@@ -286,7 +280,6 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                     @Override
                     public void onFinished() {
                         UIUtils.closeProgressDialog();
-
                     }
                 });
                 if (mPopupWindow != null) {

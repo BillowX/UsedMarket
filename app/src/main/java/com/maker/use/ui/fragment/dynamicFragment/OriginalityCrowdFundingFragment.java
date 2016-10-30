@@ -15,7 +15,7 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.maker.use.R;
 import com.maker.use.ui.activity.OriginalityCrowdFundingDetailActivity;
-import com.maker.use.ui.adapter.CrowdFundingXRecyclerViewAdapter;
+import com.maker.use.ui.adapter.CrowdFundingRecyclerViewAdapter;
 import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.utils.UIUtils;
 
@@ -70,9 +70,9 @@ public class OriginalityCrowdFundingFragment extends BaseFragment {
         //下面可以自己设置默认动画
         rv_dynamic.setItemAnimator(new DefaultItemAnimator());
         //设置适配器
-        CrowdFundingXRecyclerViewAdapter adapter = new CrowdFundingXRecyclerViewAdapter(mActivity,mData);
+        CrowdFundingRecyclerViewAdapter adapter = new CrowdFundingRecyclerViewAdapter(mActivity,mData);
         //设置点击监听
-        adapter.setOnItemClickListener(new CrowdFundingXRecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new CrowdFundingRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(UIUtils.getContext(), OriginalityCrowdFundingDetailActivity.class);

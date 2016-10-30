@@ -3,6 +3,7 @@ package com.maker.use.ui.fragment.homeFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     TextView tv_hobby_6;
     @ViewInject(R.id.marquee_view)
     MarqueeView marquee_view;
+    @ViewInject(R.id.fbt_sort)
+    FloatingActionButton fbt_sort;
     /*@ViewInject(R.id.pagerHeader)
     private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
@@ -111,6 +114,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
     public void initView() {
         mActivity = (MainActivity) getActivity();
+
+        fbt_sort.setOnClickListener(this);
 
         /*mActivity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
             @Override
@@ -294,6 +299,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
                 break;
             case R.id.ll_hobby_6:
                 UIUtils.snackBar(v, tv_hobby_6.getText().toString());
+                break;
+            case R.id.fbt_sort:
                 break;
         }
     }

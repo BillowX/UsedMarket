@@ -3,9 +3,12 @@ package com.maker.use.ui.fragment.originalityCrowdFundingDetailFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,13 +32,16 @@ import java.util.ArrayList;
 
 public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener, View.OnClickListener {
 
-    /*@ViewInject(R.id.ll_message_list)
-    LinearLayout ll_message_list;*/
     @ViewInject(R.id.refresh_root)
     RefreshLayout refresh_root;
     @ViewInject(R.id.lv_comment)
     ListView lv_comment;
+    @ViewInject(R.id.tv_sent_reply)
+    TextView tv_sent_reply;
+    @ViewInject(R.id.et_reply)
+    EditText et_reply;
 
+    InputMethodManager imm;//键盘管理器
     private View mMainView;
     private ArrayList<Comment> mCommentDataList;
     private CommentListViewAdapter mCommentAdapter;
@@ -45,6 +51,8 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        imm = (InputMethodManager) UIUtils.getContext().getSystemService(UIUtils.getContext().INPUT_METHOD_SERVICE);
+
         mMainView = inflater.inflate(R.layout.fragment_originality_comment, null);
         x.view().inject(this, mMainView);
         initView();
@@ -52,6 +60,8 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
     }
 
     private void initView() {
+        tv_sent_reply.setOnClickListener(this);
+
         //设置刷新布局
         refresh_root.setOnRefreshListener(this);
         refresh_root.setOnLoadListener(this);
@@ -94,12 +104,16 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
                 mCommentAdapter.notifyDataSetChanged();
             }
         } else if (limit == 1) {
+            tv_more.setVisibility(View.GONE);
+            pb.setVisibility(View.VISIBLE);
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
                 comment.setPcontent("加载更多出来的评论" + i);
                 mCommentDataList.add(mCommentDataList.size(), comment);
                 mCommentAdapter.notifyDataSetChanged();
             }
+            tv_more.setVisibility(View.VISIBLE);
+            pb.setVisibility(View.GONE);
         }
 
     }
@@ -123,6 +137,31 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
                 getCommentDataFromServer(1);
                 refresh_root.setLoading(false);
                 break;
+            case R.id.tv_sent_reply:
+                sentReply();
+                break;
         }
+    }
+
+    /**
+     * 发布评论
+     */
+    private void sentReply() {
+        String content = et_reply.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            UIUtils.toast("评论还没写呢");
+            return;
+        }
+        tv_sent_reply.setEnabled(false);
+        Comment comment = new Comment();
+        comment.setPcontent(content);
+        mCommentDataList.add(mCommentDataList.size(), comment);
+        UIUtils.toast("评论成功");
+        tv_sent_reply.setEnabled(true);
+        et_reply.setText("");
+        if (imm.isActive()) {//关闭键盘
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        mCommentAdapter.notifyDataSetChanged();
     }
 }

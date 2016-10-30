@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.maker.use.R;
-import com.maker.use.ui.adapter.DonationsDynamicXRecyclerViewAdapter;
+import com.maker.use.ui.adapter.DonationsDynamicRecyclerViewAdapter;
 import com.maker.use.ui.view.DividerLine;
 import com.maker.use.utils.UIUtils;
 
@@ -70,7 +70,7 @@ public class DonationsDynamicFragment extends Fragment {
         dividerLine.setColor(0xFFDDDDDD);
         rv_dynamic.addItemDecoration(dividerLine);
         //设置适配器
-        rv_dynamic.setAdapter(new DonationsDynamicXRecyclerViewAdapter(getActivity()));
+        rv_dynamic.setAdapter(new DonationsDynamicRecyclerViewAdapter(getActivity()));
 
 
         //设置MaterialRefreshLayout

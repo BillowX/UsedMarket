@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.maker.use.R;
-import com.maker.use.ui.adapter.ShopXRecyclerViewAdapter;
+import com.maker.use.ui.adapter.ShopRecyclerViewAdapter;
 import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.ui.view.DividerLine;
 import com.maker.use.utils.UIUtils;
@@ -61,7 +61,7 @@ public class ShopFragment extends BaseFragment {
         dividerLine.setColor(0xFFDDDDDD);
         rv_dynamic.addItemDecoration(dividerLine);
         //设置适配器
-        ShopXRecyclerViewAdapter adapter = new ShopXRecyclerViewAdapter(mActivity);
+        ShopRecyclerViewAdapter adapter = new ShopRecyclerViewAdapter(mActivity);
         rv_dynamic.setAdapter(adapter);
 
 

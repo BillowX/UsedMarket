@@ -433,11 +433,13 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
             UIUtils.toast("评论还没写呢");
             return;
         }
+        tv_sent_reply.setEnabled(false);
         Comment comment = new Comment();
         comment.setPcontent(content);
         mCommentDataList.add(mCommentDataList.size(), comment);
         mCommentAdapter.notifyDataSetChanged();
         UIUtils.toast("评论成功");
+        tv_sent_reply.setEnabled(true);
         et_reply.setText("");
         if (imm.isActive()) {//关闭键盘
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);

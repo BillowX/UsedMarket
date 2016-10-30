@@ -22,14 +22,14 @@ import java.util.List;
  * Created by XT on 2016/10/22.
  */
 
-public class CrowdFundingXRecyclerViewAdapter extends RecyclerView.Adapter<CrowdFundingXRecyclerViewAdapter.MyViewHolder> {
+public class CrowdFundingRecyclerViewAdapter extends RecyclerView.Adapter<CrowdFundingRecyclerViewAdapter.MyViewHolder> {
 
     public OnItemClickListener mOnItemClickListener;
     private List<String> mData;
     private LayoutInflater mInflater;
     private List<Integer> mHeights;
 
-    public CrowdFundingXRecyclerViewAdapter(Context context, List<String> datas) {
+    public CrowdFundingRecyclerViewAdapter(Context context, List<String> datas) {
         mInflater = LayoutInflater.from(context);
         mData = datas;
 

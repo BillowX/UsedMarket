@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.maker.use">
 
+    <!--地图包、搜索包需要的基础权限-->
+    <!--允许程序打开网络套接字-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--允许程序获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--允许程序访问WiFi网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -34,6 +48,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--高德地图SDK KTY-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="d5b54758522cae0023c0081f10c0d31e"/>
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
@@ -93,7 +112,12 @@
         <activity
             android:name=".ui.activity.ShopDetailActivity"
             android:theme="@style/ColorTranslucentTheme"
-            ></activity>
+            />
+        <activity
+            android:name=".utils.map.LocationActivity"
+            android:theme="@style/ColorTranslucentTheme"
+            />
+
 
         <!--会话界面-->
         <activity
@@ -118,7 +142,6 @@
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"/>
-
 
         <!--必选： SDK 核心功能-->
         <!--第三方相关,向第三方推送服务请求 token 的服务 -->
@@ -200,6 +223,10 @@
             android:name="io.rong.imlib.HeartbeatReceiver"
             android:process=":ipc"/>
         <!-- imlib config end -->
+
+
+        <!--start高德地图-->
+        <service android:name="com.amap.api.location.APSService"/>
 
     </application>
 

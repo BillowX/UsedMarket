@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+
+        toolbar:contentInsetLeft="0dp"
+        toolbar:contentInsetStart="0dp"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="选择位置"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/mv_route"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/icon_mapview_location" />
+    </FrameLayout>
+
+    <View style="@style/view_lines_vertical"/>
+
+    <ListView
+        android:id="@+id/lv_location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
