@@ -1,6 +1,7 @@
 package com.maker.use.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * 单例模式的Gson工具类
@@ -14,7 +15,9 @@ public class GsonUtils {
         if (gson == null) {
             synchronized (GsonUtils.class) {
                 if (gson == null) {
-                    gson = new Gson();
+                    gson = new GsonBuilder()
+                            .setDateFormat("yyyy年MM月dd日 HH:mm:ss")
+                            .create();
                 }
             }
         }

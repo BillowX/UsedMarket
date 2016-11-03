@@ -47,11 +47,6 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //发布者头像
-        /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.HEAD + CommodityList.get(position).headPortrait)
-                .centerCrop()
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.error)
-                .into(holder.iv_user_head);*/
         GlideUtils.setCircleImageViewImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
         //发布者用户名
         holder.tv_username.setText(CommodityList.get(position).username);
@@ -60,24 +55,12 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
         holder.tv_name.setText(CommodityList.get(position).commodityName);
         holder.tv_description.setText(CommodityList.get(position).description);
         holder.tv_price.setText("￥ " + CommodityList.get(position).price);
+        holder.tv_location.setText(CommodityList.get(position).location);
         //商品图片
-        String[] splitImgUrl = CommodityList.get(position).images.split(";");
-        /*ImageOptions imageOptions = new ImageOptions.Builder()
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setIgnoreGif(false)
-                .setFailureDrawableId(R.drawable.error)
-                .setLoadingDrawableId(R.drawable.loading)
-                .setSize(0, 0)//设置图片大小
-                .build();*/
+        List<String> splitImgUrl = CommodityList.get(position).images;
         for (int i = 0; i < 9; i++) {
-            if (i < splitImgUrl.length) {
-//                x.image().bind(holder.ivPics[i], UsedMarketURL.server_heart + "//" + splitImgUrl[i], imageOptions);
-                /*Glide.with(UIUtils.getContext()).load(UsedMarketURL.server_heart + "//" + splitImgUrl[i])
-                        .centerCrop()
-                        .placeholder(R.drawable.loading)
-                        .error(R.drawable.error)
-                        .into(holder.ivPics[i]);*/
-                GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.server_heart + "//" + splitImgUrl[i], holder.ivPics[i]);
+            if (i < splitImgUrl.size()) {
+                GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.server_heart + "//" + splitImgUrl.get(i), holder.ivPics[i]);
             } else {
                 holder.ivPics[i].setVisibility(View.GONE);
             }
@@ -145,6 +128,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
         TextView tv_price;
         TextView tv_time;
         ImageView iv_user_head;
+        TextView tv_location;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -167,6 +151,7 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_price = (TextView) itemView.findViewById(R.id.tv_price);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            tv_location = (TextView) itemView.findViewById(R.id.tv_location);
 
             ll_img = (LinearLayout) itemView.findViewById(R.id.ll_img);
 

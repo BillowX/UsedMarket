@@ -31,7 +31,7 @@ public class ShowImageActivity extends Activity {
         if (type.equals("icon")) {
             setContentView(R.layout.activity_show_image);
             iv = (ImageView) findViewById(R.id.showimage);
-            Picasso.with(this).load(UsedMarketURL.HEAD + path.replace("_", "")).into(iv, new Callback() {
+            Picasso.with(this).load(UsedMarketURL.HEAD + path).into(iv, new Callback() {
                 @Override
                 public void onSuccess() {
                     mAttacher = new PhotoViewAttacher(iv);

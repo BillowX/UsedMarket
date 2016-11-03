@@ -169,7 +169,10 @@ public class AddCommodityActivity extends BaseActivity {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(price) || TextUtils.isEmpty(num) || TextUtils.isEmpty(description) || allSelectedPicture.size() < 1) {
             UIUtils.toast("还没填满呢");
             return false;
-        } else if (allSelectedPicture.size() < 4) {
+        } else if(!HAVE_LOCATION){
+            UIUtils.toast("还没选择位置呢");
+            return false;
+        }else if (allSelectedPicture.size() < 4) {
             UIUtils.toast("商品图片不能少于4张");
             return false;
         } else {
@@ -179,6 +182,7 @@ public class AddCommodityActivity extends BaseActivity {
             mCommodity.amount = num;
             mCommodity.category = category;
             mCommodity.description = description;
+            mCommodity.location = location;
             return true;
         }
     }
@@ -201,23 +205,8 @@ public class AddCommodityActivity extends BaseActivity {
         params.addBodyParameter("amount", mCommodity.amount);
         params.addBodyParameter("category", mCommodity.category);
         params.addBodyParameter("description", mCommodity.description);
-        if (HAVE_LOCATION) {
-            params.addBodyParameter("location", location);
-        } else {
-            params.addBodyParameter("location", "");
-        }
+        params.addBodyParameter("location", mCommodity.location);
         for (int i = 0; i < allSelectedPicture.size(); i++) {
-            /*File imgFile = FileUtil.createImgFile("commodity_" + i);
-            boolean writeFile = FileUtil.writeFile(imgFile, allSelectedPicture.get(i));
-            if (!writeFile) {
-                UIUtils.closeProgressDialog();
-                UIUtils.toast("文件" + i + "克隆失败啦~");
-                continue;
-            }
-            Log.e("addcommodity",i+"  success");
-            params.addBodyParameter("images", imgFile);*/
-
-            //新的压缩图片方法（图片很清晰）
             File imgFile = ImageCompressUtils.getFile(AddCommodityActivity.this, allSelectedPicture.get(i));
             params.addBodyParameter("images", imgFile);
         }
@@ -228,7 +217,8 @@ public class AddCommodityActivity extends BaseActivity {
                 UIUtils.toast(result);
                 if ("商品上传成功".equals(result)) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                    intent.putExtra("userId", SpUtil.getUserId());
+                    intent.putExtra("type", "t_commodity.user_id");
+                    intent.putExtra("queryValue", SpUtil.getUserId());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AddCommodityActivity.this).toBundle());
                     } else {

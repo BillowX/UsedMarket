@@ -1,6 +1,7 @@
 package com.maker.use.domain;
 
 import java.io.Serializable;
+import java.util.List;
 /**
  * {
  * "commodityId": "cd34e098b0d84dac938841021a78c6c1",
@@ -65,9 +66,13 @@ public class Commodity implements Serializable {
      */
     public String amount;
     /**
+     * 定位
+     */
+    public String location;
+    /**
      * 图片
      */
-    public String images;
+    public List<String> images;
     /**
      * 描述
      */

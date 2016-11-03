@@ -20,6 +20,10 @@ public class UsedMarketURL {
     public static String LOGIN = server_heart + "/UserInfo/login";
     //修改密码
     public static String CHANGE_PASSWORD = server_heart + "/UserInfo/editPassword";
+    //修改头像
+    public static String CHANGE_HEAD = server_heart + "/UserInfo/editHeadPortrait";
+    //修改用户信息
+    public static String CHANGE_USER_INFO = server_heart + "/UserInfo/edit";
     //头像地址
     public static String HEAD = server_heart + "/";
 

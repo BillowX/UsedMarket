@@ -131,7 +131,9 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
 
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
-        map.put("all", "all");
+        map.put("type", "all");
+        map.put("order","");
+        map.put("orderBy","");
         mCommodityXRecyclerView = new CommodityXRecyclerView(mActivity, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mCommodityXRecyclerView.setLayoutParams(layoutParams);

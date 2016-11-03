@@ -2,6 +2,7 @@ package com.maker.use.ui.fragment.originalityCrowdFundingDetailFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.maker.use.domain.Comment;
 import com.maker.use.ui.adapter.CommentListViewAdapter;
 import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.utils.UIUtils;
+import com.maker.use.utils.map.Location;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -47,19 +49,30 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
     private CommentListViewAdapter mCommentAdapter;
     private TextView tv_more;
     private ProgressBar pb;
+    private Location mLocation;
+    private FragmentActivity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        imm = (InputMethodManager) UIUtils.getContext().getSystemService(UIUtils.getContext().INPUT_METHOD_SERVICE);
-
         mMainView = inflater.inflate(R.layout.fragment_originality_comment, null);
         x.view().inject(this, mMainView);
         initView();
         return mMainView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //停止位置服务
+        mLocation.stopLocation();
+    }
+
     private void initView() {
+        mActivity = getActivity();
+
+        imm = (InputMethodManager) mActivity.getSystemService(mActivity.INPUT_METHOD_SERVICE);
+        mLocation = new Location(mActivity);
         tv_sent_reply.setOnClickListener(this);
 
         //设置刷新布局
@@ -88,6 +101,10 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
      */
     private void getCommentDataFromServer(int limit) {
         if (limit == 0) {
+            if (mCommentDataList != null){
+                mCommentDataList.clear();
+                mCommentDataList = null;
+            }
             mCommentDataList = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
@@ -156,12 +173,18 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
         Comment comment = new Comment();
         comment.setPcontent(content);
         mCommentDataList.add(mCommentDataList.size(), comment);
+
+        //评论成功后的操作
         UIUtils.toast("评论成功");
         tv_sent_reply.setEnabled(true);
         et_reply.setText("");
+        //如果键盘打开了，则关闭
         if (imm.isActive()) {//关闭键盘
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(et_reply.getWindowToken(), 0);
+//            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+        //刷新数据
         mCommentAdapter.notifyDataSetChanged();
+//        getCommentDataFromServer(0);
     }
 }

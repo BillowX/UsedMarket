@@ -1,99 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cd_message"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="2dp"
-    app:cardCornerRadius="5dp"
-    >
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <View
+            android:layout_width="16.32px"
+            android:layout_height="0.81px"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8.16px"
+            android:layout_toLeftOf="@+id/tv_title"
+            android:background="#7D7D7D"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="热门留言"
+            android:textColor="#7D7D7D"
+            android:textSize="18sp"/>
+
+        <View
+            android:layout_width="16.32px"
+            android:layout_height="0.81px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8.16px"
+            android:layout_toRightOf="@+id/tv_title"
+            android:background="#7D7D7D"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.demievil.library.RefreshLayout
+            android:id="@+id/refresh_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <android.support.v4.widget.NestedScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFF"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.maker.use.ui.view.MyListView
+                    android:id="@+id/lv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:scrollbars="none"/>
+
+            </android.support.v4.widget.NestedScrollView>
+        </com.demievil.library.RefreshLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:layout_height="wrap_content"
+        android:background="#18f0e6e6"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+
+        <EditText
+            android:id="@+id/et_reply"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center">
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4"
 
-            <View
-                android:layout_width="16.32px"
-                android:layout_height="0.81px"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8.16px"
-                android:layout_toLeftOf="@+id/recomment_master_tv"
-                android:background="#7D7D7D"/>
+            android:background="@drawable/shape_edittext"
+            android:hint="我也说两句"
+            android:padding="8dp"
+            android:textSize="15dp"/>
 
-            <TextView
-                android:id="@+id/recomment_master_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="热门留言"
-                android:textColor="#7D7D7D"
-                android:textSize="18sp"/>
 
-            <View
-                android:layout_width="16.32px"
-                android:layout_height="0.81px"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8.16px"
-                android:layout_toRightOf="@+id/recomment_master_tv"
-                android:background="#7D7D7D"/>
-
-        </RelativeLayout>
-
-        <com.maker.use.ui.view.MyListView
-            android:id="@+id/lv_comment"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_sent_reply"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:divider="@null"
-            android:scrollbars="none"/>
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#18f0e6e6"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-
-            <EditText
-                android:id="@+id/et_reply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="4"
-
-                android:background="@drawable/shape_edittext"
-                android:hint="我也说两句"
-                android:padding="8dp"
-                android:textSize="15dp"/>
-
-
-            <TextView
-                android:id="@+id/tv_sent_reply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-
-                android:background="@drawable/shape_edittext"
-                android:drawableRight="@drawable/reply"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="发送 "
-                android:textSize="16dp"/>
-
-        </LinearLayout>
+            android:background="@drawable/shape_edittext"
+            android:drawableRight="@drawable/reply"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="发送 "
+            android:textSize="16dp"/>
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>

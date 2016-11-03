@@ -1,7 +1,6 @@
 package com.maker.use.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 用户信息实体类
@@ -35,14 +34,14 @@ public class User implements Serializable {
     private int sex;
 
     /**
-     * 头像
+     * 附件Id
      */
-    private String headPortrait;
+    private String attachmentId;
 
     /**
      * 生日
      */
-    private Date birthday;
+    private String birthday;
 
     /**
      * 身份证号码
@@ -57,16 +56,49 @@ public class User implements Serializable {
     /**
      * 注册时间
      */
-    private Date registrationDate;
+    private String registrationDate;
 
     /**
      * 所属学校
      */
     private String school;
+
     /**
-     * 收货地址
+     * 收获地址
      */
     private String shippingAddress;
+    /**
+     * 星座
+     */
+    private String constellation;
+    /**
+     * 血型
+    */
+    private String bloodType;
+    /**
+     * 未压缩的头像
+     */
+    private String headPortraitPath;
+    /**
+     * 压缩过的头像
+     */
+    private String narrowHeadPortraitPath;
+
+    public String getHeadPortraitPath() {
+        return headPortraitPath;
+    }
+
+    public void setHeadPortraitPath(String headPortraitPath) {
+        this.headPortraitPath = headPortraitPath;
+    }
+
+    public String getNarrowHeadPortraitPath() {
+        return narrowHeadPortraitPath;
+    }
+
+    public void setNarrowHeadPortraitPath(String narrowHeadPortraitPath) {
+        this.narrowHeadPortraitPath = narrowHeadPortraitPath;
+    }
 
 
     public String getUserId() {
@@ -109,19 +141,19 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public String getHeadPortrait() {
-        return headPortrait;
+    public String getAttachmentId() {
+        return attachmentId;
     }
 
-    public void setHeadPortrait(String headPortrait) {
-        this.headPortrait = headPortrait;
+    public void setAttachmentId(String attachmentId) {
+        this.attachmentId = attachmentId;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -141,11 +173,11 @@ public class User implements Serializable {
         this.realName = realName;
     }
 
-    public Date getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -165,21 +197,40 @@ public class User implements Serializable {
         this.shippingAddress = shippingAddress;
     }
 
+
+    public String getConstellation() {
+        return constellation;
+    }
+
+    public void setConstellation(String constellation) {
+        this.constellation = constellation;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserInfo{" +
                 "userId='" + userId + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", sex=" + sex +
-                ", headPortrait='" + headPortrait + '\'' +
+                ", attachmentId='" + attachmentId + '\'' +
                 ", birthday=" + birthday +
                 ", IDNum='" + IDNum + '\'' +
                 ", realName='" + realName + '\'' +
                 ", registrationDate=" + registrationDate +
                 ", school='" + school + '\'' +
                 ", shippingAddress='" + shippingAddress + '\'' +
+                ", constellation='" + constellation + '\'' +
+                ", bloodType='" + bloodType + '\'' +
                 '}';
     }
 }

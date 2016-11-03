@@ -31,7 +31,9 @@ import com.maker.use.manager.ActivityCollector;
 import com.maker.use.ui.view.picker.ConstellationPicker;
 import com.maker.use.ui.view.picker.ProfessorPicker;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.ImageCompressUtils;
+import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.MD5;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.UIUtils;
@@ -43,6 +45,8 @@ import org.xutils.x;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.OptionPicker;
@@ -62,6 +66,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
     private Calendar calendar = Calendar.getInstance();
 
     private ImageView mIv_user_head;
+    private ImageView iv_user_sex;
     private TextView mTv_user_name;
     private TextView mTv_personalized_signature;
     private SuperTextView mStv_user_phone;
@@ -69,6 +74,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
     private SuperTextView mStv_user_blood;
     private SuperTextView mStv_user_constellation;
     private SuperTextView mStv_user_shippingAddress;
+    private SuperTextView stv_registration_date;
     private PopupWindow pop;
     private SwipeRefreshLayout mRefresh_root;
 
@@ -96,6 +102,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
     private void initView() {
         mRefresh_root = (SwipeRefreshLayout) findViewById(R.id.refresh_root);
         mIv_user_head = (ImageView) findViewById(R.id.iv_user_head);
+        iv_user_sex = (ImageView) findViewById(R.id.iv_user_sex);
         mTv_user_name = (TextView) findViewById(R.id.tv_user_name);
         mTv_personalized_signature = (TextView) findViewById(R.id.tv_personalized_signature);
         mStv_user_phone = (SuperTextView) findViewById(stv_user_phone);
@@ -103,6 +110,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
         mStv_user_blood = (SuperTextView) findViewById(R.id.stv_user_blood);
         mStv_user_constellation = (SuperTextView) findViewById(R.id.stv_user_constellation);
         mStv_user_shippingAddress = (SuperTextView) findViewById(R.id.stv_user_shippingAddress);
+        stv_registration_date = (SuperTextView) findViewById(R.id.stv_registration_date);
         mIv_user_head.setOnClickListener(this);
         mTv_personalized_signature.setOnClickListener(this);
         mStv_user_age.setOnClickListener(this);
@@ -117,23 +125,40 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
             @Override
             public void onRefresh() {
                 //本页面面刷新时，去根据用户ID重新获取用户信息，并保存
-                UIUtils.getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //
-                        UIUtils.toast("刷新完成");
-                        mRefresh_root.setRefreshing(false);
-                    }
-                }, 2000);
+                LoginUtils.login(mUser.getUsername(), mUser.getPassword(), UserDetailActivity.this);
+                String s = SpUtil.getString(ConstentValue.USER, "");
+                mUser = GsonUtils.getGson().fromJson(s, User.class);
+                //重新显示用户信息
+                initViewData();
+                mRefresh_root.setRefreshing(false);
+                UIUtils.toast("刷新完成");
             }
         });
+        initViewData();
+    }
 
+    private void initViewData() {
         //头像
-        GlideUtils.setImg(this, UsedMarketURL.HEAD + mUser.getHeadPortrait(), mIv_user_head);
+        GlideUtils.setImg(this, UsedMarketURL.HEAD + mUser.getNarrowHeadPortraitPath(), mIv_user_head);
         //用户名
         mTv_user_name.setText(mUser.getUsername());
+        //用户性别
+        iv_user_sex.setImageResource("1".equals(mUser.getSex()) ? R.drawable.sex_woman : R.drawable.sex_man);
+        //星座
+        mStv_user_constellation.setRightString(mUser.getConstellation());
+        //年龄
+        Calendar ca = Calendar.getInstance();
+        int curYear = ca.get(Calendar.YEAR);//获取年份
+        int age = curYear - Integer.getInteger(mUser.getBirthday());
+        mStv_user_age.setRightString(age + "");
+        //血型
+        mStv_user_blood.setRightString(mUser.getBloodType());
         //电话号码
         mStv_user_phone.setRightString(mUser.getPhone());
+        //收货地址
+        mStv_user_shippingAddress.setRightString(mUser.getShippingAddress());
+        //注册时间
+        stv_registration_date.setRightString(mUser.getRegistrationDate());
     }
 
     private void initPopupWindow() {
@@ -285,7 +310,7 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.third_popupwindow_textView_look://查看头像大图
                 Intent intent = new Intent(UserDetailActivity.this, ShowImageActivity.class);
-                intent.putExtra("path", mUser.getHeadPortrait());
+                intent.putExtra("path", mUser.getHeadPortraitPath());
                 intent.putExtra("type", "icon");
                 startActivity(intent);
                 break;
@@ -309,14 +334,17 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
                     pop.dismiss();
                 }
                 break;
-            case R.id.stv_user_age:
+            case R.id.stv_user_age://修改年龄
                 onYearMonthDayPicker();
                 break;
-            case R.id.stv_user_blood:
+            case R.id.stv_user_blood://修改血型
                 onBloodTypePicker();
                 break;
-            case R.id.stv_user_constellation:
+            case R.id.stv_user_constellation://修改星座
                 onConstellationPicker();
+                break;
+            case R.id.stv_user_shippingAddress://修改星座
+                startActivityForResult(new Intent(this, EditActivity.class), ConstentValue.EDIT_ACTIVITY);
                 break;
         }
     }
@@ -333,10 +361,10 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
             public void onDatePicked(String year, String month, String day) {
                 //showToast(year + "-" + month + "-" + day);
                 int yearOld = Integer.parseInt(year);
-                Calendar ca = Calendar.getInstance();
-                int curYear = ca.get(Calendar.YEAR);//获取年份
-                int age = curYear - yearOld;
-                mStv_user_age.setRightString(age + "");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("index", "birthday");
+                map.put("futureValue", yearOld + "");
+                upUserData(map);
             }
         });
         picker.show();
@@ -357,7 +385,10 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int position, String option) {
-                mStv_user_blood.setRightString(option);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("index", "bloodType");
+                map.put("futureValue", option);
+                upUserData(map);
             }
         });
         picker.show();
@@ -378,7 +409,10 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int position, String option) {
-                mStv_user_constellation.setRightString(option);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("index", "constellation");
+                map.put("futureValue", option);
+                upUserData(map);
             }
         });
         picker.show();
@@ -402,17 +436,16 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
                 final String str = selectedPicture.get(0);
                 File headFile = ImageCompressUtils.getFile(UserDetailActivity.this, str);
                 if (headFile != null) {
-                    RequestParams params = new RequestParams(UsedMarketURL.server_heart + "/servlet/UploadHeadServlet");    // 网址
-                    params.addBodyParameter("img", headFile);
-                    params.addBodyParameter("type", "head");
+                    RequestParams params = new RequestParams(UsedMarketURL.CHANGE_HEAD);    // 网址
+                    params.addBodyParameter("headPortrait", headFile);
+                    params.addBodyParameter("userId", mUser.getUserId());
                     x.http().post(params, new Callback.CommonCallback<String>() {
 
                         @Override
                         public void onSuccess(String result) {
                             UIUtils.toast(result);
                             //如果修改成功了，则重新加载头像
-                            //头像
-                            GlideUtils.setImg(UserDetailActivity.this, UsedMarketURL.HEAD + mUser.getHeadPortrait(), mIv_user_head);
+                            GlideUtils.setImg(UserDetailActivity.this, UsedMarketURL.HEAD + mUser.getNarrowHeadPortraitPath(), mIv_user_head);
                         }
 
                         @Override
@@ -433,6 +466,48 @@ public class UserDetailActivity extends Activity implements View.OnClickListener
                 }
             }
         }
+
+        if (requestCode == ConstentValue.EDIT_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                String center = data.getStringExtra("center");
+                HashMap<String, String> map = new HashMap<>();
+                map.put("index", "shippingAddress");
+                map.put("futureValue", center);
+                upUserData(map);
+            }
+        }
+    }
+
+    public void upUserData(Map<String, String> map) {
+        RequestParams params = new RequestParams(UsedMarketURL.CHANGE_USER_INFO);    // 网址
+        params.addBodyParameter("userId", mUser.getUserId());
+        params.addBodyParameter("index", map.get("index"));
+        params.addBodyParameter("futureValue", map.get("futureValue"));
+        params.addBodyParameter("currentValue", "");
+        x.http().post(params, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (!TextUtils.isEmpty(result)) {
+                    mUser = GsonUtils.getGson().fromJson(result, User.class);
+                    initViewData();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.toast("网络出错啦~");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+            }
+        });
     }
 
 }

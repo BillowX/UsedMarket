@@ -69,7 +69,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                 //用户名
                 tv_username.setText("你好，" + user.getUsername());
                 //头像
-                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + mUser.getHeadPortrait(), iv_icon);
+                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + mUser.getNarrowHeadPortraitPath(), iv_icon);
                 //用户性别
                 if (user.getSex() == 1) {
                     iv_sex.setImageResource(R.drawable.sex_man);
@@ -105,7 +105,8 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_issue:
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                    intent.putExtra("userId", SpUtil.getUserId());
+                    intent.putExtra("type", "t_commodity.user_id");
+                    intent.putExtra("queryValue", SpUtil.getUserId());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
                     } else {

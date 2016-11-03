@@ -7,7 +7,9 @@ import com.maker.use.domain.User;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.manager.ActivityCollector;
+import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
+import com.maker.use.ui.activity.UserDetailActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -34,8 +36,6 @@ public class LoginUtils {
         RequestParams params = new RequestParams(UsedMarketURL.LOGIN);
         params.addBodyParameter("username", username);
         params.addBodyParameter("password", password);
-//        params.addQueryStringParameter("username", username);
-//        params.addQueryStringParameter("password", MD5.md5(password));
 
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -49,17 +49,21 @@ public class LoginUtils {
                     //在融云注册该用户
                     IMKitUtils.getToken(user);
 
-                    if (!(activity instanceof MainActivity)) {
+                    if (activity instanceof MainActivity) {
+                        //刚进来应用时用保存的用户名和密码登陆的
+                        mOnLoginListener.onLogin(user);
+                        mOnLoginStatusChangeListener.onLogin(user);
+                    } else if (activity instanceof LoginActivity) {
                         //在登陆页点击登陆，但是最后的逻辑是，用保存的用户信息去登陆，所以不更新登陆状态
                         ActivityCollector.finishAll();
                         Intent intent = new Intent(UIUtils.getContext(), MainActivity.class);
                         intent.putExtra("info", "login");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         UIUtils.getContext().startActivity(intent);
-                    } else {
-                        //刚进来应用时用保存的用户名和密码登陆的
-                        mOnLoginListener.onLogin(user);
-                        mOnLoginStatusChangeListener.onLogin(user);
+                    } else if (activity instanceof UserDetailActivity) {
+                        //更新登陆状态
+                        SpUtil.putBoolean(ConstentValue.IS_LOGIN, true);
+                        //什么都不做
                     }
                 } else {
                     UIUtils.toast("用户名或密码错误");

@@ -93,23 +93,6 @@
 
        <!-- </android.support.v4.widget.NestedScrollView>-->
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:clickable="true"
-            android:src="@drawable/toolbar_like"
-
-            app:backgroundTint="#EB7A63"
-            app:backgroundTintMode="src_over"
-            app:borderWidth="1dp"
-            app:elevation="11dp"
-            app:fabSize="auto"
-            app:layout_anchor="@id/appbar"
-
-            app:layout_anchorGravity="bottom|right|end"
-            app:rippleColor="#CCC"/>
-
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

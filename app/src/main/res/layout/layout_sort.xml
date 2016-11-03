@@ -5,101 +5,65 @@
     android:layout_width="fill_parent"
     android:layout_height="40.0dip"
     android:layout_alignParentTop="true"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:gravity="center">
 
     <LinearLayout
-        android:id="@+id/sort_all_layout"
-        android:layout_width="0.0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"
-        android:gravity="center">
+        android:id="@+id/ll_sort_time"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/sort_all_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="综合"
-            android:textColor="@color/text_color_blue"
-            android:textSize="16.0sp"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="1.0dip"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="10.0dip"
-        android:layout_marginTop="10.0dip"
-        android:background="@color/divider_color"/>
-
-    <LinearLayout
-        android:id="@+id/sort_consultant_cnt_layout"
-        android:layout_width="0.0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/sort_consultant_cnt_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="咨询量"
+            android:id="@+id/tv_sort_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="发布时间"
             android:textColor="@color/text_color_2"
             android:textSize="16.0sp"/>
-    </LinearLayout>
 
-    <View
-        android:layout_width="1.0dip"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="10.0dip"
-        android:layout_marginTop="10.0dip"
-        android:background="@color/divider_color"/>
-
-    <RelativeLayout
-        android:id="@+id/sort_price_layout"
-        android:layout_width="0.0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0">
-
-        <TextView
-            android:id="@+id/sort_price_txt"
+        <ImageView
+            android:id="@+id/iv_sort_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:src="@drawable/sort_down"/>
+
+        <View
+            android:layout_width="1.0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/divider_color"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_sort_price"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sort_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="价格"
             android:textColor="@color/text_color_2"
             android:textSize="16.0sp"/>
 
         <ImageView
-            android:layout_marginLeft="5dp"
-            android:id="@+id/sort_price_icon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_toRightOf="@id/sort_price_txt"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="5.0dip"
-            android:src="@drawable/sort_default"/>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="1.0dip"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="10.0dip"
-        android:layout_marginTop="10.0dip"
-        android:background="@color/divider_color"/>
-
-    <LinearLayout
-        android:id="@+id/sort_continued_percent_layout"
-        android:layout_width="0.0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/sort_continued_percent_txt"
+            android:id="@+id/iv_sort_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="续单率"
-            android:textColor="@color/text_color_2"
-            android:textSize="16.0sp"/>
+            android:src="@drawable/sort_down"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
@@ -110,18 +74,31 @@
         android:background="@color/divider_color"/>
 
     <LinearLayout
-        android:id="@+id/sort_comment_rating_layout"
-        android:layout_width="0.0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"
-        android:gravity="center">
+        android:id="@+id/ll_sort_prefer_num"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/sort_comment_rating_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="好评率"
+            android:id="@+id/tv_sort_prefer_num"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="收藏人数"
             android:textColor="@color/text_color_2"
             android:textSize="16.0sp"/>
+
+        <ImageView
+            android:id="@+id/iv_sort_prefer_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sort_down"
+            android:visibility="gone"/>
     </LinearLayout>
+
+
 </LinearLayout>

@@ -118,6 +118,9 @@
             android:theme="@style/ColorTranslucentTheme"
             />
 
+        <activity android:name=".ui.activity.EditActivity"
+                  android:theme="@style/ColorTranslucentTheme"/>
+
 
         <!--会话界面-->
         <activity
@@ -226,7 +229,7 @@
 
 
         <!--start高德地图-->
-        <service android:name="com.amap.api.location.APSService"/>
+       <!-- <service android:name="com.amap.api.location.APSService"/>-->
 
     </application>
 

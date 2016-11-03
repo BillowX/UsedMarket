@@ -55,11 +55,12 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
     private int refreshTime = 0;
     private List<Commodity> mCommodityList;
     private CommodityXRecyclerViewAdapter mAdapter;
-    private String mAll;
-    private String mUserId;
-    private String mCategory;
+    private String type;//查询类型 all，t_commodity.user_id，category
+    private String queryValue;
+    private String indistinctField;
+    private String order;
+    private String orderBy;
     private PopupWindow mPopupWindow;
-    private String mQuery;
     //判断是不是刷新逻辑，如果不是，说明第一次进入，那么显示加载中对话框
     private boolean isRefresh = false;
 
@@ -83,10 +84,11 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
     }
 
     private void checkWhereFrom() {
-        mAll = map.get("all");
-        mUserId = map.get("userId");
-        mCategory = map.get("category");
-        mQuery = map.get("query");
+        type = map.get("type");
+        queryValue = map.get("queryValue");
+        indistinctField = map.get("indistinctField");
+        order = map.get("order");
+        orderBy = map.get("orderBy");
     }
 
     private void initView() {
@@ -101,7 +103,6 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
         setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                refreshTime++;
                 mCommodityList.clear();
                 mCommodityList = null;
                 GlideUtils.clearMemory();
@@ -110,11 +111,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
 
             @Override
             public void onLoadMore() {
-                if (mAdapter != null) {
-                    get10DataFromService(String.valueOf(mCommodityList.size()));
-                } else {
-                    loadMoreComplete();
-                }
+                get10DataFromService(String.valueOf(mCommodityList.size()));
             }
         });
     }
@@ -128,33 +125,20 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
             UIUtils.progressDialog(context);
         }
         final RequestParams params = new RequestParams(UsedMarketURL.SEARCH_COMMODITY);
-
-        //根据whereFrom判断请求参数
-        if (!TextUtils.isEmpty(mAll) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "all");
-        } else if (!TextUtils.isEmpty(mUserId) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "t_commodity.user_id");
-            params.addQueryStringParameter("queryValue", mUserId);
-        } else if (!TextUtils.isEmpty(mCategory) && TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "category");
-            params.addQueryStringParameter("queryValue", mCategory);
-        } else if (!TextUtils.isEmpty(mUserId) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "t_commodity.user_id");
-            params.addQueryStringParameter("queryValue", mUserId);
-            params.addQueryStringParameter("indistinctField", mQuery);
-        } else if (!TextUtils.isEmpty(mCategory) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "category");
-            params.addQueryStringParameter("queryValue", mCategory);
-            params.addQueryStringParameter("indistinctField", mQuery);
-        } else if (!TextUtils.isEmpty(mAll) && !TextUtils.isEmpty(mQuery)) {
-            params.addQueryStringParameter("type", "all");
-            params.addQueryStringParameter("indistinctField", mQuery);
+        params.addBodyParameter("type", type);
+        if (!TextUtils.isEmpty(queryValue)) {
+            params.addBodyParameter("queryValue", queryValue);
         }
-
-        params.addQueryStringParameter("index", index);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        if (!TextUtils.isEmpty(indistinctField)) {
+            params.addBodyParameter("indistinctField", indistinctField);
+        }
+        params.addBodyParameter("order", order);
+        params.addBodyParameter("orderBy", orderBy);
+        params.addBodyParameter("index", index);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
+//                Log.e("mCommodityList",result);
                 //刷新逻辑
                 if (mCommodityList == null) {
                     //开启加载更多功能
@@ -166,6 +150,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                     if (mCommodityList.size() < 1) {
                         EmptyAdapter emptyAdapter = new EmptyAdapter();
                         setAdapter(emptyAdapter);
+                        setLoadingMoreEnabled(false);
                     } else {
                         //设置适配器
                         mAdapter = new CommodityXRecyclerViewAdapter(mCommodityList);
@@ -185,7 +170,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                             }
                         });
                         //只有在用户发布界面才能有长按删除操作
-                        if (!TextUtils.isEmpty(mUserId)) {
+                        if ("t_commodity.user_id".equals(type)) {
                             //设置条目长按监听
                             mAdapter.setOnItemLongClickListener(new CommodityXRecyclerViewAdapter.OnRecyclerViewItemLongClickListener() {
                                 @Override

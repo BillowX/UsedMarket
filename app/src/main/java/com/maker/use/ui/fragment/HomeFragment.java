@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onLogin(User user) {
                 //头像
-                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + user.getHeadPortrait(), iv_head);
+                GlideUtils.setCircleImageViewImg(mActivity, UsedMarketURL.HEAD + user.getNarrowHeadPortraitPath(), iv_head);
             }
         });
 
@@ -93,7 +93,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UIUtils.getContext(), SearchActivity.class);
-                intent.putExtra("all", "all");
+                intent.putExtra("type", "all");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
                 } else {

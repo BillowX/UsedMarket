@@ -30,8 +30,8 @@ import com.maker.use.domain.Comment;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
-import com.maker.use.ui.adapter.CommentListViewAdapter;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.KeyBoardUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.TimeUtil;
 import com.maker.use.utils.UIUtils;
@@ -42,6 +42,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 
@@ -62,7 +63,6 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
     TextView tv_detail_author;
     @ViewInject(R.id.lv_comment)
     ListView lv_comment;
-    int index = 0;
     @ViewInject(R.id.nineGrid)
     NineGridView nineGrid;
     @ViewInject(R.id.refresh_root)
@@ -78,26 +78,22 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
     private TextView tv_userName;
     @ViewInject(R.id.tv_goods_time)
     private TextView tv_goods_time;
+    @ViewInject(R.id.tv_location)
+    private TextView tv_location;
     @ViewInject(R.id.tv_good_num)
     private TextView tv_good_num;
     @ViewInject(R.id.tv_goods_price)
     private TextView tv_goods_price;
     @ViewInject(R.id.tv_goods_name)
     private TextView tv_goods_name;
-    /*@ViewInject(R.id.iv_img)
-    private ImageView iv_img;
-    @ViewInject(R.id.recView_goods_img)
-    private GalleryView recView_goods_img;*/
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
     private Commodity mCommodity;
     private LinearLayout.LayoutParams mParams;
     //是否展开详情
     private boolean isOpen = false;
-    private String[] mSplitImgUrl;
-    private String[] mNewImgUrl;
-    private ArrayList<Comment> mCommentDataList;
-    private CommentListViewAdapter mCommentAdapter;
+    private List<String> mSplitImgUrl;
+
     private TextView tv_more;
     private ProgressBar pb;
 
@@ -112,12 +108,7 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
 
     private void initData() {
         mCommodity = (Commodity) getIntent().getSerializableExtra("commodity");
-        mSplitImgUrl = mCommodity.images.split(";");
-        mNewImgUrl = new String[mSplitImgUrl.length];
-        for (int i = 0; i < mSplitImgUrl.length; i++) {
-            mNewImgUrl[i] = mSplitImgUrl[mSplitImgUrl.length - i - 1];
-        }
-
+        mSplitImgUrl = mCommodity.images;
     }
 
     private void initView() {
@@ -130,7 +121,7 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
                 finish();
             }
         });
-        GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl[0].replace("_", ""), iv_head);
+        GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(0).replace("_", ""), iv_head);
 
         //初始化中心布局
         if (mCommodity != null) {
@@ -142,16 +133,16 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
             tv_goods_name.setText(mCommodity.commodityName);
             tv_good_num.setText(mCommodity.amount);
             tv_goods_price.setText("¥ " + mCommodity.price);
-
+            tv_location.setText(mCommodity.location);
             tv_goods_description.setText(mCommodity.description);
 
             //设置商品列表宫格
             ArrayList<ImageInfo> imageInfo = new ArrayList<>();  //获取到图片地址集合
-            for (int i = 0; i < mNewImgUrl.length; i++) {
+            for (int i = 0; i < mSplitImgUrl.size(); i++) {
                 //ImageInfo 是他的实体类,用于image的地址
                 ImageInfo info = new ImageInfo();
-                info.setThumbnailUrl(UsedMarketURL.server_heart + "//" + mNewImgUrl[i]);
-                info.setBigImageUrl(UsedMarketURL.server_heart + "//" + mNewImgUrl[i].replace("_", ""));
+                info.setThumbnailUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i));
+                info.setBigImageUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i).replace("_", ""));
                 imageInfo.add(info);
             }
             nineGrid.setAdapter(new NineGridViewClickAdapter(this, imageInfo));
@@ -202,30 +193,6 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
      * @param limit 分页位置
      */
     private void getCommentDataFromServer(int limit) {
-        if (limit == 0) {
-            mCommentDataList = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                Comment comment = new Comment();
-                comment.setPcontent("评论" + i);
-                mCommentDataList.add(comment);
-            }
-            mCommentAdapter = new CommentListViewAdapter(UIUtils.getContext(), mCommentDataList);
-            lv_comment.setAdapter(mCommentAdapter);
-        } else if (limit == -1) {
-            for (int i = 0; i < 3; i++) {
-                Comment comment = new Comment();
-                comment.setPcontent("刷新出来的评论" + i);
-                mCommentDataList.add(0, comment);
-                mCommentAdapter.notifyDataSetChanged();
-            }
-        } else if (limit == 1) {
-            for (int i = 0; i < 3; i++) {
-                Comment comment = new Comment();
-                comment.setPcontent("加载更多出来的评论" + i);
-                mCommentDataList.add(mCommentDataList.size(), comment);
-                mCommentAdapter.notifyDataSetChanged();
-            }
-        }
 
     }
 
@@ -401,13 +368,11 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
 
     @Override
     public void onRefresh() {
-        getCommentDataFromServer(-1);
-        refresh_root.setRefreshing(false);
+        getCommentDataFromServer(0);
     }
 
     @Override
     public void onLoad() {
-//        getCommentDataFromServer(1);
         refresh_root.setLoading(false);
     }
 
@@ -436,13 +401,13 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
         tv_sent_reply.setEnabled(false);
         Comment comment = new Comment();
         comment.setPcontent(content);
-        mCommentDataList.add(mCommentDataList.size(), comment);
-        mCommentAdapter.notifyDataSetChanged();
+
+
         UIUtils.toast("评论成功");
         tv_sent_reply.setEnabled(true);
         et_reply.setText("");
         if (imm.isActive()) {//关闭键盘
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+            KeyBoardUtils.closeSoftKeyboard(this);
         }
     }
 }

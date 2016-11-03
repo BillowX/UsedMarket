@@ -277,10 +277,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_location"
-                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="广州商学院.图书馆"
+                android:text="中国.广州商学院广州商学院广州商学院广州商学院广州商学院广州商学院广州商学院广州商学院广州商学院.图书馆"
                 android:textColor="#83C0EF"
                 android:textSize="14dp"/>
 

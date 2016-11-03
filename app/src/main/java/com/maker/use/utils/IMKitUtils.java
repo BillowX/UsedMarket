@@ -38,8 +38,7 @@ public class IMKitUtils {
         params.addHeader("App-Key", RY_APP_KEY);
         params.addHeader("Nonce", Nonce);
         params.addHeader("Timestamp", Timestamp);
-//        params.addHeader("Signature", MD5_test.encryptToSHA(RY_APP_SECRET + Nonce + Timestamp));
-        params.addHeader("Signature", MD5_test.SHA1(RY_APP_SECRET + Nonce + Timestamp));
+        params.addHeader("Signature", MD5.SHA1(RY_APP_SECRET + Nonce + Timestamp));
         return params;
     }
 
@@ -50,7 +49,7 @@ public class IMKitUtils {
 
         params.addBodyParameter("userId", user.getUserId());
         params.addBodyParameter("name", user.getUsername());
-        params.addBodyParameter("portraitUri", UsedMarketURL.HEAD + user.getHeadPortrait());
+        params.addBodyParameter("portraitUri", UsedMarketURL.HEAD + user.getNarrowHeadPortraitPath());
 
         x.http().post(params, new Callback.CommonCallback<String>() {
 
@@ -133,7 +132,7 @@ public class IMKitUtils {
 
                     Log.d("token_connect", "--onSuccess" + userid);
                     if (RongIM.getInstance() != null) {
-                        RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid, mUser.getUsername(), Uri.parse(UsedMarketURL.HEAD + mUser.getHeadPortrait())));
+                        RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid, mUser.getUsername(), Uri.parse(UsedMarketURL.HEAD + mUser.getNarrowHeadPortraitPath())));
                     }
                     RongIM.getInstance().setMessageAttachedUserInfo(true);
                 }

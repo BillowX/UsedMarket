@@ -1,6 +1,7 @@
 package com.maker.use.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import com.maker.use.domain.Comment;
 import java.util.ArrayList;
 
 /**
- *  评论列表适配器
+ * 评论列表适配器
  * Created by jzh on 2015/9/28.
  */
 public class CommentListViewAdapter extends BaseAdapter {
@@ -53,30 +54,34 @@ public class CommentListViewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item_comment, null);
             holder.iv_icon = (ImageView) convertView.findViewById(R.id.civ_user_head);
-            holder.tv_name = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_name);
-            holder.tv_location = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_location);
-            holder.tv_time = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_time);
-            holder.tv_lou = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_lou);
-            holder.tv_content = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_content);
-            holder.tv_zan = (TextView) convertView.findViewById(R.id.listview_pinglun_item_textView_zan);
+            holder.tv_username = (TextView) convertView.findViewById(R.id.tv_username);
+            holder.tv_location = (TextView) convertView.findViewById(R.id.tv_location);
+            holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            holder.tv_floor = (TextView) convertView.findViewById(R.id.tv_floor);
+            holder.tv_comment_content = (TextView) convertView.findViewById(R.id.tv_comment_content);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv_lou.setText("第" + (position + 1) + "楼");
-        holder.tv_content.setText(news.get(position).getPcontent());
+
+        holder.tv_floor.setText("第" + (position + 1) + "楼");
+        holder.tv_comment_content.setText(news.get(position).getPcontent());
+
+        //如果是发布者发布的评论，则显示楼主
+        Drawable floor = context.getResources().getDrawable(R.drawable.icon_floor);
+        floor.setBounds(0, 0, floor.getMinimumWidth(), floor.getMinimumHeight());
+        holder.tv_username.setCompoundDrawables(null, null, floor, null);
 
         return convertView;
     }
 
 
     private class ViewHolder {
-        private TextView tv_name;
+        private TextView tv_username;
         private TextView tv_location;
         private TextView tv_time;
-        private TextView tv_lou;
-        private TextView tv_content;
-        private TextView tv_zan;
+        private TextView tv_floor;
+        private TextView tv_comment_content;
         private ImageView iv_icon;
     }
 

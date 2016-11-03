@@ -101,16 +101,16 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="5.0dip"
-                        android:paddingBottom="10.0dip"
-                        android:paddingLeft="20.0dip"
-                        android:paddingRight="20.0dip"
-                        android:paddingTop="10.0dip"
-                        android:text="广州商学院信息技术与工程学院"
-                        android:textColor="#ffffa734"/>
+                    <!-- <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:drawablePadding="5.0dip"
+                         android:paddingBottom="10.0dip"
+                         android:paddingLeft="20.0dip"
+                         android:paddingRight="20.0dip"
+                         android:paddingTop="10.0dip"
+                         android:text="广州商学院"
+                         android:textColor="#ffffa734"/>-->
                 </LinearLayout>
 
                 <RelativeLayout
@@ -167,7 +167,7 @@
                 android:id="@+id/stv_user_constellation"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="2dp"
                 app:sBottomLineMargin="0dp"
                 app:sLeftIconRes="@drawable/constellation"
                 app:sLeftTextString="星座"
@@ -212,6 +212,16 @@
                 app:sLeftIconRes="@drawable/address"
                 app:sLeftTextString="收货地址"
                 app:sRightTextString="一栋男生宿舍A7006"/>
+
+            <com.allen.supertextviewlibrary.SuperTextView
+                android:id="@+id/stv_registration_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                app:sBottomLineMargin="0dp"
+                app:sLeftIconRes="@drawable/date"
+                app:sLeftTextString="注册时间"
+                app:sRightTextString="192111"/>
 
             <Button
                 android:id="@+id/bt_change_password"

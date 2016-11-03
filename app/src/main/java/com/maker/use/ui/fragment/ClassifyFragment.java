@@ -59,7 +59,8 @@ public class ClassifyFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                intent.putExtra("category", mItemArray[position]);
+                intent.putExtra("type", "category");
+                intent.putExtra("queryValue", mItemArray[position]);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
                 } else {

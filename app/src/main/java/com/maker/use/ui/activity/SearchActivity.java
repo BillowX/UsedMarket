@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.util.TypedValue;
@@ -39,9 +38,8 @@ public class SearchActivity extends BaseActivity {
     Toolbar toolbar;
 
     private String[] mData = UIUtils.getStringArray(R.array.classify);
-    private String mUsername;
-    private String mCategory;
-    private String mAll;
+    private String type;
+    private String queryValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,9 +57,8 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void checkWhereFrom() {
-        mUsername = getIntent().getStringExtra("username");
-        mCategory = getIntent().getStringExtra("category");
-        mAll = getIntent().getStringExtra("all");
+        type = getIntent().getStringExtra("type");
+        queryValue = getIntent().getStringExtra("queryValue");
     }
 
     private void initView() {
@@ -79,7 +76,10 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                if (!TextUtils.isEmpty(mUsername)) {
+                intent.putExtra("type", type);
+                intent.putExtra("queryValue", queryValue);
+                intent.putExtra("indistinctField", query);
+                /*if (!TextUtils.isEmpty(mUsername)) {
                     intent.putExtra("username", mUsername);
                     intent.putExtra("query", query);
                 } else if (!TextUtils.isEmpty(mCategory)) {
@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity {
                 } else if (!TextUtils.isEmpty(mAll)) {
                     intent.putExtra("all", mAll);
                     intent.putExtra("query", query);
-                }
+                }*/
                 startActivity(intent);
                 finish();
                 return false;
@@ -167,16 +167,9 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
-                    if (!TextUtils.isEmpty(mUsername)) {
-                        intent.putExtra("username", mUsername);
-                        intent.putExtra("query", keyword);
-                    } else if (!TextUtils.isEmpty(mCategory)) {
-                        intent.putExtra("category", mCategory);
-                        intent.putExtra("query", keyword);
-                    } else if (!TextUtils.isEmpty(mAll)) {
-                        intent.putExtra("all", mAll);
-                        intent.putExtra("query", keyword);
-                    }
+                    intent.putExtra("type", type);
+                    intent.putExtra("queryValue", queryValue);
+                    intent.putExtra("indistinctField", keyword);
                     startActivity(intent);
                     finish();
                 }
