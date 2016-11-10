@@ -21,11 +21,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.maker.use.R;
-import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
 import com.maker.use.utils.GlideUtils;
@@ -48,24 +46,20 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 
 /**
- * 添加商品页面
+ * 添加捐赠页面
  * Created by XT on 2016/10/16.
  */
-@ContentView(R.layout.activity_addcommodity)
-public class AddCommodityActivity extends BaseActivity {
+@ContentView(R.layout.activity_adddonate)
+public class AddDonateActivity extends BaseActivity {
 
     @ViewInject(R.id.et_name)
     EditText et_name;
-    @ViewInject(R.id.et_price)
-    EditText et_price;
-    @ViewInject(R.id.et_num)
-    EditText et_num;
-    @ViewInject(R.id.spinner_category)
-    Spinner spinner_category;
+    @ViewInject(R.id.et_address)
+    EditText et_address;
+    @ViewInject(R.id.et_phone)
+    EditText et_phone;
     @ViewInject(R.id.et_description)
     EditText et_description;
-    @ViewInject(R.id.iv_img)
-    ImageView iv_img;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
     @ViewInject(R.id.rv_img)
@@ -83,7 +77,6 @@ public class AddCommodityActivity extends BaseActivity {
     private String mUserId;
     private Context context;
 
-    private Commodity mCommodity;
     private PhotoAlbumAdapter mAdapter;
     private String location;
     private boolean HAVE_LOCATION = false;
@@ -93,7 +86,6 @@ public class AddCommodityActivity extends BaseActivity {
         //开启本activity的动画
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setExitTransition(new Explode());//new Slide()  new Fade()
             getWindow().setEnterTransition(new Slide());
             getWindow().setExitTransition(new Slide());
         }
@@ -125,7 +117,7 @@ public class AddCommodityActivity extends BaseActivity {
         rl_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(AddCommodityActivity.this, LocationActivity.class);
+                Intent it = new Intent(AddDonateActivity.this, LocationActivity.class);
                 startActivityForResult(it, 99);
             }
         });
@@ -162,11 +154,10 @@ public class AddCommodityActivity extends BaseActivity {
      */
     private boolean checkData() {
         String name = et_name.getText().toString();
-        String price = et_price.getText().toString();
-        String num = et_num.getText().toString();
+        String address = et_address.getText().toString();
+        String phone = et_phone.getText().toString();
         String description = et_description.getText().toString();
-        String category = spinner_category.getSelectedItem().toString();
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(price) || TextUtils.isEmpty(num) || TextUtils.isEmpty(description) || allSelectedPicture.size() < 1) {
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(address) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(description) || allSelectedPicture.size() < 1) {
             UIUtils.toast("还没填满呢");
             return false;
         } else if(!HAVE_LOCATION){
@@ -176,13 +167,8 @@ public class AddCommodityActivity extends BaseActivity {
             UIUtils.toast("商品图片不能少于4张");
             return false;
         } else {
-            mCommodity = new Commodity();
-            mCommodity.setCommodityName(name);
-            mCommodity.setPrice(price);
-            mCommodity.setAmount(num);
-            mCommodity.setCategory(category);
-            mCommodity.setDescription(description);
-            mCommodity.setLocation(location);
+            //创建一个新的捐赠物品对象
+
             return true;
         }
     }
@@ -194,20 +180,14 @@ public class AddCommodityActivity extends BaseActivity {
      * @param view
      */
     public void uploadServer(View view) {
-        if (!checkData() || mCommodity == null) {
+        if (!checkData()) {
             return;
         }
         UIUtils.progressDialog(this);
         RequestParams params = new RequestParams(UsedMarketURL.UPLOAD_COMMODITY);
         params.addBodyParameter("userId", mUserId);
-        params.addBodyParameter("commodityName", mCommodity.getCommodityName());
-        params.addBodyParameter("price", mCommodity.getPrice());
-        params.addBodyParameter("amount", mCommodity.getAmount());
-        params.addBodyParameter("category", mCommodity.getCategory());
-        params.addBodyParameter("description", mCommodity.getDescription());
-        params.addBodyParameter("location", mCommodity.getLocation());
         for (int i = 0; i < allSelectedPicture.size(); i++) {
-            File imgFile = ImageCompressUtils.getFile(AddCommodityActivity.this, allSelectedPicture.get(i));
+            File imgFile = ImageCompressUtils.getFile(AddDonateActivity.this, allSelectedPicture.get(i));
             params.addBodyParameter("images", imgFile);
         }
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -220,7 +200,7 @@ public class AddCommodityActivity extends BaseActivity {
                     intent.putExtra("type", "t_commodity.user_id");
                     intent.putExtra("queryValue", SpUtil.getUserId());
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AddCommodityActivity.this).toBundle());
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AddDonateActivity.this).toBundle());
                     } else {
                         startActivity(intent);
                     }
@@ -318,7 +298,7 @@ public class AddCommodityActivity extends BaseActivity {
                     holder.iv_img.setVisibility(View.GONE);
                 }
             } else {
-                GlideUtils.setImg(AddCommodityActivity.this, "file://" + allSelectedPicture.get(position), holder.iv_img);
+                GlideUtils.setImg(AddDonateActivity.this, "file://" + allSelectedPicture.get(position), holder.iv_img);
 //                ImageLoader.getInstance().displayImage("file://" + allSelectedPicture.get(position), holder.iv_img);
                 holder.bt_delete.setVisibility(View.VISIBLE);
                 holder.bt_delete.setOnClickListener(new View.OnClickListener() {

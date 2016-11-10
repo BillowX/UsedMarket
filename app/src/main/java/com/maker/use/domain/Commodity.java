@@ -3,92 +3,49 @@ package com.maker.use.domain;
 import java.io.Serializable;
 import java.util.List;
 /**
- * {
- * "commodityId": "cd34e098b0d84dac938841021a78c6c1",
- * "userId": "65feeb68a1fa4606a51a977f117895c9",
- * "storeId": "12",
- * "commodityName": "正培轩",
- * "category": "12",
- * "price": 12,
- * "amount": 12,
- * "images": "static/commodityImages/344f5848832e427e856d3e77cf450fea_.jpg;static/commodityImages/1900aa84f3c842daa744ea08850ecafd_.jpg",
- * "description": "12",
- * "preferNum": 0,
- * "launchDate": 1477404978000,
- * "salesVolume": 0,
- * "username": "谢焘",
- * "headPortrait": "static/headportrait/9a09c2eea68b419bbd6c3fa0e180ab3c_.png"
- * }
- * {"commodityId":"abd3cf87717d4d61b8741efe5960319e","userId":"f7fa0cb006a9449c8b1e86c8e3d723a2","storeId":null,"commodityName":"哈哈哈哈哈哈哈哈哈哈哈哈","category":"书刊","price":55666.0,"amount":1,"images":"static/commodityImages/bccd0abf718145d8bbcac8f63bf820f9_.jpg;static/commodityImages/5450be745a834c439f3aa067d6bd1fb7_.jpg;static/commodityImages/a14d6a2de57d4160979465ca24cfc383_.jpg;static/commodityImages/28023aa1202c43cbb36d7c25d9066662_.jpg;static/commodityImages/68dd106c8d634d7bba117b567750119c_.jpg","description":null,"preferNum":0,"launchDate":1477409380000,"salesVolume":0,"username":"123","headPortrait":"static/headportrait/6b5b447e432247df815065ea2904f5dd_.jpg"}
- */
-
-/**
  * Description：商品类
  * Created by Peivxuan on 2016/10/23.
  */
 public class Commodity implements Serializable {
 
-    /**
-     * 商品id
-     */
-    public String commodityId;
 
     /**
-     * 用户id
+     * commodityId : a4f18a59c54f40e29775c368c3530c63
+     * userId : 54cb98d1fd4c45c7a68a581f6960fe31
+     * storeId : null
+     * commodityName : hh
+     * category : 其它
+     * price : 1000
+     * amount : 22
+     * images : ["static/attachment/_b128de6a86c34442a4088457ddd6c83c.jpg","static/attachment/_1b8036594ed9476aa447f476b9c07ba2.jpg","static/attachment/_74ab4f6047cb413d9c678d27c10ff349.jpg","static/attachment/_cd61bef964c2473bae322a9b7010d393.jpg","static/attachment/_63950ff80af54e639a8fa67d732ccee3.jpg","static/attachment/_37490af5012f4fd48222af93d8d37a55.jpg","static/attachment/_2e6a8c1d98a349058ea25d94daed96bd.jpg","static/attachment/_8b500bb558e74a1abdea426c6cf14047.jpg","static/attachment/_69a2fde8cc434d408a53c65452777f76.jpg"]
+     * description : hh
+     * location : 广东省广州市九龙大道东150米广州商学院学生公寓21幢
+     * preferNum : 0
+     * launchDate : 1478694288000
+     * salesVolume : 0
+     * status : 2
+     * commodityNum : null
+     * username : obama
+     * headPortrait : static/attachment/_a1d5e2b4a67847599112dab3dabf3112.jpg
      */
-    public String userId;
-    /**
-     * 用户名
-     */
-    public String username;
-    /**
-     * 用户头像地址
-     */
-    public String headPortrait;
-    /**
-     * 商店id
-     */
-    public String storeId;
-    /**
-     * 商品名称
-     */
-    public String commodityName;
-    /**
-     * 分类
-     */
-    public String category;
-    /**
-     * 价格
-     */
-    public String price;
-    /**
-     * 数量
-     */
-    public String amount;
-    /**
-     * 定位
-     */
-    public String location;
-    /**
-     * 图片
-     */
-    public List<String> images;
-    /**
-     * 描述
-     */
-    public String description;
-    /**
-     * 收藏人数
-     */
-    public String preferNum;
-    /**
-     * 上架时间
-     */
-    public String launchDate;
-    /**
-     * 销售量
-     */
-    public String salesVolume;
+
+    private String commodityId;
+    private String userId;
+    private Object storeId;
+    private String commodityName;
+    private String category;
+    private String price;
+    private String amount;
+    private String description;
+    private String location;
+    private String preferNum;
+    private String launchDate;
+    private String salesVolume;
+    private String status;
+    private Object commodityNum;
+    private String username;
+    private String headPortrait;
+    private List<String> images;
 
     public Commodity() {
     }
@@ -109,5 +66,141 @@ public class Commodity implements Serializable {
                 ", launchDate=" + launchDate +
                 ", salesVolume=" + salesVolume +
                 '}';
+    }
+
+    public String getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Object getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Object storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getCommodityName() {
+        return commodityName;
+    }
+
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPreferNum() {
+        return preferNum;
+    }
+
+    public void setPreferNum(String preferNum) {
+        this.preferNum = preferNum;
+    }
+
+    public String getLaunchDate() {
+        return launchDate;
+    }
+
+    public void setLaunchDate(String launchDate) {
+        this.launchDate = launchDate;
+    }
+
+    public String getSalesVolume() {
+        return salesVolume;
+    }
+
+    public void setSalesVolume(String salesVolume) {
+        this.salesVolume = salesVolume;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Object getCommodityNum() {
+        return commodityNum;
+    }
+
+    public void setCommodityNum(Object commodityNum) {
+        this.commodityNum = commodityNum;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

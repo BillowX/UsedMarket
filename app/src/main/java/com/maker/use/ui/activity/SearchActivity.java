@@ -79,16 +79,6 @@ public class SearchActivity extends BaseActivity {
                 intent.putExtra("type", type);
                 intent.putExtra("queryValue", queryValue);
                 intent.putExtra("indistinctField", query);
-                /*if (!TextUtils.isEmpty(mUsername)) {
-                    intent.putExtra("username", mUsername);
-                    intent.putExtra("query", query);
-                } else if (!TextUtils.isEmpty(mCategory)) {
-                    intent.putExtra("category", mCategory);
-                    intent.putExtra("query", query);
-                } else if (!TextUtils.isEmpty(mAll)) {
-                    intent.putExtra("all", mAll);
-                    intent.putExtra("query", query);
-                }*/
                 startActivity(intent);
                 finish();
                 return false;

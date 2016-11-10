@@ -1,248 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refresh_root"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/counselor_detail_head_bg"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/iviv"
             android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#FFF"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/iviv"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:visibility="gone"/>
+                android:id="@+id/counselor_avatar_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="180.0dip"
+                android:layout_centerHorizontal="true"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:scaleType="fitXY"
+                android:src="@drawable/counselor_detail_head_bg"/>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/counselor_head_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/counselor_avatar_layout"
+                android:background="#FFF"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/counselor_avatar_layout"
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="180.0dip"
-                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:gravity="center_horizontal"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/counselor_detail_head_bg"/>
+                    android:orientation="vertical"
+                    android:paddingBottom="10.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip">
 
-                <LinearLayout
-                    android:id="@+id/counselor_head_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/counselor_avatar_layout"
-                    android:background="#FFF"
-                    android:orientation="vertical">
-
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/counselor_name_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingBottom="10.0dip"
-                        android:paddingLeft="20.0dip"
-                        android:paddingRight="20.0dip">
-
-                        <RelativeLayout
-                            android:id="@+id/counselor_name_layout"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10.0dip"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/tv_user_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="20.0dip"
-                                android:layout_marginRight="20.0dip"
-                                android:alpha="0.9"
-                                android:text="我是谁"
-                                android:textColor="#ff333333"
-                                android:textSize="20.0sp"/>
-
-                            <ImageView
-                                android:id="@+id/iv_user_sex"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toRightOf="@id/tv_user_name"
-                                android:src="@drawable/sex_man"/>
-
-                        </RelativeLayout>
+                        android:layout_margin="10.0dip"
+                        android:gravity="center">
 
                         <TextView
-                            android:id="@+id/tv_personalized_signature"
+                            android:id="@+id/tv_user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10.0dip"
-                            android:text="这个人很懒，什么都没留下"
-                            android:textColor="#ff999999"
-                            android:textSize="12.0sp"/>
+                            android:layout_marginLeft="20.0dip"
+                            android:layout_marginRight="20.0dip"
+                            android:alpha="0.9"
+                            android:text="未知"
+                            android:textColor="#ff333333"
+                            android:textSize="20.0sp"/>
 
-                    </LinearLayout>
+                        <ImageView
+                            android:id="@+id/iv_user_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/tv_user_name"
+                            android:src="@drawable/sex_man"/>
 
-                    <!-- <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:drawablePadding="5.0dip"
-                         android:paddingBottom="10.0dip"
-                         android:paddingLeft="20.0dip"
-                         android:paddingRight="20.0dip"
-                         android:paddingTop="10.0dip"
-                         android:text="广州商学院"
-                         android:textColor="#ffffa734"/>-->
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_personalized_signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10.0dip"
+                        android:text="未知"
+                        android:textColor="#ff999999"
+                        android:textSize="12.0sp"/>
+
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/counselor_avatar_wrapper"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/counselor_avatar_layout"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/avatar_shadow_bg">
+                <!-- <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:drawablePadding="5.0dip"
+                     android:paddingBottom="10.0dip"
+                     android:paddingLeft="20.0dip"
+                     android:paddingRight="20.0dip"
+                     android:paddingTop="10.0dip"
+                     android:text="广州商学院"
+                     android:textColor="#ffffa734"/>-->
+            </LinearLayout>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_user_head"
-                        android:layout_width="80.0dip"
-                        android:layout_height="80.0dip"
-                        android:layout_centerInParent="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/classify_1"
-                        />
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/counselor_avatar_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/counselor_avatar_layout"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/avatar_shadow_bg">
 
-                <TextView
-                    android:id="@+id/like_cnt_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/counselor_avatar_wrapper"
-                    android:background="@drawable/half_corner"
-                    android:drawableLeft="@drawable/ic_sale"
-                    android:drawablePadding="5dp"
-                    android:gravity="center_vertical"
-                    android:text="9"
-                    android:textColor="#ffffffff"
-                    android:textSize="14.0sp"/>
-
-                <TextView
-                    android:id="@+id/tv_cnt_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/like_cnt_txt"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/half_corner"
-                    android:drawableLeft="@drawable/ic_love"
-                    android:drawablePadding="5dp"
-                    android:gravity="center_vertical"
-                    android:text="10"
-                    android:textColor="#ffffffff"
-                    android:textSize="14.0sp"/>
-
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_head"
+                    android:layout_width="80.0dip"
+                    android:layout_height="80.0dip"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/register_default_head"
+                    />
             </RelativeLayout>
 
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_user_constellation"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/constellation"
-                app:sLeftTextString="星座"
-                app:sRightTextString="射手座"/>
-
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_user_age"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/age"
-                app:sLeftTextString="年龄"
-                app:sRightTextString="19"/>
-
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_user_blood"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/blood"
-                app:sLeftTextString="血型"
-                app:sRightTextString="AB"/>
-
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_user_phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/phone"
-                app:sLeftTextString="手机号码"
-                app:sRightTextString="18165765888"/>
-
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_user_shippingAddress"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/address"
-                app:sLeftTextString="收货地址"
-                app:sRightTextString="一栋男生宿舍A7006"/>
-
-            <com.allen.supertextviewlibrary.SuperTextView
-                android:id="@+id/stv_registration_date"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="2dp"
-                app:sBottomLineMargin="0dp"
-                app:sLeftIconRes="@drawable/date"
-                app:sLeftTextString="注册时间"
-                app:sRightTextString="192111"/>
-
-            <Button
-                android:id="@+id/bt_change_password"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/like_cnt_txt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#234B67"
-                android:onClick="changePassword"
-                android:text="修改密码"
-                android:textColor="#FFF"
-                />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/counselor_avatar_wrapper"
+                android:background="@drawable/half_corner"
+                android:drawableLeft="@drawable/ic_sale"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="未知"
+                android:textColor="#ffffffff"
+                android:textSize="14.0sp"/>
 
-            <Button
-                android:id="@+id/bt_logout"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_cnt_txt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#4E2449"
-                android:onClick="logout"
-                android:text="注销用户"
-                android:textColor="#FFF"
-                />
+                android:layout_above="@+id/like_cnt_txt"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/half_corner"
+                android:drawableLeft="@drawable/ic_love"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="未知"
+                android:textColor="#ffffffff"
+                android:textSize="14.0sp"/>
 
-        </LinearLayout>
-    </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        </RelativeLayout>
+
+        <com.allen.supertextviewlibrary.SuperTextView
+            android:id="@+id/stv_user_constellation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            app:sBottomLineMargin="0dp"
+            app:sLeftIconRes="@drawable/constellation"
+            app:sLeftTextString="星座"
+            app:sRightTextString="未知"/>
+
+        <com.allen.supertextviewlibrary.SuperTextView
+            android:id="@+id/stv_user_age"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            app:sBottomLineMargin="0dp"
+            app:sLeftIconRes="@drawable/age"
+            app:sLeftTextString="年龄"
+            app:sRightTextString="未知"/>
+
+        <com.allen.supertextviewlibrary.SuperTextView
+            android:id="@+id/stv_registration_date"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            app:sBottomLineMargin="0dp"
+            app:sLeftIconRes="@drawable/date"
+            app:sLeftTextString="注册时间"
+            app:sRightTextString="未知"/>
+
+    </LinearLayout>
+</ScrollView>

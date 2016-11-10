@@ -62,7 +62,7 @@ public class LoveCrowdFundingDetailActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_commodity_detail_title, menu);
         return true;
     }
 }

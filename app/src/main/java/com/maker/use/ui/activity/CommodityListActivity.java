@@ -237,6 +237,24 @@ public class CommodityListActivity extends BaseActivity {
             fab_add.setVisibility(View.GONE);
         }
 
+        /*//兴趣
+        else if ("hobby".equals(type) && TextUtils.isEmpty(indistinctField)) {
+            map.put("type", type);//类型是hobby
+            map.put("indistinctField", indistinctField);//查询的关键字
+
+            toolbar.setTitle("专题详情");
+            fab_add.setVisibility(View.GONE);
+        }*/
+
+        //兴趣搜索
+        else if ("hobby".equals(type) && !TextUtils.isEmpty(indistinctField)) {
+            map.put("type", type);//类型是ALL
+            map.put("indistinctField", indistinctField);//查询的关键字
+
+            toolbar.setTitle("在“专题”中搜索“" + indistinctField + "”");
+            fab_add.setVisibility(View.GONE);
+        }
+
         mCommodityXRecyclerView = new CommodityXRecyclerView(this, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mCommodityXRecyclerView.setLayoutParams(layoutParams);

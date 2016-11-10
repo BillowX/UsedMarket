@@ -79,7 +79,7 @@
             android:name=".ui.activity.RegisterActivity"
             android:theme="@style/ColorTranslucentTheme"/>
         <activity
-            android:name=".ui.activity.UserDetailActivity"
+            android:name=".ui.activity.MyUserDetailActivity"
             android:theme="@style/ImageTranslucentTheme"/>
         <activity
             android:name=".ui.activity.CommodityListActivity"
@@ -120,6 +120,10 @@
 
         <activity android:name=".ui.activity.EditActivity"
                   android:theme="@style/ColorTranslucentTheme"/>
+
+        <activity android:name=".ui.activity.UserDetailActivity"
+                  android:theme="@style/ImageTranslucentTheme"
+            />
 
 
         <!--会话界面-->
@@ -229,7 +233,7 @@
 
 
         <!--start高德地图-->
-       <!-- <service android:name="com.amap.api.location.APSService"/>-->
+        <service android:name="com.amap.api.location.APSService"/>
 
     </application>
 

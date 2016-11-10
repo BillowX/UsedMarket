@@ -12,18 +12,40 @@
         android:background="#FBFCFB"
         android:drawablePadding="5dp"
         android:drawableLeft="@drawable/delete"
-        android:text="删除此商品"
+        android:text="删除这个商品"
         android:textSize="15sp"
         />
 
     <Button
-        android:id="@+id/bt_alter"
+        android:id="@+id/bt_alter_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FBFCFB"
         android:drawablePadding="5dp"
         android:drawableLeft="@drawable/alter"
-        android:text="修改此商品"
+        android:text="设置商品数量"
+        android:textSize="15sp"
+        />
+
+    <Button
+        android:id="@+id/bt_alter_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FBFCFB"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/alter"
+        android:text="设置商品单价"
+        android:textSize="15sp"
+        />
+
+    <Button
+        android:id="@+id/bt_alter_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FBFCFB"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/alter"
+        android:text="设置商品状态"
         android:textSize="15sp"
         />
 

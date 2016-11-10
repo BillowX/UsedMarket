@@ -73,6 +73,31 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_donate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/donate"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/main_left_heart"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/donate"
+                android:text="我的捐赠"
+                android:textColor="#f0f0f0"
+                android:textSize="20sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -91,7 +116,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/two"
-                android:text="我的关注"
+                android:text="我的收藏"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp"/>
         </RelativeLayout>

@@ -36,7 +36,6 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/while_blue"
                     android:maxLines="1"
                     android:text="用户名"
                     android:textColor="#238123"
@@ -84,7 +83,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_location"
-                android:text="广州商学院.图书馆"
+                android:text="未知星球"
                 android:textSize="14dp"/>
 
             <TextView
@@ -94,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:textSize="14dp"
-                android:text="刚刚"/>
+                android:text="未知时空"/>
 
         </LinearLayout>
 

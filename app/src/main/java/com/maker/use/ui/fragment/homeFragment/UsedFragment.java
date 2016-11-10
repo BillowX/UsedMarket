@@ -1,10 +1,9 @@
 package com.maker.use.ui.fragment.homeFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,11 @@ import com.lzy.widget.HeaderScrollHelper;
 import com.maker.use.R;
 import com.maker.use.domain.Top;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.MainActivity;
 import com.maker.use.ui.fragment.BaseFragment;
 import com.maker.use.ui.view.carouselView.FlyBanner;
 import com.maker.use.ui.view.myXRecyclerView.CommodityXRecyclerView;
-import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.UIUtils;
 import com.sunfusheng.marqueeview.MarqueeView;
 
@@ -83,8 +82,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     TextView tv_hobby_6;
     @ViewInject(R.id.marquee_view)
     MarqueeView marquee_view;
-    @ViewInject(R.id.fbt_sort)
-    FloatingActionButton fbt_sort;
+    /*@ViewInject(R.id.fbt_sort)
+    FloatingActionButton fbt_sort;*/
     /*@ViewInject(R.id.pagerHeader)
     private LoopViewPager pagerHeader;
     @ViewInject(R.id.ci)
@@ -96,6 +95,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     private MainActivity mActivity;
     private View mMainView;
     private String[] mTitleArray = {"#游戏专题", "#考研必备", "#音乐就是生命", "#电子爱好者", "#摄影艺术家", "#嘻哈一族"};
+    private String[] mKeyTitleArray = {"游戏", "考研", "音乐", "电子", "摄影", "嘻哈"};
     private int[] mImgArray = {
             R.mipmap.hobby_1, R.mipmap.hobby_2,
             R.mipmap.hobby_3, R.mipmap.hobby_4,
@@ -115,7 +115,7 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
     public void initView() {
         mActivity = (MainActivity) getActivity();
 
-        fbt_sort.setOnClickListener(this);
+//        fbt_sort.setOnClickListener(this);
 
         /*mActivity.setOnFragmentChangeListener(new MainActivity.onFragmentChangeListener() {
             @Override
@@ -132,8 +132,8 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         //添加MyXRecyclerView
         HashMap<String, String> map = new HashMap<>();
         map.put("type", "all");
-        map.put("order","");
-        map.put("orderBy","");
+        map.put("order", "");
+        map.put("orderBy", "");
         mCommodityXRecyclerView = new CommodityXRecyclerView(mActivity, map, cl_root);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mCommodityXRecyclerView.setLayoutParams(layoutParams);
@@ -286,6 +286,10 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         switch (v.getId()) {
             case R.id.ll_hobby_1:
                 UIUtils.snackBar(v, tv_hobby_1.getText().toString());
+                Intent intent = new Intent(UIUtils.getContext(), CommodityListActivity.class);
+                intent.putExtra("indistinctField", mKeyTitleArray[0]);
+                intent.putExtra("type", "hobby");
+                startActivity(intent);
                 break;
             case R.id.ll_hobby_2:
                 UIUtils.snackBar(v, tv_hobby_2.getText().toString());
@@ -302,12 +306,10 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
             case R.id.ll_hobby_6:
                 UIUtils.snackBar(v, tv_hobby_6.getText().toString());
                 break;
-            case R.id.fbt_sort:
-                break;
         }
     }
 
-    private class HeaderAdapter extends PagerAdapter {
+  /*  private class HeaderAdapter extends PagerAdapter {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
@@ -333,6 +335,6 @@ public class UsedFragment extends BaseFragment implements HeaderScrollHelper.Scr
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
-    }
+    }*/
 
 }

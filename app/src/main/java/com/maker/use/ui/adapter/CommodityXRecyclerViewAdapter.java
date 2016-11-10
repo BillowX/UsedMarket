@@ -47,17 +47,17 @@ public class CommodityXRecyclerViewAdapter extends RecyclerView.Adapter<Commodit
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //发布者头像
-        GlideUtils.setCircleImageViewImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).headPortrait, holder.iv_user_head);
+        GlideUtils.setCircleImageViewImg(UIUtils.getContext(), UsedMarketURL.HEAD + CommodityList.get(position).getHeadPortrait(), holder.iv_user_head);
         //发布者用户名
-        holder.tv_username.setText(CommodityList.get(position).username);
-        holder.tv_time.setText(TimeUtil.format(CommodityList.get(position).launchDate));
+        holder.tv_username.setText(CommodityList.get(position).getUsername());
+        holder.tv_time.setText(TimeUtil.format(CommodityList.get(position).getLaunchDate()));
         //商品
-        holder.tv_name.setText(CommodityList.get(position).commodityName);
-        holder.tv_description.setText(CommodityList.get(position).description);
-        holder.tv_price.setText("￥ " + CommodityList.get(position).price);
-        holder.tv_location.setText(CommodityList.get(position).location);
+        holder.tv_name.setText(CommodityList.get(position).getCommodityName());
+        holder.tv_description.setText(CommodityList.get(position).getDescription());
+        holder.tv_price.setText("￥ " + CommodityList.get(position).getPrice());
+        holder.tv_location.setText(CommodityList.get(position).getLocation());
         //商品图片
-        List<String> splitImgUrl = CommodityList.get(position).images;
+        List<String> splitImgUrl = CommodityList.get(position).getImages();
         for (int i = 0; i < 9; i++) {
             if (i < splitImgUrl.size()) {
                 GlideUtils.setImg(UIUtils.getContext(), UsedMarketURL.server_heart + "//" + splitImgUrl.get(i), holder.ivPics[i]);

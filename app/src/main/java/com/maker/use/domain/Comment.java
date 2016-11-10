@@ -1,190 +1,131 @@
 package com.maker.use.domain;
 
-import java.io.Serializable;
-
 /**
- * 评论bean
- * Created by XT on 2016/10/29.
+ * Created by huangMP on 2016/10/23.
+ * decription : 留言实体类
  */
-
 public class Comment {
-    News_luntan news_luntan;
-    private int pid;
-    private int pcid;
-    private User user;
-    private String plocation;
-    private String ptime;
-    private String pcontent;
-    private String pzan;
-    private String ispzan;
+    /**
+     * 主键
+     */
+    private String commentId;
+    /**
+     * 商品Id
+     */
+    private String commodityId;
+    /**
+     * 众筹Id
+     */
+    private String crowdfundingId;
 
+    /**
+     * 留言内容
+     */
+    private String commentText;
 
-    public Comment(int pcid, User user, String plocation, String ptime, String pcontent, String pzan, String ispzan) {
-        this.pcid = pcid;
-        this.user = user;
-        this.plocation = plocation;
-        this.ptime = ptime;
-        this.pcontent = pcontent;
-        this.pzan = pzan;
-        this.ispzan = ispzan;
+    /**
+     * 添加时间
+     */
+    private String commentDate;
+    /**
+     * 添加人
+     */
+    private String userId;
+
+    /**
+     * 定位
+     */
+    private String commentLocation;
+    /**
+     * username : obama
+     * headPortrait : static/attachment/_d2b7d52783034f51bbb33e7ecea526cc.jpg
+     */
+
+    private String username;
+    private String headPortrait;
+
+    public String getCommentId() {
+        return commentId;
     }
 
-    public Comment(int pid, int pcid, User user, String plocation, String ptime, String pcontent, String pzan, String ispzan) {
-        this.pid = pid;
-        this.pcid = pcid;
-        this.user = user;
-        this.plocation = plocation;
-        this.ptime = ptime;
-        this.pcontent = pcontent;
-        this.pzan = pzan;
-        this.ispzan = ispzan;
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 
-    public Comment() {
+    public String getCommodityId() {
+        return commodityId;
     }
 
-    public News_luntan getNews_luntan() {
-        return news_luntan;
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
     }
 
-    public void setNews_luntan(News_luntan news_luntan) {
-        this.news_luntan = news_luntan;
+    public String getCrowdfundingId() {
+        return crowdfundingId;
     }
 
-    public int getPid() {
-        return pid;
+    public void setCrowdfundingId(String crowdfundingId) {
+        this.crowdfundingId = crowdfundingId;
     }
 
-    public void setPid(int pid) {
-        this.pid = pid;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public int getPcid() {
-        return pcid;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
-    public void setPcid(int pcid) {
-        this.pcid = pcid;
+    public String getCommentDate() {
+        return commentDate;
     }
 
-    public User getUser() {
-        return user;
+    public void setCommentDate(String commentDate) {
+        this.commentDate = commentDate;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getPlocation() {
-        return plocation;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public void setPlocation(String plocation) {
-        this.plocation = plocation;
+    public String getCommentLocation() {
+        return commentLocation;
     }
 
-    public String getPtime() {
-        return ptime;
+    public void setCommentLocation(String commentLocation) {
+        this.commentLocation = commentLocation;
     }
 
-    public void setPtime(String ptime) {
-        this.ptime = ptime;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId='" + commentId + '\'' +
+                ", commodityId='" + commodityId + '\'' +
+                ", crowdfundingId='" + crowdfundingId + '\'' +
+                ", commentText='" + commentText + '\'' +
+                ", commentDate=" + commentDate +
+                ", userId='" + userId + '\'' +
+                ", commentLocation='" + commentLocation + '\'' +
+                '}';
     }
 
-    public String getPcontent() {
-        return pcontent;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPcontent(String pcontent) {
-        this.pcontent = pcontent;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPzan() {
-        return pzan;
+    public String getHeadPortrait() {
+        return headPortrait;
     }
 
-    public void setPzan(String pzan) {
-        this.pzan = pzan;
-    }
-
-    public String getIspzan() {
-        return ispzan;
-    }
-
-    public void setIspzan(String ispzan) {
-        this.ispzan = ispzan;
-    }
-
-    class News_luntan implements Serializable {
-        private int lid;
-        private User user;
-        private String content;
-        private String image;
-        private String time;
-        private String pinglun;
-        private String location;
-
-
-        public News_luntan() {
-            super();
-
-        }
-
-        public int getLid() {
-            return lid;
-        }
-
-        public void setLid(int lid) {
-            this.lid = lid;
-        }
-
-        public User getUser() {
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String image) {
-            this.image = image;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getPinglun() {
-            return pinglun;
-        }
-
-        public void setPinglun(String pinglun) {
-            this.pinglun = pinglun;
-        }
-
-        public String getLocation() {
-            return location;
-        }
-
-        public void setLocation(String location) {
-            this.location = location;
-        }
-
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
     }
 }

@@ -24,8 +24,11 @@ public class UsedMarketURL {
     public static String CHANGE_HEAD = server_heart + "/UserInfo/editHeadPortrait";
     //修改用户信息
     public static String CHANGE_USER_INFO = server_heart + "/UserInfo/edit";
+    //根据用户ID查找用户信息
+    public static String FIND_USER_INFO = server_heart + "/UserInfo/findUserInfoCustomByUserId";
     //头像地址
     public static String HEAD = server_heart + "/";
+
 
     //上传商品
     public static String UPLOAD_COMMODITY = server_heart + "/Commodity/upload";
@@ -33,5 +36,14 @@ public class UsedMarketURL {
     public static String DELETE_COMMODITY = server_heart + "/Commodity/delete";
     //查询商品
     public static String SEARCH_COMMODITY = server_heart + "/Commodity/search";
+    //修改商品
+    public static String UPDATA_COMMODITY = server_heart + "/Commodity/updateCommodityNum";
+
+    //插入留言
+    public static String INSERT_COMMENT = server_heart + "/Comment/insert";
+    //查找留言
+    public static String SEARCH_COMMENT = server_heart + "/Comment/searchByCommodityId";
+    //删除留言
+    public static String DELETE_COMMENT = server_heart + "/Comment/deleteByCommentId";
 
 }

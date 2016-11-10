@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -19,7 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="150dp"
             android:fitsSystemWindows="true"
 
             app:contentScrim="@color/TranslucentSystemBarColor"
@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/cheese_1"
+                android:src="@drawable/bg"
 
                 app:layout_collapseMode="parallax"/>
 
@@ -52,25 +52,23 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.demievil.library.RefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:layout_height="match_parent"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFF"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:background="#FFF">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          xmlns:app="http://schemas.android.com/apk/res-auto"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:layout_marginTop="10dp"
-                          android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cv_user_info"
@@ -92,8 +90,8 @@
                             android:layout_height="50dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:transitionName="sharp"
-                            android:src="@drawable/register_default_head"/>
+                            android:src="@drawable/register_default_head"
+                            android:transitionName="sharp"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -351,23 +349,32 @@
 
                 </android.support.v7.widget.CardView>
 
-                <include
-                    layout="@layout/layout_comment"
-                    />
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="20dp"
+                    >
+
+                    <include
+                        layout="@layout/layout_comment"
+                        />
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
-    </com.demievil.library.RefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/toolbar_like"
+        android:src="@drawable/toolbar_icon_like"
 
-        app:backgroundTint="#EB7A63"
+        app:backgroundTint="#FFF"
         app:backgroundTintMode="src_over"
         app:borderWidth="1dp"
         app:elevation="11dp"
@@ -375,6 +382,6 @@
         app:layout_anchor="@id/appbar"
 
         app:layout_anchorGravity="bottom|right|end"
-        app:rippleColor="#CCC"/>
+        app:rippleColor="#56ABE4"/>
 
 </android.support.design.widget.CoordinatorLayout>

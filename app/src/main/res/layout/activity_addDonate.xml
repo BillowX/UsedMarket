@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TranslucentSystemBarColor"
+        android:elevation="5dp"
+        android:logo="@null"
+        android:theme="@style/Theme.ToolBar"
+        toolbar:logoDescription="返回"
+        toolbar:navigationIcon="@drawable/toolbar_back"
+        toolbar:title="发布捐赠"
+        toolbar:titleMarginStart="1dp"
+        toolbar:titleTextColor="#000"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="5dp"
+                android:background="#FFF">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="物品名"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="16"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:maxLength="16"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="详细地址"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="25"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="联系电话"
+
+                app:counterEnabled="true"
+                app:counterMaxLength="11"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="写下您的爱心寄语以及物品描述吧..."
+
+                app:counterEnabled="true"
+                app:counterMaxLength="250"
+                app:errorEnabled="true"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/FloatingStyle"
+                app:paddingEnd="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:inputType="textMultiLine"
+                    android:maxLength="250"
+                    android:paddingLeft="10dp"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="#00000000"/>
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="附加图片"
+                android:textSize="23sp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="#00000000"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_location"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/while_blue"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:background="@drawable/youjiantou" />
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/imageView3"
+
+                    android:layout_toStartOf="@+id/imageView3"
+                    android:text="地点"
+                    android:textColor="#000000" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_lines_vertical" />
+
+            <Button
+                android:id="@+id/submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_submit"
+                android:onClick="uploadServer"
+                android:text="提交"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

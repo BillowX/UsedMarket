@@ -59,7 +59,7 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
                 android.R.color.holo_green_dark,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_dark);
-        View footerLayout = getActivity().getLayoutInflater().inflate(R.layout.list_item_more, null);
+        View footerLayout = getActivity().getLayoutInflater().inflate(R.layout.layout_nomore, null);
         tv_more = (TextView) footerLayout.findViewById(R.id.text_more);
         tv_more.setOnClickListener(this);
         pb = (ProgressBar) footerLayout.findViewById(R.id.load_progress_bar);
@@ -81,22 +81,22 @@ public class CommentFragment extends BaseFragment implements SwipeRefreshLayout.
             mCommentDataList = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
-                comment.setPcontent("评论" + i);
+                comment.setCommentText("评论" + i);
                 mCommentDataList.add(comment);
             }
-            mCommentAdapter = new CommentListViewAdapter(UIUtils.getContext(), mCommentDataList);
+            mCommentAdapter = new CommentListViewAdapter(UIUtils.getContext(), mCommentDataList, "");
             lv_comment.setAdapter(mCommentAdapter);
         } else if (limit == -1) {
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
-                comment.setPcontent("刷新出来的评论" + i);
+                comment.setCommentText("刷新出来的评论" + i);
                 mCommentDataList.add(0, comment);
                 mCommentAdapter.notifyDataSetChanged();
             }
         } else if (limit == 1) {
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
-                comment.setPcontent("加载更多出来的评论" + i);
+                comment.setCommentText("加载更多出来的评论" + i);
                 mCommentDataList.add(mCommentDataList.size(), comment);
                 mCommentAdapter.notifyDataSetChanged();
             }

@@ -20,7 +20,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityListActivity;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
-import com.maker.use.ui.activity.UserDetailActivity;
+import com.maker.use.ui.activity.MyUserDetailActivity;
 import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.LoginUtils;
 import com.maker.use.utils.SpUtil;
@@ -90,7 +90,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.iv_icon:
                 if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
-                    Intent intent = new Intent(UIUtils.getContext(), UserDetailActivity.class);
+                    Intent intent = new Intent(UIUtils.getContext(), MyUserDetailActivity.class);
                     intent.putExtra("user", mUser);
                     startActivity(intent);
                 } else {
@@ -113,6 +113,19 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                     }
                 } else {
+                    UIUtils.toast("请先登陆");
+                    Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
+                }
+                break;
+            case R.id.rl_donate:
+                if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+                } else {
+                    UIUtils.toast("请先登陆");
                     Intent intent = new Intent(UIUtils.getContext(), LoginActivity.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());

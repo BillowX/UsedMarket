@@ -143,6 +143,7 @@ public class IssueActivity extends Activity {
         });
     }
 
+    //发布二手商品
     public void issue(View view) {
         if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             UIUtils.toast("请先登陆哦~");
@@ -158,13 +159,18 @@ public class IssueActivity extends Activity {
         finish();
     }
 
+    //发布捐赠物品
     public void collection(View view) {
-//        startActivity(new Intent(UIUtils.getContext(), Test_UploadImgActivity.class));
-        Intent intent = new Intent(UIUtils.getContext(), AddCommodityActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if (!SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+            UIUtils.toast("请先登陆哦~");
+            startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         } else {
-            startActivity(intent);
+            Intent intent = new Intent(UIUtils.getContext(), AddDonateActivity.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
         finish();
     }

@@ -7,6 +7,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -16,12 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.demievil.library.RefreshLayout;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
@@ -30,27 +30,35 @@ import com.maker.use.domain.Comment;
 import com.maker.use.domain.Commodity;
 import com.maker.use.global.ConstentValue;
 import com.maker.use.global.UsedMarketURL;
+import com.maker.use.ui.adapter.CommentListViewAdapter;
 import com.maker.use.utils.GlideUtils;
+import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.KeyBoardUtils;
 import com.maker.use.utils.SpUtil;
 import com.maker.use.utils.TimeUtil;
 import com.maker.use.utils.UIUtils;
+import com.maker.use.utils.map.Location;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
 
+
 /**
  * 商品详情页
  */
 @ContentView(R.layout.activity_commoditydetail)
-public class CommodityDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener, View.OnClickListener {
+public class CommodityDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+    public List<Comment> mCommentList;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
     @ViewInject(R.id.iv_head)
@@ -66,12 +74,14 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
     @ViewInject(R.id.nineGrid)
     NineGridView nineGrid;
     @ViewInject(R.id.refresh_root)
-    RefreshLayout refresh_root;
+    SwipeRefreshLayout refresh_root;
     @ViewInject(R.id.tv_sent_reply)
     TextView tv_sent_reply;
     @ViewInject(R.id.et_reply)
     EditText et_reply;
     InputMethodManager imm;//键盘管理器
+    @ViewInject(R.id.iv_empty)
+    TextView iv_empty;
     @ViewInject(R.id.iv_userHeadImg)
     private ImageView iv_userHeadimg;
     @ViewInject(R.id.tv_userName)
@@ -88,27 +98,36 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
     private TextView tv_goods_name;
     @ViewInject(R.id.tv_goods_description)
     private TextView tv_goods_description;
+    @ViewInject(R.id.tv_good_state)
+    private TextView tv_good_state;
     private Commodity mCommodity;
     private LinearLayout.LayoutParams mParams;
     //是否展开详情
     private boolean isOpen = false;
     private List<String> mSplitImgUrl;
-
-    private TextView tv_more;
-    private ProgressBar pb;
+    private Location mLocation;
+    private CommentListViewAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-
+        mLocation = new Location(this);
         initData();
         initView();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //停止位置服务
+        mLocation.stopLocation();
+    }
+
     private void initData() {
         mCommodity = (Commodity) getIntent().getSerializableExtra("commodity");
-        mSplitImgUrl = mCommodity.images;
+        mSplitImgUrl = mCommodity.getImages();
+        mCommentList = new ArrayList<>();
     }
 
     private void initView() {
@@ -121,32 +140,17 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
                 finish();
             }
         });
-        GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(0).replace("_", ""), iv_head);
 
-        //初始化中心布局
-        if (mCommodity != null) {
-            //发布者信息
-            GlideUtils.setCircleImageViewImg(this, UsedMarketURL.HEAD + mCommodity.headPortrait, iv_userHeadimg);
-            tv_userName.setText(mCommodity.username);
-            tv_goods_time.setText(TimeUtil.format(mCommodity.launchDate));
-            //商品信息
-            tv_goods_name.setText(mCommodity.commodityName);
-            tv_good_num.setText(mCommodity.amount);
-            tv_goods_price.setText("¥ " + mCommodity.price);
-            tv_location.setText(mCommodity.location);
-            tv_goods_description.setText(mCommodity.description);
-
-            //设置商品列表宫格
-            ArrayList<ImageInfo> imageInfo = new ArrayList<>();  //获取到图片地址集合
-            for (int i = 0; i < mSplitImgUrl.size(); i++) {
-                //ImageInfo 是他的实体类,用于image的地址
-                ImageInfo info = new ImageInfo();
-                info.setThumbnailUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i));
-                info.setBigImageUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i).replace("_", ""));
-                imageInfo.add(info);
+        iv_userHeadimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CommodityDetailActivity.this, UserDetailActivity.class);
+                intent.putExtra("userId", mCommodity.getUserId());
+                CommodityDetailActivity.this.startActivity(intent);
             }
-            nineGrid.setAdapter(new NineGridViewClickAdapter(this, imageInfo));
-        }
+        });
+
+        initCommodityView();
 
         // 放在消息队列中运行, 解决当只有三行描述时也是7行高度的bug
         tv_goods_description.post(new Runnable() {
@@ -170,35 +174,101 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
 
         //设置刷新布局和留言布局
         refresh_root.setOnRefreshListener(this);
-        refresh_root.setOnLoadListener(this);
         refresh_root.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_dark);
-        View footerLayout = getLayoutInflater().inflate(R.layout.list_item_more, null);
-        tv_more = (TextView) footerLayout.findViewById(R.id.text_more);
-        tv_more.setOnClickListener(this);
-        pb = (ProgressBar) footerLayout.findViewById(R.id.load_progress_bar);
-        lv_comment.addFooterView(footerLayout);
-        refresh_root.setChildView(lv_comment);
         tv_sent_reply.setOnClickListener(this);
 
         //在服务器上获取改物品的评论列表
-        getCommentDataFromServer(0);
+        getCommentDataFromServer();
+    }
+
+    /**
+     * 初始化商品信息
+     */
+    private void initCommodityView() {
+        GlideUtils.setImg(this, UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(0).replace("_", ""), iv_head);
+
+        //初始化中心布局
+        if (mCommodity != null) {
+            //发布者信息
+            GlideUtils.setCircleImageViewImg(this, UsedMarketURL.HEAD + mCommodity.getHeadPortrait(), iv_userHeadimg);
+            tv_userName.setText(mCommodity.getUsername());
+            tv_goods_time.setText(TimeUtil.format(mCommodity.getLaunchDate()));
+            //商品信息
+            tv_goods_name.setText(mCommodity.getCommodityName());
+            tv_good_num.setText(mCommodity.getAmount());
+            tv_goods_price.setText("¥ " + mCommodity.getPrice());
+            tv_location.setText(mCommodity.getLocation());
+            tv_goods_description.setText(mCommodity.getDescription());
+            tv_good_state.setText("0".equals(mCommodity.getStatus()) ? "在售" : "1".equals(mCommodity.getStatus()) ? "交易中" : "已售出");
+
+            //设置商品列表宫格
+            ArrayList<ImageInfo> imageInfo = new ArrayList<>();  //获取到图片地址集合
+            for (int i = 0; i < mSplitImgUrl.size(); i++) {
+                //ImageInfo 是他的实体类,用于image的地址
+                ImageInfo info = new ImageInfo();
+                info.setThumbnailUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i));
+                info.setBigImageUrl(UsedMarketURL.server_heart + "//" + mSplitImgUrl.get(i).replace("_", ""));
+                imageInfo.add(info);
+            }
+            nineGrid.setAdapter(new NineGridViewClickAdapter(this, imageInfo));
+        }
+    }
+
+    /**
+     * 初始化评论信息
+     */
+    private void initCommentView() {
+        if (mCommentList.size() < 1) {
+            //没有评论
+            iv_empty.setVisibility(View.VISIBLE);
+        } else {
+            iv_empty.setVisibility(View.GONE);
+            if (mAdapter == null) {
+                lv_comment.addFooterView(View.inflate(this, R.layout.layout_nomore, null));
+            }
+            mAdapter = new CommentListViewAdapter(this, mCommentList, mCommodity.getUserId());
+            lv_comment.setAdapter(mAdapter);
+        }
     }
 
     /**
      * 根据商品ID在服务器上获取改物品的评论列表
-     *
-     * @param limit 分页位置
      */
-    private void getCommentDataFromServer(int limit) {
+    private void getCommentDataFromServer() {
+        RequestParams requestParams = new RequestParams(UsedMarketURL.SEARCH_COMMENT);
+        requestParams.addBodyParameter("commodityId", mCommodity.getCommodityId());
+        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                mCommentList = GsonUtils.getGson().fromJson(result, new TypeToken<List<Comment>>() {
+                }.getType());
+                initCommentView();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                refresh_root.setRefreshing(false);
+            }
+        });
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_commodity_detail_title, menu);
         return true;
     }
 
@@ -314,7 +384,7 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
         //模拟textview
         TextView textView = new TextView(UIUtils.getContext());
         //设置文本一致，文字大小一致
-        textView.setText(mCommodity.description);
+        textView.setText(mCommodity.getDescription());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         //设置最多为7行
         textView.setMaxLines(7);
@@ -341,7 +411,7 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
         //模拟textview
         TextView textView = new TextView(UIUtils.getContext());
         //设置文本一致，文字大小一致
-        textView.setText(mCommodity.description);
+        textView.setText(mCommodity.getDescription());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
         // 宽不变, 确定值, match_parent
@@ -359,7 +429,7 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
         if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
             //启动会话界面
             if (RongIM.getInstance() != null)
-                RongIM.getInstance().startPrivateChat(this, mCommodity.userId, mCommodity.username);
+                RongIM.getInstance().startPrivateChat(this, mCommodity.getUserId(), mCommodity.getUsername());
         } else {
             startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
         }
@@ -368,23 +438,56 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
 
     @Override
     public void onRefresh() {
-        getCommentDataFromServer(0);
+        //根据商品ID去请求最新的商品信息
+        //....
+        refreshCommodity();
     }
 
-    @Override
-    public void onLoad() {
-        refresh_root.setLoading(false);
+    /**
+     * 刷新商品信息
+     */
+    private void refreshCommodity() {
+        final RequestParams params = new RequestParams(UsedMarketURL.SEARCH_COMMODITY);
+        params.addBodyParameter("type", "commodity_id");
+        params.addBodyParameter("queryValue", mCommodity.getCommodityId());
+        params.addBodyParameter("index", "0");
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(final String result) {
+//                Log.e("mCommodityList",result);
+                List<Commodity> commodityList= GsonUtils.getGson().fromJson(result, new TypeToken<List<Commodity>>() {
+                }.getType());
+                mCommodity = commodityList.get(0);
+                initCommodityView();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.toast("网络出错啦");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                refresh_root.setRefreshing(false);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.text_more:
-                getCommentDataFromServer(1);
-                refresh_root.setLoading(false);
-                break;
             case R.id.tv_sent_reply:
-                sentReply();
+                if (SpUtil.getBoolean(ConstentValue.IS_LOGIN, false)) {
+                    sentReply();
+                } else {
+                    UIUtils.toast("请先登录");
+                    startActivity(new Intent(UIUtils.getContext(), LoginActivity.class));
+                }
                 break;
         }
     }
@@ -393,21 +496,59 @@ public class CommodityDetailActivity extends BaseActivity implements SwipeRefres
      * 发布评论
      */
     private void sentReply() {
-        String content = et_reply.getText().toString();
-        if (TextUtils.isEmpty(content)) {
+        String center = et_reply.getText().toString();
+        if (TextUtils.isEmpty(center)) {
             UIUtils.toast("评论还没写呢");
             return;
         }
         tv_sent_reply.setEnabled(false);
         Comment comment = new Comment();
-        comment.setPcontent(content);
+        comment.setCommentText(center);//内容
+        comment.setCommodityId(mCommodity.getCommodityId());//商品id
+        comment.setUserId(SpUtil.getUserId());//userId
+        comment.setCommentLocation(mLocation.city);//位置信息
+        upComment(comment);
+    }
 
+    /**
+     * 上传评论到服务器
+     *
+     * @param comment
+     */
+    private void upComment(Comment comment) {
+        UIUtils.progressDialog(this);
+        RequestParams requestParams = new RequestParams(UsedMarketURL.INSERT_COMMENT);
+        requestParams.addBodyParameter("commodityId", comment.getCommodityId());
+        requestParams.addBodyParameter("commentText", comment.getCommentText());
+        requestParams.addBodyParameter("userId", comment.getUserId());
+        requestParams.addBodyParameter("commentLocation", comment.getCommentLocation());
+        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("comment", result);
+                UIUtils.toast("评论成功");
+                et_reply.setText("");
+                if (imm.isActive()) {//关闭键盘
+                    KeyBoardUtils.closeSoftKeyboard(CommodityDetailActivity.this);
+                }
+                getCommentDataFromServer();
+            }
 
-        UIUtils.toast("评论成功");
-        tv_sent_reply.setEnabled(true);
-        et_reply.setText("");
-        if (imm.isActive()) {//关闭键盘
-            KeyBoardUtils.closeSoftKeyboard(this);
-        }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                UIUtils.closeProgressDialog();
+                tv_sent_reply.setEnabled(true);
+            }
+        });
     }
 }

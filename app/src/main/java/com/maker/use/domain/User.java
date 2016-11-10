@@ -64,6 +64,15 @@ public class User implements Serializable {
     private String school;
 
     /**
+     * 出生年
+     */
+    private String yearOfBirth;
+
+    /**
+     * 个性签名
+     */
+    private String signature;
+    /**
      * 收获地址
      */
     private String shippingAddress;
@@ -73,7 +82,7 @@ public class User implements Serializable {
     private String constellation;
     /**
      * 血型
-    */
+     */
     private String bloodType;
     /**
      * 未压缩的头像
@@ -83,6 +92,22 @@ public class User implements Serializable {
      * 压缩过的头像
      */
     private String narrowHeadPortraitPath;
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getYearOfBirth() {
+        return yearOfBirth;
+    }
+
+    public void setYearOfBirth(String yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
+    }
 
     public String getHeadPortraitPath() {
         return headPortraitPath;

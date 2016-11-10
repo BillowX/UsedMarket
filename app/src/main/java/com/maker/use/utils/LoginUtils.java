@@ -9,7 +9,7 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.manager.ActivityCollector;
 import com.maker.use.ui.activity.LoginActivity;
 import com.maker.use.ui.activity.MainActivity;
-import com.maker.use.ui.activity.UserDetailActivity;
+import com.maker.use.ui.activity.MyUserDetailActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -60,7 +60,7 @@ public class LoginUtils {
                         intent.putExtra("info", "login");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         UIUtils.getContext().startActivity(intent);
-                    } else if (activity instanceof UserDetailActivity) {
+                    } else if (activity instanceof MyUserDetailActivity) {
                         //更新登陆状态
                         SpUtil.putBoolean(ConstentValue.IS_LOGIN, true);
                         //什么都不做

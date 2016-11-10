@@ -1,11 +1,12 @@
 package com.maker.use.ui.view.myXRecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -16,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -28,7 +30,6 @@ import com.maker.use.global.UsedMarketURL;
 import com.maker.use.ui.activity.CommodityDetailActivity;
 import com.maker.use.ui.adapter.CommodityXRecyclerViewAdapter;
 import com.maker.use.ui.adapter.EmptyAdapter;
-import com.maker.use.utils.GlideUtils;
 import com.maker.use.utils.GsonUtils;
 import com.maker.use.utils.UIUtils;
 
@@ -51,8 +52,6 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
     private final Context context;
     private HashMap<String, String> map;
 
-    //刷新时间
-    private int refreshTime = 0;
     private List<Commodity> mCommodityList;
     private CommodityXRecyclerViewAdapter mAdapter;
     private String type;//查询类型 all，t_commodity.user_id，category
@@ -61,7 +60,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
     private String order;
     private String orderBy;
     private PopupWindow mPopupWindow;
-    //判断是不是刷新逻辑，如果不是，说明第一次进入，那么显示加载中对话框
+    //判断是不是刷新逻辑，如果不是，说明第一次进入，那么显示加载中对话框,如果不是第一次进入时的请求数据操作，则不显示加载进度条
     private boolean isRefresh = false;
 
     public CommodityXRecyclerView(Context context, HashMap<String, String> map, CoordinatorLayout cl_root) {
@@ -98,14 +97,12 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
         setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         setLoadingMoreProgressStyle(ProgressStyle.TriangleSkewSpin);
         //设置Item增加、移除动画
-        setItemAnimator(new DefaultItemAnimator());
+//        setItemAnimator(new DefaultItemAnimator());
         //设置刷新和加载监听
         setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                mCommodityList.clear();
                 mCommodityList = null;
-                GlideUtils.clearMemory();
                 get10DataFromService("0");
             }
 
@@ -169,7 +166,7 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                                 }
                             }
                         });
-                        //只有在用户发布界面才能有长按删除操作
+                        //只有在用户发布界面才能有长按操作
                         if ("t_commodity.user_id".equals(type)) {
                             //设置条目长按监听
                             mAdapter.setOnItemLongClickListener(new CommodityXRecyclerViewAdapter.OnRecyclerViewItemLongClickListener() {
@@ -227,50 +224,40 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                 null);
         Button bt_delete = (Button) popupWindowView
                 .findViewById(R.id.bt_delete);
+        Button bt_alter_num = (Button) popupWindowView
+                .findViewById(R.id.bt_alter_num);
+        Button bt_alter_price = (Button) popupWindowView
+                .findViewById(R.id.bt_alter_price);
+        Button bt_alter_status = (Button) popupWindowView
+                .findViewById(R.id.bt_alter_status);
 
+        bt_alter_num.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+                showChangeNumDialog(commodity);
+            }
+        });
+        bt_alter_status.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+                showChangeStatusDialog(commodity);
+            }
+        });
+        bt_alter_price.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangePriceDialog(commodity);
+            }
+        });
         bt_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPopupWindow.dismiss();
-                UIUtils.progressDialog(context);
-                RequestParams params1 = new RequestParams(UsedMarketURL.DELETE_COMMODITY);
-                params1.addQueryStringParameter("commodityId", commodity.commodityId);
-                x.http().get(params1, new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        if ("删除成功".equals(result)) {
-                            if (mCommodityList != null) {
-                                mCommodityList.remove(position);
-                                if (mCommodityList.size() < 1) {
-                                    mCommodityList.clear();
-                                    mCommodityList = null;
-                                    get10DataFromService("0");
-                                }
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
-                        UIUtils.toast(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        UIUtils.toast("网络出错啦");
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        UIUtils.closeProgressDialog();
-                    }
-                });
-                if (mPopupWindow != null) {
-
-                }
+                deleteCommodity(commodity, position);
             }
+
         });
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
@@ -294,8 +281,233 @@ public class CommodityXRecyclerView extends XRecyclerView implements View.OnClic
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable());
         mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-//        mPopupWindow.showAsDropDown(view);
+    }
 
+    /**
+     * @param commodity
+     */
+    private void showChangeStatusDialog(final Commodity commodity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("选择商品状态");
+        builder.setIcon(R.mipmap.logo);
+        String items[] = new String[]{"在售", "交易中", "已售出"};
+        final int[] chooseItem = {Integer.parseInt(commodity.getStatus())};
+        builder.setSingleChoiceItems(items, chooseItem[0], new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                chooseItem[0] = which;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                UIUtils.progressDialog(context);
+                RequestParams params1 = new RequestParams(UsedMarketURL.UPDATA_COMMODITY);
+                params1.addQueryStringParameter("commodityId", commodity.getCommodityId());
+                params1.addQueryStringParameter("status", chooseItem[0] + "");
+                x.http().get(params1, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if ("更新成功".equals(result)) {
+                            UIUtils.toast("修改成功");
+                            dialog.dismiss();
+                            mCommodityList = null;
+                            get10DataFromService("0");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        UIUtils.toast("网络出错啦");
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        UIUtils.closeProgressDialog();
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
+    }
+
+    /**
+     * 显示修改商品价格的对话框
+     */
+    private void showChangePriceDialog(final Commodity commodity) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        final View view = View.inflate(context, R.layout.dialog_change_commodity_price, null);
+        dialog.setView(view, 0, 0, 0, 0);
+        dialog.show();
+
+        Button bt_submit = (Button) view.findViewById(R.id.bt_submit);
+        final Button bt_cancel = (Button) view.findViewById(R.id.bt_cancel);
+
+        bt_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText et_commodity_price = (EditText) view.findViewById(R.id.et_commodity_price);
+                String price = et_commodity_price.getText().toString();
+
+                if (TextUtils.isEmpty(price)) {
+                    UIUtils.toast("内容不能为空");
+                } else if ("0".equals(price) || "00".equals(price) || "000".equals(price) || "0000".equals(price) || "00000".equals(price)) {
+                    UIUtils.toast("价格不能为0");
+                } else {
+                    UIUtils.progressDialog(context);
+                    RequestParams params1 = new RequestParams(UsedMarketURL.UPDATA_COMMODITY);
+                    params1.addQueryStringParameter("commodityId", commodity.getCommodityId());
+                    params1.addQueryStringParameter("price", price);
+                    x.http().get(params1, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            if ("更新成功".equals(result)) {
+                                UIUtils.toast("修改成功");
+                                dialog.dismiss();
+                                mCommodityList = null;
+                                get10DataFromService("0");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+                            UIUtils.toast("网络出错啦");
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+                            UIUtils.closeProgressDialog();
+                        }
+                    });
+                }
+
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 显示修改商品数量的对话框
+     */
+    private void showChangeNumDialog(final Commodity commodity) {
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        final View view = View.inflate(context, R.layout.dialog_change_commodity_num, null);
+        dialog.setView(view, 0, 0, 0, 0);
+        dialog.show();
+
+        Button bt_submit = (Button) view.findViewById(R.id.bt_submit);
+        final Button bt_cancel = (Button) view.findViewById(R.id.bt_cancel);
+
+        bt_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText et_commodity_num = (EditText) view.findViewById(R.id.et_commodity_num);
+                String num = et_commodity_num.getText().toString();
+
+                if (TextUtils.isEmpty(num)) {
+                    UIUtils.toast("内容不能为空");
+                } else if ("0".equals(num) || "00".equals(num)) {
+                    UIUtils.toast("数量不能为0");
+                } else {
+                    UIUtils.progressDialog(context);
+                    RequestParams params1 = new RequestParams(UsedMarketURL.UPDATA_COMMODITY);
+                    params1.addQueryStringParameter("commodityId", commodity.getCommodityId());
+                    params1.addQueryStringParameter("amount", num);
+                    x.http().get(params1, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            if ("更新成功".equals(result)) {
+                                UIUtils.toast("修改成功");
+                                dialog.dismiss();
+                                mCommodityList = null;
+                                get10DataFromService("0");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+                            UIUtils.toast("网络出错啦");
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+                            UIUtils.closeProgressDialog();
+                        }
+                    });
+                }
+
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 在服务器上删除商品
+     *
+     * @param commodity
+     * @param position
+     */
+    private void deleteCommodity(Commodity commodity, final int position) {
+        UIUtils.progressDialog(context);
+        RequestParams params1 = new RequestParams(UsedMarketURL.DELETE_COMMODITY);
+        params1.addQueryStringParameter("commodityId", commodity.getCommodityId());
+        x.http().get(params1, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                if ("删除成功".equals(result)) {
+                    if (mCommodityList != null) {
+                        mCommodityList.remove(position);
+                        if (mCommodityList.size() < 1) {
+                            mCommodityList = null;
+                            get10DataFromService("0");
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+                UIUtils.toast(result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIUtils.toast("网络出错啦");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                UIUtils.closeProgressDialog();
+            }
+        });
     }
 
     @Override
